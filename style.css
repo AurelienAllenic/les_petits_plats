@@ -75,8 +75,8 @@ header{
     display: flex;
     align-items: center;
     text-align: start;
-    padding-top: 20%;
-    padding-bottom: 20%;
+    padding-top: 15%;
+    padding-bottom: 15%;
     padding-left: 17%;
     padding-right:30%;
     font-size: 22px;
@@ -124,7 +124,7 @@ background-color: #ed6454;
     background-color: transparent;
     position: relative;
     right: -70%;
-    top: 145%;
+    top: 125%;
     height: 50%;
     display: flex;
 }
