@@ -1,10 +1,8 @@
 *{
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
 }
-ul{
+ul, li{
     list-style: none;
 }
 header{
@@ -37,6 +35,7 @@ header{
     padding: 2%;
     border-radius: 10px 10px 10px 10px;
     font-size: 22px;
+    width: 100%;
 }
 .input-search:hover{
     cursor: pointer;
@@ -68,7 +67,6 @@ header{
     margin-top: 2%;
     padding-left: 5%;
     gap: 7em;
-    height: 5%;
 }
 .btn-filter{
     border-radius: 10px 10px 10px 10px;
@@ -82,6 +80,7 @@ header{
     font-size: 22px;
     color: white;
     border: none;
+    width: 100%;
 }
 .btn-filter:focus{
     outline: none;
@@ -123,16 +122,156 @@ background-color: #ed6454;
 .arrow-down{
     background-color: transparent;
     position: relative;
-    right: -70%;
-    top: 125%;
+    right: -117%;
+    top: 100%;
     height: 50%;
     display: flex;
 }
 .arrow-down:hover{
     cursor: pointer;
-    height: 55%;
+    transform: scale(1.2);
 }
 .container_button_arrow{
     gap: 5%;
+    height: 50px;
 }
 /*-----------------*/
+#section-recipes{
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2em;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+}
+.recipe_card{
+    background-color: #e7e7e7;
+    border-radius: 15px 15px 15px 15px;
+    max-height: 1100px;
+}
+.recipe_card:hover{
+     transform: scale(1.05);
+}
+.container_name_time{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 7fr 3fr;
+    margin-top: 5%;
+}
+.name{
+margin-left: 5%;
+font-size: 25px;
+font-weight: 500;
+}
+
+.time{
+display: flex;
+margin-right: 15%;
+font-size: 25px;
+}
+.time_icon{
+    width: 20%;
+    display: flex;
+    margin-bottom: auto;
+    padding-bottom: 90%;
+    margin-right: 4%;
+}
+.container-time{
+    display: flex;
+    justify-content: end;
+}
+.container_entire_card{
+    display: grid;
+
+}
+.container_grey_back{
+    background-color: #c7bebe;
+    height: 300px;
+    border-radius: 15px 15px 0px 0px;
+}
+.container_ingredients{
+    padding: 5%;
+    width: 100%;
+}
+.container_ingredients li{
+    font-size: 20px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    width: 80%;
+}
+.important{
+    font-weight: 600;
+}
+.description_card{
+    font-size: 17px;
+    width: 80%;
+    margin: 5%;
+    inline-size: 170px;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    word-break: break-all;
+}
+.container_desc_ing{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    padding: 5%;
+}
+.container_hidden_filter{
+    background-color: #3282f7;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1%;
+}
+.container_hidden_filter li{
+    color: white;
+    display: flex;
+    margin: 2%;
+    padding: 1%;
+}
+.container_hidden_filter li:hover{
+    background-color: #5695f3;
+    cursor: pointer;
+}
+.container_hidden_filter_appareils{
+    background-color: #68d9a4;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1%;
+}
+.container_hidden_filter_appareils li{
+    color: white;
+    display: flex;
+    margin: 2%;
+    padding: 1%;
+}
+.container_hidden_filter_appareils li:hover{
+    background-color: #b2e2cb;
+    cursor: pointer;
+}
+.container_hidden_filter_ustensils{
+    background-color: #ed6454;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1%;
+}
+.container_hidden_filter_ustensils li{
+    color: white;
+    display: flex;
+    margin: 2%;
+    padding: 1%;
+}
+.container_hidden_filter_ustensils li:hover{
+    background-color: #edb2ac;
+    cursor: pointer;
+}
