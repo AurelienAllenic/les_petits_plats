@@ -230,6 +230,7 @@ font-size: 25px;
 .container_hidden_filter li{
     color: white;
     display: flex;
+    align-items: center;
     margin: 2%;
     padding: 1%;
 }

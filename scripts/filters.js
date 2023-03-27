@@ -2,6 +2,9 @@ import { recipes } from "../data/data.js"
 
 let filters = document.getElementById('section-filters')
 let chars = new Set()
+let charsAppareil = new Set()
+let charsUstensil = new Set()
+
 filters.innerHTML = `
 <span class="hidden_button">
 <button type="button"></button>
@@ -31,51 +34,87 @@ filters.innerHTML = `
         </span>
 </article>
 `
+function removeOccurenciesIngredients(){
+    let newArrayIng = [];
+    for(let i = 0; i < recipes.length; i++){
+        let recipeIngredients = recipes[i].ingredients;
+        recipeIngredients.forEach(ing => {
+            newArrayIng.push(ing.ingredient);
+        })      
+    }
+    chars = new Set(newArrayIng)
+    return chars
+}
+
+function removeOccurenciesAppareils(){
+    let newArrayAppareil = [];
+    for(let i = 0; i < recipes.length; i++){
+        let recipeAppareils = recipes[i].appliance;
+        newArrayAppareil.push(recipeAppareils)
+    }
+    charsAppareil = new Set(newArrayAppareil)
+    return charsAppareil
+}
+
+function removeOccurenciesUstensils(){
+    let newArrayUstensil = [];
+    for(let i = 0; i < recipes.length; i++){
+        let recipeUstensils = recipes[i].ustensils;
+
+        recipeUstensils.forEach(ust => {
+            newArrayUstensil.push(ust)
+        })
+        charsUstensil = new Set(newArrayUstensil)   
+    }
+    
+    return charsUstensil
+}
+
 let isOpen = false;
-function displayIngredients(){
+async function displayIngredients(){
+    await removeOccurenciesIngredients(chars)
     if(isOpen === false){
     let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
     sectionIngredients.style.display = "inherit"
     let ul = document.createElement('ul');
     ul.setAttribute("class", "container_hidden_filter")
     sectionIngredients.appendChild(ul)
-    for(let i = 0; i < recipes.length; i++){
-        let recipeIngredients = recipes[i].ingredients;
-        recipeIngredients.forEach(ing => {
-            let li = document.createElement('li');
-            li.innerHTML = `${ing.ingredient}`
-            ul.appendChild(li)
-            isOpen = true
-
-            let sectionAppareil = document.getElementById('container_hidden_options_appareils')
+    for(let value of chars){
+        console.log(value)
+        let li = document.createElement('li');
+        li.innerHTML = `${value}`
+        ul.appendChild(li)
+        let sectionAppareil = document.getElementById('container_hidden_options_appareils')
             sectionAppareil.style.display = "none"
             let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
             sectionUstensils.style.display = "none"
-        });
-    }
-    }else {
+            isOpen = true;
+        }  
+        }else {
         let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
         sectionIngredients.style.display = "none"
         isOpen = false
-    }
+        }
 }
 
 let ArrowIngredients = document.getElementById("arrow_ingredients")
 ArrowIngredients.addEventListener('click', displayIngredients)
 
 let isOpenAppareil = false;
-function displayAppareils(){
+async function displayAppareils(){
+    await removeOccurenciesAppareils(charsAppareil)
     if(isOpenAppareil === false){
     let sectionAppareil = document.getElementById('container_hidden_options_appareils')
     sectionAppareil.style.display = "inherit"
     let ul = document.createElement('ul');
     ul.setAttribute("class", "container_hidden_filter_appareils")
     sectionAppareil.appendChild(ul)
-    for(let i = 0; i < recipes.length; i++){
-        let recipeAppareils = recipes[i].appliance;
+    console.log(charsAppareil)
+    for(let value of charsAppareil){
+        
 
         let li = document.createElement('li');
-        li.innerHTML = `${recipeAppareils}`
+        li.innerHTML = `${value}`
         ul.appendChild(li)
         isOpenAppareil = true
 
@@ -94,35 +133,19 @@ let ArrowAppareils = document.getElementById("arrow_appareils")
 ArrowAppareils.addEventListener('click', displayAppareils)
 
 
-function removeOccurencies(){
-    let newArrayIng = [];
-    for(let i = 0; i < recipes.length; i++){
-        let recipeIngredients = recipes[i].ingredients;
-        
-        
-        recipeIngredients.forEach(ing => {
 
-           newArrayIng.push(ing.ingredient);
-        })
-            
-    }
-    chars = new Set(newArrayIng)
-    return chars
-}
 
 
 let isOpenUstensils = false;
 async function displayUstensils(){ 
-    await removeOccurencies(chars)
+    await removeOccurenciesUstensils(charsUstensil)
     if(isOpenUstensils === false){
     let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
     sectionUstensils.style.display = "inherit"
     let ul = document.createElement('ul');
     ul.setAttribute("class", "container_hidden_filter_ustensils")
     sectionUstensils.appendChild(ul)
-    console.log(chars)
-            for(let value of chars){
-                console.log(value)
+            for(let value of charsUstensil){
                 let li = document.createElement('li');
                 li.innerHTML = `${value}`
                 ul.appendChild(li)
