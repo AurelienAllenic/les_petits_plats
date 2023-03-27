@@ -148,7 +148,6 @@ background-color: #ed6454;
 .recipe_card{
     background-color: #e7e7e7;
     border-radius: 15px 15px 15px 15px;
-    max-height: 1100px;
 }
 .recipe_card:hover{
      transform: scale(1.05);
@@ -158,6 +157,7 @@ background-color: #ed6454;
     display: grid;
     grid-template-columns: 7fr 3fr;
     margin-top: 5%;
+    height: 50px;
 }
 .name{
 margin-left: 5%;
@@ -208,9 +208,9 @@ font-size: 25px;
     width: 80%;
     margin: 5%;
     inline-size: 170px;
-    overflow-wrap: break-word;
+    text-overflow: ellipsis;
     overflow: hidden;
-    word-break: break-all;
+    
 }
 .container_desc_ing{
     display: grid;

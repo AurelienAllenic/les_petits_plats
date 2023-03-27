@@ -31,9 +31,33 @@ function getIngredients(){
         container_ingredients.setAttribute("class", "container_ingredients")
         container.appendChild(containerDescIng)
         containerDescIng.appendChild(container_ingredients)
+        
+        
+
         let containerDescription = document.createElement('p')
         containerDescription.setAttribute('class', 'description_card')
-        containerDescription.innerHTML = `${recipe.description}`
+        
+
+        
+        
+        function reduceSentences(str, length, ending){
+             str = recipe.description;
+            if (length == null) {
+                length = 205;
+              }
+            if (ending == null) {
+                ending = '...';
+            }
+            if (str.length > length){
+                
+                let newStr = str.substring(0, length - ending.length) + ending;
+                containerDescription.innerHTML = newStr;
+            } else {
+                containerDescription.innerHTML = str;
+            
+            }
+            
+        }reduceSentences()
         containerDescIng.appendChild(containerDescription)
         let recipeIngredients = recipe.ingredients;
         recipeIngredients.forEach(ing => {

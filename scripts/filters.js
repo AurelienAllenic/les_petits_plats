@@ -73,7 +73,6 @@ function displayAppareils(){
     sectionAppareil.appendChild(ul)
     for(let i = 0; i < recipes.length; i++){
         let recipeAppareils = recipes[i].appliance;
-        console.log(recipeAppareils)
         let li = document.createElement('li');
         li.innerHTML = `${recipeAppareils}`
         ul.appendChild(li)
