@@ -2,6 +2,13 @@
     margin: 0;
     padding: 0;
 }
+@keyframes fade{
+from{
+    opacity: 0;
+}to{
+    opacity: 1;
+}
+}
 ul, li{
     list-style: none;
 }
@@ -146,11 +153,13 @@ background-color: #ed6454;
     margin-bottom: 5%;
 }
 .recipe_card{
+    animation: fade ease-in-out;
+    animation-duration: 0.5s;
     background-color: #e7e7e7;
     border-radius: 15px 15px 15px 15px;
 }
 .recipe_card:hover{
-     transform: scale(1.05);
+    transform: scale(1.05);
 }
 .container_name_time{
     width: 100%;

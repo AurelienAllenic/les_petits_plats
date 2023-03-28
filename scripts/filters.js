@@ -12,14 +12,14 @@ filters.innerHTML = `
 <article class="all-filters">
     <span class="container_button_arrow">
     <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_ingredients">
-        <input type="text" class="ingredients btn-filter" placeholder="Ingrédients"></input>
+        <input type="text" class="ingredients btn-filter" placeholder="Ingrédients" id="ingredients"></input>
         <span id="container_hidden_options_ingredients">
 
         </span>
     </span>
     <span class="container_button_arrow">
     <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_appareils">
-    <input type="text" class="appareils btn-filter" placeholder="Appareils"></input>
+    <input type="text" class="appareils btn-filter" placeholder="Appareils" id="appareils"></input>
         <span id="container_hidden_options_appareils">
 
         </span>
@@ -27,7 +27,7 @@ filters.innerHTML = `
     <span class="container_button_arrow">
 
     <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down"id="arrow_ustensils">
-    <input type="text" class="ustensiles btn-filter" placeholder="Ustensiles"></input>
+    <input type="text" class="ustensiles btn-filter" placeholder="Ustensiles" id="ustensiles"></input>
     <span id="container_hidden_options_ustensils">
 
     </span>
@@ -171,3 +171,22 @@ async function displayUstensils(){
 let ArrowUstensils = document.getElementById("arrow_ustensils")
 ArrowUstensils.addEventListener('click', displayUstensils)
 
+    let filterIngredients = document.getElementById("ingredients")
+    filterIngredients.addEventListener("click", (e) => {
+        if(isOpen === false){
+            displayIngredients()
+        }
+    })
+
+let filterAppareils = document.getElementById("appareils")
+filterAppareils.addEventListener("click", (e) => {
+    if(isOpenAppareil === false){
+        displayAppareils()
+    }
+}) 
+let filterUstensiles = document.getElementById("ustensiles")
+filterUstensiles.addEventListener("click", (e) => {
+    if(isOpenUstensils === false){
+        displayUstensils()
+    }
+}) 

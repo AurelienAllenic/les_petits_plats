@@ -1,14 +1,7 @@
 import { recipes } from "../data/data.js";
 
-function getData(){
-    recipes.forEach(recipe => {
-       console.log(recipe.name) 
-    });
-    
-}
-//getData()
 
-function getIngredients(){
+function getData(){
     let recipesSection = document.getElementById('section-recipes');
     recipes.forEach(recipe => {
         let container = document.createElement('article')
@@ -57,7 +50,8 @@ function getIngredients(){
             
             }
             
-        }reduceSentences()
+        }
+        reduceSentences()
         containerDescIng.appendChild(containerDescription)
         let recipeIngredients = recipe.ingredients;
         recipeIngredients.forEach(ing => {
@@ -96,4 +90,33 @@ function getIngredients(){
     })
     });
 }
-getIngredients();
+
+function deleteRecipes(){
+    let allRecipes = document.querySelectorAll('.recipe_card');
+    allRecipes.forEach(recipe => {
+        recipe.remove()
+    })
+}
+async function filterfunction(){
+    let word = document.getElementById('input-search').value
+    console.log(word)
+    if(word.length < 3){
+        console.log("moins de 3 caractères entrés")
+        deleteRecipes();
+    }else{
+        console.log("3 caractères ou plus entrés")
+        getData()
+    }
+}
+
+addEventListener('input', (e) => {
+    filterfunction()
+})
+
+let searchButton = document.getElementById('search-icon')
+searchButton.addEventListener("click", filterfunction)
+
+
+    
+
+
