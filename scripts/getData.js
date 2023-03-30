@@ -91,12 +91,12 @@ function getData(){
     });
 }
 
-/*function deleteRecipes(){
+function deleteRecipes(){
     let allRecipes = document.querySelectorAll('.recipe_card');
     allRecipes.forEach(recipe => {
         recipe.remove()
     })
-}
+}/*
 async function filterfunction(){
     let word = document.getElementById('input-search').value
     console.log(word)
@@ -113,5 +113,31 @@ async function filterfunction(){
 getData()
 
 
+///////////////////////////////////////
+let inputSearch = document.getElementById('input-search')
+inputSearch.addEventListener("input", e => {
+    let word = document.getElementById('input-search').value
+    if(word.length < 3){
+        deleteRecipes();
+        getData();
+        }else{
+        deleteRecipes();
+        filterFunctionRecipe(word)
+        //filterFunctionAllFilters()
+    }
+})
 
+///////////////////////////////////////
+
+
+function filterFunctionRecipe(word){
+    console.log(word)
+}
+
+function filterFunctionAllFilters(word){
+
+}
+
+
+///////////////////////////////////////
 
