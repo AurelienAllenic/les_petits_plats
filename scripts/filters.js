@@ -39,7 +39,7 @@ function removeOccurenciesIngredients(){
     for(let i = 0; i < recipes.length; i++){
         let recipeIngredients = recipes[i].ingredients;
         recipeIngredients.forEach(ing => {
-            newArrayIng.push(ing.ingredient);
+            newArrayIng.push(ing.ingredient.toLowerCase());
         })      
     }
     chars = new Set(newArrayIng)
@@ -50,7 +50,7 @@ function removeOccurenciesAppareils(){
     let newArrayAppareil = [];
     for(let i = 0; i < recipes.length; i++){
         let recipeAppareils = recipes[i].appliance;
-        newArrayAppareil.push(recipeAppareils)
+        newArrayAppareil.push(recipeAppareils.toLowerCase())
     }
     charsAppareil = new Set(newArrayAppareil)
     return charsAppareil
@@ -62,7 +62,7 @@ function removeOccurenciesUstensils(){
         let recipeUstensils = recipes[i].ustensils;
 
         recipeUstensils.forEach(ust => {
-            newArrayUstensil.push(ust)
+            newArrayUstensil.push(ust.toLowerCase())
         })
         charsUstensil = new Set(newArrayUstensil)   
     }
@@ -80,7 +80,6 @@ async function displayIngredients(){
     ul.setAttribute("class", "container_hidden_filter")
     sectionIngredients.appendChild(ul)
     for(let value of chars){
-        console.log(value)
         let li = document.createElement('li');
         li.innerHTML = `${value}`
         ul.appendChild(li)
@@ -109,7 +108,6 @@ async function displayAppareils(){
     let ul = document.createElement('ul');
     ul.setAttribute("class", "container_hidden_filter_appareils")
     sectionAppareil.appendChild(ul)
-    console.log(charsAppareil)
     for(let value of charsAppareil){
         
 
