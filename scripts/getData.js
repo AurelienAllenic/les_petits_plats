@@ -91,7 +91,7 @@ function getData(){
     });
 }
 
-function deleteRecipes(){
+/*function deleteRecipes(){
     let allRecipes = document.querySelectorAll('.recipe_card');
     allRecipes.forEach(recipe => {
         recipe.remove()
@@ -107,16 +107,11 @@ async function filterfunction(){
         console.log("3 caractères ou plus entrés")
         getData()
     }
-}
-
-addEventListener('input', (e) => {
-    filterfunction()
-})
-
-let searchButton = document.getElementById('search-icon')
-searchButton.addEventListener("click", filterfunction)
+}*/
 
 
-    
+getData()
+
+
 
 
