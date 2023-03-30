@@ -285,3 +285,26 @@ font-size: 25px;
     background-color: #edb2ac;
     cursor: pointer;
 }
+@keyframes changeSize{
+    from{
+        transform: scale(0.5);
+    }to{
+        transform: scale(1);
+    }
+}
+#messageError{
+    font-size: 24px;
+    position: absolute;
+    bottom: 61%;
+    display: none;
+    animation: changeSize 0.5s forwards;  
+    color: #ed6454;
+    font-weight: 600;
+    padding: 0.5%;
+    border: 1px solid #ed6454;
+}
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}

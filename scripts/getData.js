@@ -204,10 +204,6 @@ async function displayAllRecipesAfterFilter(tab) {
         });
     }
 
-
-
-
-
 function deleteRecipes(){
     let allRecipes = document.querySelectorAll('.recipe_card');
     allRecipes.forEach(recipe => {
@@ -236,13 +232,17 @@ let arrayTest = []
 inputSearch.addEventListener("input", e => {
     let word = document.getElementById('input-search').value
     let value = e.target.value;
-    if(word.length < 3){
+    if(word.length < 3 && word.length !== 0){
         deleteRecipes();
         displayAllRecipes();
-           
-
+        let messageError = document.getElementById("messageError")
         
-        }else{
+            messageError.style.display = "block"
+
+
+    }
+        else{
+            messageError.style.display = "none"
         deleteRecipes();
         let recipesFiltered = []
         for(let i =0; i < recipes.length; i++){
