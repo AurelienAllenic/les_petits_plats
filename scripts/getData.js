@@ -1,9 +1,34 @@
 import { recipes } from "../data/data.js";
 
+function getOurElement(tab, containerDescription){
+    let str = tab;
+    let length = null;
+    let ending = null
+
+            if (length == null) {
+                length = 210;
+            }
+            if (str.length > length){    
+                console.log(str.length)
+                ending = '...';
+                let newStr = str.substring(0, length - ending.length) + ending;
+                containerDescription.innerHTML = newStr;
+            } else {
+            containerDescription.innerHTML = str;
+            
+            
+        }
+       
+    }
+
+    
+
+
+
+
 function displayAllRecipes(){
     let recipesSection = document.getElementById('section-recipes');
     recipes.forEach(recipe => {
-        
         let container = document.createElement('article')
         container.setAttribute("class", "recipe_card")
         recipesSection.appendChild(container)
@@ -30,28 +55,11 @@ function displayAllRecipes(){
         let containerDescription = document.createElement('p')
         containerDescription.setAttribute('class', 'description_card')
         
-
+        let recipeDescription = recipe.description;
+        
+            getOurElement(recipeDescription, containerDescription)
         
         
-        function reduceSentences(str, length, ending){
-             str = recipe.description;
-            if (length == null) {
-                length = 205;
-              }
-            if (ending == null) {
-                ending = '...';
-            }
-            if (str.length > length){
-                
-                let newStr = str.substring(0, length - ending.length) + ending;
-                containerDescription.innerHTML = newStr;
-            } else {
-                containerDescription.innerHTML = str;
-            
-            }
-            
-        }
-        reduceSentences()
         containerDescIng.appendChild(containerDescription)
         let recipeIngredients = recipe.ingredients;
         recipeIngredients.forEach(ing => {
@@ -146,28 +154,14 @@ async function displayAllRecipesAfterFilter(tab) {
     
             
             
-            function reduceSentences(str, length, ending){
-                 str = el.description;
-                if (length == null) {
-                    length = 205;
-                  }
-                if (ending == null) {
-                    ending = '...';
-                }
-                if (str.length > length){
-                    
-                    let newStr = str.substring(0, length - ending.length) + ending;
-                    containerDescription.innerHTML = newStr;
-                } else {
-                    containerDescription.innerHTML = str;
-                
-                }
-                
-            }
-            reduceSentences()
+            
+            
             containerDescIng.appendChild(containerDescription)
             let recipeIngredients = el.ingredients;
+            let recipeDescription = el.description;
+            getOurElement(recipeDescription, containerDescription)
             recipeIngredients.forEach(ing => {
+                
             let count = recipeIngredients.length;
             let sectionRecipes = document.getElementById('section-recipes');
                 
