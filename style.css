@@ -213,13 +213,9 @@ font-size: 25px;
     font-weight: 600;
 }
 .description_card{
-    font-size: 17px;
+    font-size: 20px;
     width: 80%;
-    margin: 5%;
-    inline-size: 170px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    
+    margin: 5%; 
 }
 .container_desc_ing{
     display: grid;

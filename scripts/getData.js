@@ -1,5 +1,216 @@
 import { recipes } from "../data/data.js";
 
+let isOpen = false;
+let isOpenAppareil = false;
+let isOpenUstensils = false;
+let isInput = false
+
+let filters = document.getElementById('section-filters')
+let chars = new Set()
+
+filters.innerHTML = `
+<span class="hidden_button">
+<button type="button"></button>
+</span>
+<article class="all-filters">
+    <span class="container_button_arrow">
+    <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_ingredients">
+        <input type="text" class="ingredients btn-filter" placeholder="Ingrédients" id="ingredients"></input>
+        <span id="container_hidden_options_ingredients">
+
+        </span>
+    </span>
+    <span class="container_button_arrow">
+    <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_appareils">
+    <input type="text" class="appareils btn-filter" placeholder="Appareils" id="appareils"></input>
+        <span id="container_hidden_options_appareils">
+
+        </span>
+    </span>
+    <span class="container_button_arrow">
+
+    <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down"id="arrow_ustensils">
+    <input type="text" class="ustensiles btn-filter" placeholder="Ustensiles" id="ustensiles"></input>
+    <span id="container_hidden_options_ustensils">
+
+    </span>
+        </span>
+</article>
+`
+
+function changeFilterOnInput(data){
+  let CorrespondingIngredients = []
+  for(let i = 0; i < data.length; i++){
+    let getIngredients = data[i].ingredients;
+    getIngredients.forEach(ing => {
+      CorrespondingIngredients.push(ing.ingredient)
+      chars = new Set(CorrespondingIngredients)
+      return CorrespondingIngredients, chars
+    })
+  }
+  isInput = false
+  CheckIsOpenIngredients()
+}
+
+// Handling the three filters
+  // Display textContent of filter or hiding it
+
+function CheckIsOpenIngredients(){
+  if(isOpen === false){
+    let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
+    sectionIngredients.style.display = "inherit"
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter")
+    sectionIngredients.appendChild(ul)
+    for(let value of chars){
+        let li = document.createElement('li');
+        li.innerHTML = `${value}`
+        ul.appendChild(li)
+        let sectionAppareil = document.getElementById('container_hidden_options_appareils')
+            sectionAppareil.style.display = "none"
+            let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
+            sectionUstensils.style.display = "none"
+            isOpen = true;
+        }  
+        }else {
+        let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
+        sectionIngredients.style.display = "none"
+        isOpen = false
+        }
+}
+
+function CheckIsOpenAppareils(){
+  if(isOpenAppareil === false){
+    let sectionAppareil = document.getElementById('container_hidden_options_appareils')
+    sectionAppareil.style.display = "inherit"
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter_appareils")
+    sectionAppareil.appendChild(ul)
+    for(let value of chars){
+        let li = document.createElement('li');
+        li.innerHTML = `${value}`
+        ul.appendChild(li)
+        isOpenAppareil = true
+        let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
+        sectionIngredients.style.display = "none"
+        let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
+        sectionUstensils.style.display = "none"
+    }
+    }else {
+        let sectionAppareils = document.getElementById('container_hidden_options_appareils')
+        sectionAppareils.style.display = "none"
+        isOpenAppareil = false
+    }
+}
+
+function CheckIsOpenUstensils(){
+  if(isOpenUstensils === false){
+    let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
+    sectionUstensils.style.display = "inherit"
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter_ustensils")
+    sectionUstensils.appendChild(ul)
+            for(let value of chars){
+                let li = document.createElement('li');
+                li.innerHTML = `${value}`
+                ul.appendChild(li)
+                
+    
+                let sectionIngredients = document.getElementById("container_hidden_options_ingredients")
+                sectionIngredients.style.display = "none"
+                let sectionAppareils = document.getElementById("container_hidden_options_appareils")
+                sectionAppareils.style.display = "none"
+                isOpenUstensils = true
+        }
+    
+        } else {
+            let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
+            sectionUstensils.style.display = "none"
+            isOpenUstensils = false
+        }
+}
+
+////////////////////////////////////////////////
+
+// Remove occurencies from arrays of the three filters
+
+function removeOccurencies(array){
+    chars = new Set(array)
+    return chars
+}
+
+///////////////////////////////////////////////////////
+
+//Main function of the third filters, get data, sort it and display it
+
+async function displayFilter(data, isInput){
+  let newArrayData = [];
+  if(isInput){
+    changeFilterOnInput(data)
+  } else{
+    console.log("rentre")
+    for(let i = 0; i < recipes.length; i++){
+      if(data === "ingredients"){
+        let recipeData = recipes[i].ingredients;
+        recipeData.forEach(item => {
+          newArrayData.push(item.ingredient.toLowerCase());        
+        })
+        removeOccurencies(newArrayData)
+      }else if(data === "appareils"){
+        let recipeData = recipes[i].appliance;
+        newArrayData.push(recipeData.toLowerCase());
+        removeOccurencies(newArrayData)
+      }else{
+        let recipeData = recipes[i].ustensils;
+        recipeData.forEach(item => {
+          newArrayData.push(item.toLowerCase());        
+        }) 
+        removeOccurencies(newArrayData)
+      } 
+    }
+    if(data === "ingredients"){
+      CheckIsOpenIngredients()
+    }
+    else if(data === "appareils"){
+      CheckIsOpenAppareils()
+    }else{
+      CheckIsOpenUstensils()
+    }
+  }
+  
+}
+
+//////////////////////////////////////////////////////////////////////
+isInput = false
+let ArrowIngredients = document.getElementById("arrow_ingredients")
+ArrowIngredients.addEventListener('click', ()=>{displayFilter('ingredients', isInput)})
+
+let ArrowAppareils = document.getElementById("arrow_appareils")
+ArrowAppareils.addEventListener('click', ()=>{displayFilter('appareils', isInput)})
+
+let ArrowUstensils = document.getElementById("arrow_ustensils")
+ArrowUstensils.addEventListener('click', ()=>{displayFilter('ustensiles', isInput)})
+
+let filterIngredients = document.getElementById("ingredients")
+filterIngredients.addEventListener("click", (e) => {
+    if(isOpen === false){
+      displayFilter('ingredients')
+    }
+})
+
+let filterAppareils = document.getElementById("appareils")
+filterAppareils.addEventListener("click", (e) => {
+    if(isOpenAppareil === false){
+      displayFilter('appareils')
+    }
+}) 
+let filterUstensiles = document.getElementById("ustensiles")
+filterUstensiles.addEventListener("click", (e) => {
+    if(isOpenUstensils === false){
+        displayFilter('ustensiles')
+    }
+}) 
+
 function checkInfos(ing, container_ingredients){
 //Si tout OK
   if(ing.quantity !== undefined && ing.ingredient !== undefined && ing.unit !== undefined){
@@ -113,6 +324,7 @@ addEventListener("load", displayAllRecipes(recipes))
 ///////////////////////////////////////
 let inputSearch = document.getElementById('input-search')
 inputSearch.addEventListener("input", e => {
+  
   let word = document.getElementById('input-search').value
   let value = e.target.value;
   if(word.length < 3 && word.length !== 0){
@@ -130,8 +342,9 @@ inputSearch.addEventListener("input", e => {
           recipesFiltered.push(recipes[i]);
       }
     }
+    isInput = true
   displayAllRecipesAfterFilter(recipesFiltered)
-  //filterFunctionAllFilters()
+  displayFilter(recipesFiltered, isInput)
   }
 })
 
