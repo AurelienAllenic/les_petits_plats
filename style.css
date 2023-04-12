@@ -304,3 +304,13 @@ font-size: 25px;
   -webkit-appearance: none;
   appearance: none;
 }
+@media screen and (max-width: 1700px){
+    #section-recipes{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (max-width: 1000px){
+    #section-recipes{
+        grid-template-columns: 1fr;
+    }
+}

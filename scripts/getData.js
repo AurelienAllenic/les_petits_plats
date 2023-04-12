@@ -45,15 +45,16 @@ function changeFilterOnInput(data){
     let getIngredients = data[i].ingredients;
     console.log(getIngredients, "getIngredients")
     getIngredients.forEach(ing => {
-      console.log(ing, "ing")
       CorrespondingIngredients.push(ing.ingredient)
       chars = new Set(CorrespondingIngredients)
       console.log(chars, CorrespondingIngredients, "chars, corresponding")
+      CheckIsOpen(chars)
       return chars
+      
     })
   }
   isInput = false
-  CheckIsOpen(chars)
+  
 }
 
 // Handling the three filters
@@ -137,6 +138,18 @@ function CheckIsOpen(data){
         }
       }
 
+      function createElementFilter(){
+        for(let value of chars){
+          let li = document.createElement('li');
+          li.innerHTML = `${value}`
+          ul.appendChild(li)
+          let sectionIngredients = document.getElementById("container_hidden_options_ingredients")
+          sectionIngredients.style.display = "none"
+          let sectionAppareils = document.getElementById("container_hidden_options_appareils")
+          sectionAppareils.style.display = "none"
+          isOpenUstensils = true
+          }
+      }
 ////////////////////////////////////////////////
 
 // Remove occurencies from arrays of the three filters
