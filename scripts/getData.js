@@ -39,16 +39,17 @@ filters.innerHTML = `
 `
 
 function changeFilterOnInput(data){
+  let isFilter = true
   let CorrespondingIngredients = []
-  console.log(data, "data")
   for(let i = 0; i < data.length; i++){
     let getIngredients = data[i].ingredients;
-    console.log(getIngredients, "getIngredients")
+    //console.log(getIngredients, "getIngredients")
     getIngredients.forEach(ing => {
       CorrespondingIngredients.push(ing.ingredient)
+      
       chars = new Set(CorrespondingIngredients)
-      console.log(chars, CorrespondingIngredients, "chars, corresponding")
-      CheckIsOpen(chars)
+      //console.log(chars, CorrespondingIngredients, "chars, corresponding")
+      CheckIsOpen(chars, isFilter)
       return chars
       
     })
@@ -60,7 +61,31 @@ function changeFilterOnInput(data){
 // Handling the three filters
 // Display textContent of filter or hiding it
 
-function CheckIsOpen(data){
+function CheckIsOpen(data, isFilter){
+  //If data = array 
+  console.log(isFilter)
+  if(isFilter === true){
+    console.log("///////////////////////WORKS//////////////////////////")
+    console.log(data)
+      let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
+      sectionIngredients.style.display = "inherit"
+      let ul = document.createElement('ul');
+      ul.setAttribute("class", "container_hidden_filter")
+      sectionIngredients.appendChild(ul)
+      console.log(data, "//////DATA//////")
+      data.forEach(dt => {
+        console.log(dt, "////////////DT///////////////")
+        let li = document.createElement('li');
+        li.innerHTML = `${dt}`
+        ul.appendChild(li)
+        let sectionAppareil = document.getElementById('container_hidden_options_appareils')
+        sectionAppareil.style.display = "none"
+        let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
+        sectionUstensils.style.display = "none"
+        isOpen = true;
+      })
+  }
+  else if(isFilter === false){
   if(data === "ingredients"){
     if(isOpen === false){
       let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
@@ -137,7 +162,8 @@ function CheckIsOpen(data){
           }
         }
       }
-
+    }
+  
       function createElementFilter(){
         for(let value of chars){
           let li = document.createElement('li');
@@ -164,6 +190,7 @@ function removeOccurencies(array){
 //Main function of the third filters, get data, sort it and display it
 
 async function displayFilter(data, isInput){
+  let isFilter = false;
   let newArrayData = [];
   if(isInput){
     console.log(isInput, "-----------")
@@ -188,7 +215,7 @@ async function displayFilter(data, isInput){
   removeOccurencies(newArrayData)
     } 
   }
-CheckIsOpen(data)
+CheckIsOpen(data, isFilter)
   } 
 }
 
