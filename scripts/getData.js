@@ -42,15 +42,28 @@ let sectionUstensils = document.getElementById('container_hidden_options_ustensi
 
 //////////////////////////////////////////////////////
 
+function redirectData(data, isInput){
+  if(isInput){
+    changeFilterOnInput(data)
+  }
+  else{
+    displayFilter(data)
+  }
+}
+
+function getTabData(ul){
+  for(let value of chars){
+    let li = document.createElement('li');
+    li.innerHTML = `${value}`
+    ul.appendChild(li)
+  }  
+}
 // Handling the three filters
 // Display textContent of filter or hiding it
-
-function CheckIsOpen(data, isFilter){
-  
+function CheckIsOpenFilter(data){
   let ul = document.createElement('ul');
   ul.setAttribute("class", "container_hidden_filter")
   sectionIngredients.appendChild(ul)
-  if(isFilter === true){
     sectionIngredients.style.display = "inherit"
     data.forEach(dt => {
     let li = document.createElement('li');
@@ -60,24 +73,22 @@ function CheckIsOpen(data, isFilter){
     sectionUstensils.style.display = "none"
     isOpen = true;
     })
-  }
-  else if(isFilter === false){
+}
+
+function CheckIsOpen(data){
   if(data === "ingredients"){
-    if(isOpen === false){
-      for(let value of chars){
-        let li = document.createElement('li');
-        li.innerHTML = `${value}`
-        ul.appendChild(li)
-         sectionAppareil.style.display = "none"
-    
-        sectionUstensils.style.display = "none"
-        isOpen = true;
-      }  
+    if(isOpen === false){ 
+      let ul = document.createElement('ul');
+      ul.setAttribute("class", "container_hidden_filter")
+      sectionIngredients.appendChild(ul)
+      getTabData(ul)
+      sectionAppareil.style.display = "none"
+      sectionUstensils.style.display = "none"
+      isOpen = true;
     }
     else
     {
       sectionIngredients.style.display = "none"
-      
     }
   }
   else if(data ==="appareils"){
@@ -86,16 +97,10 @@ function CheckIsOpen(data, isFilter){
       let ul = document.createElement('ul');
       ul.setAttribute("class", "container_hidden_filter_appareils")
       sectionAppareil.appendChild(ul)
-      for(let value of chars){
-        let li = document.createElement('li');
-        li.innerHTML = `${value}`
-        ul.appendChild(li)
-        isOpenAppareil = true
-
-        sectionIngredients.style.display = "none"
-
-        sectionUstensils.style.display = "none"
-      }
+      getTabData(ul)
+      isOpenAppareil = true;
+      sectionIngredients.style.display = "none" 
+      sectionUstensils.style.display = "none"
       }
       else
       {
@@ -103,19 +108,14 @@ function CheckIsOpen(data, isFilter){
       }
       }else if(data=== "ustensiles"){
         if(isOpenUstensils === false){
-        
         sectionUstensils.style.display = "inherit"
         let ul = document.createElement('ul');
         ul.setAttribute("class", "container_hidden_filter_ustensils")
         sectionUstensils.appendChild(ul)
-        for(let value of chars){
-          let li = document.createElement('li');
-          li.innerHTML = `${value}`
-          ul.appendChild(li)
-          sectionIngredients.style.display = "none"
-          sectionAppareil.style.display = "none"
-          isOpenUstensils = true
-        }
+        getTabData(ul)
+        sectionIngredients.style.display = "none"
+        sectionAppareil.style.display = "none"
+        isOpenUstensils = true
         }
         else
         {
@@ -123,19 +123,18 @@ function CheckIsOpen(data, isFilter){
         }
       }
     }
-  }
+
 
 ////////////////////////////////////////////////
 
 function changeFilterOnInput(data){
-  let isFilter = true
   let CorrespondingIngredients = []
   for(let i = 0; i < data.length; i++){
     let getIngredients = data[i].ingredients;
     getIngredients.forEach(ing => {
       CorrespondingIngredients.push(ing.ingredient)
       chars = new Set(CorrespondingIngredients)
-      CheckIsOpen(chars, isFilter)
+      CheckIsOpenFilter(chars)
       return chars
     })
   }
@@ -149,20 +148,11 @@ function removeOccurencies(array){
   return chars
 }
 
-function redirectData(data, isInput){
-  if(isInput){
-    changeFilterOnInput(data)
-  }
-  else{
-    displayFilter(data, isInput)
-  }
-}
 ///////////////////////////////////////////////////////
 
 //Main function of the third filters, get data, sort it and display it
 
-async function displayFilter(data, isInput){
-  let isFilter = false;
+async function displayFilter(data){
   let newArrayData = [];
   for(let i = 0; i < recipes.length; i++){
     if(data === "ingredients"){
@@ -177,13 +167,12 @@ async function displayFilter(data, isInput){
       removeOccurencies(newArrayData)
     } else {
       let recipeData = recipes[i].ustensils;
-      recipeData.forEach(item => {
-        newArrayData.push(item.toLowerCase());        
+      recipeData.forEach(item => { newArrayData.push(item.toLowerCase());        
     }) 
       removeOccurencies(newArrayData)
     } 
   }
-CheckIsOpen(data, isFilter)
+  CheckIsOpen(data)
   } 
 
 
@@ -272,16 +261,7 @@ function displayAllRecipes(elementIterable){
     container.setAttribute("class", "recipe_card")
     recipesSection.appendChild(container)
     container.innerHTML = `
-      <span class="container_entire_card">
-        <span class="container_grey_back"></span>
-        <span class="container_name_time">
-          <p class="name">${recipe.name}</p>
-          <span class="container-time">
-            <svg class="time_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg>
-            <p class="time">${recipe.time} min</p>
-          </span>
-        </span>
-      </span>`
+      <span class="container_entire_card"><span class="container_grey_back"></span><span class="container_name_time"><p class="name">${recipe.name}</p><span class="container-time"><svg class="time_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg><p class="time">${recipe.time} min</p></span></span></span>`
     
     let containerDescIng = document.createElement('span')
     containerDescIng.setAttribute("class", "container_desc_ing")
