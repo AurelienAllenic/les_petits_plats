@@ -42,32 +42,6 @@ let sectionUstensils = document.getElementById('container_hidden_options_ustensi
 
 //////////////////////////////////////////////////////
 
-function openFilter(data){
-  if(data === "ingredients"){
-    sectionIngredients.style.display = "inherit"
-    isOpen = true
-  }else if(data === "appareils"){
-    sectionAppareil.style.display = "inherit";
-    isOpenAppareil = true
-  }else if(data === "ustensiles"){
-    sectionUstensils.style.display = "inherit";
-    isOpenUstensils = true;
-  }
-}
-
-function closeFilter(data){
-  if(data === "ingredients"){
-    sectionIngredients.style.display = "none";
-    isOpen = false
-  }else if(data === "appareils"){
-    sectionAppareil.style.display = "none";
-    isOpenAppareil = false
-  }else if(data === "ustensiles"){
-    sectionUstensils.style.display = "none";
-    isOpenUstensils = false;
-  }
-}
-
 // Handling the three filters
 // Display textContent of filter or hiding it
 
@@ -77,14 +51,14 @@ function CheckIsOpen(data, isFilter){
   ul.setAttribute("class", "container_hidden_filter")
   sectionIngredients.appendChild(ul)
   if(isFilter === true){
-    openFilter("ingredients")
+    sectionIngredients.style.display = "inherit"
     data.forEach(dt => {
     let li = document.createElement('li');
     li.innerHTML = `${dt}`
     ul.appendChild(li)
     
     sectionAppareil.style.display = "none"
-    let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
+    
     sectionUstensils.style.display = "none"
     isOpen = true;
     })
@@ -96,20 +70,21 @@ function CheckIsOpen(data, isFilter){
         let li = document.createElement('li');
         li.innerHTML = `${value}`
         ul.appendChild(li)
-        closeFilter("appareils")
-        closeFilter("ustensiles")
+         sectionAppareil.style.display = "none"
+    
+        sectionUstensils.style.display = "none"
         isOpen = true;
       }  
     }
     else
     {
-      closeFilter("ingredients")
+      sectionIngredients.style.display = "none"
       
     }
   }
   else if(data ==="appareils"){
     if(isOpenAppareil === false){
-      openFilter("appareils")
+      sectionAppareil.style.display = "inherit"
       let ul = document.createElement('ul');
       ul.setAttribute("class", "container_hidden_filter_appareils")
       sectionAppareil.appendChild(ul)
@@ -118,15 +93,15 @@ function CheckIsOpen(data, isFilter){
         li.innerHTML = `${value}`
         ul.appendChild(li)
         isOpenAppareil = true
-        let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
+
         sectionIngredients.style.display = "none"
-        let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
+
         sectionUstensils.style.display = "none"
       }
       }
       else
       {
-        closeFilter("appareils")
+        sectionAppareil.style.display = "none"
       }
       }else if(data=== "ustensiles"){
         if(isOpenUstensils === false){
@@ -139,14 +114,14 @@ function CheckIsOpen(data, isFilter){
           let li = document.createElement('li');
           li.innerHTML = `${value}`
           ul.appendChild(li)
-          closeFilter("ingredients")
-          closeFilter("appareils")
+          sectionIngredients.style.display = "none"
+          sectionAppareil.style.display = "none"
           isOpenUstensils = true
         }
         }
         else
         {
-          closeFilter("ustensiles")
+          sectionUstensils.style.display = "none"
         }
       }
     }
