@@ -40,6 +40,10 @@ let sectionIngredients = document.getElementById('container_hidden_options_ingre
 let sectionAppareil = document.getElementById('container_hidden_options_appareils')
 let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
 
+let ArrowIngredients = document.getElementById("arrow_ingredients")
+let ArrowAppareils = document.getElementById("arrow_appareils")
+let ArrowUstensils = document.getElementById("arrow_ustensils")
+
 //////////////////////////////////////////////////////
 
 function redirectData(data, isInput){
@@ -58,8 +62,10 @@ function getTabData(ul){
     ul.appendChild(li)
   }  
 }
+
 // Handling the three filters
-// Display textContent of filter or hiding it
+
+// Handling Ingredients filter when something is typed into search bar
 function CheckIsOpenFilter(data){
   let ul = document.createElement('ul');
   ul.setAttribute("class", "container_hidden_filter")
@@ -74,6 +80,8 @@ function CheckIsOpenFilter(data){
     isOpen = true;
     })
 }
+
+// Display all infos in our selected filter
 
 function displayFilterTypeIng(){
   if(isOpen === false){ 
@@ -90,7 +98,6 @@ function displayFilterTypeIng(){
     sectionIngredients.style.display = "none"
   }
 }
-
 function displayFilterTypeApp(){
   if(isOpenAppareil === false){
     sectionAppareil.style.display = "inherit"
@@ -123,6 +130,7 @@ function displayFilterTypeUst(){
       sectionUstensils.style.display = "none"
     }
 }
+
 function CheckIsOpen(data){
   if(data === "ingredients"){
     displayFilterTypeIng()
@@ -134,7 +142,6 @@ function CheckIsOpen(data){
     displayFilterTypeUst()
   }
 }
-
 
 ////////////////////////////////////////////////
 
@@ -161,7 +168,7 @@ function removeOccurencies(array){
 
 ///////////////////////////////////////////////////////
 
-//Main function of the third filters, get data, sort it and display it
+//Get data of the filters in global
 
 async function displayFilter(data){
   let newArrayData = [];
@@ -184,44 +191,17 @@ async function displayFilter(data){
     } 
   }
   CheckIsOpen(data)
-  } 
-
+  }
 
 //////////////////////////////////////////////////////////////////////
 
 // HANDLING ARROWS FILTERS //
 
-isInput = false
-let ArrowIngredients = document.getElementById("arrow_ingredients")
 ArrowIngredients.addEventListener('click', ()=>{redirectData('ingredients', isInput)})
 
-let ArrowAppareils = document.getElementById("arrow_appareils")
 ArrowAppareils.addEventListener('click', ()=>{redirectData('appareils', isInput)})
 
-let ArrowUstensils = document.getElementById("arrow_ustensils")
 ArrowUstensils.addEventListener('click', ()=>{redirectData('ustensiles', isInput)})
-
-/*
-let filterIngredients = document.getElementById("ingredients")
-filterIngredients.addEventListener("click", (e) => {
-    if(isOpen === false){
-      displayFilter('ingredients')
-    }
-})
-
-let filterAppareils = document.getElementById("appareils")
-filterAppareils.addEventListener("click", (e) => {
-    if(isOpenAppareil === false){
-      displayFilter('appareils')
-    }
-}) 
-let filterUstensiles = document.getElementById("ustensiles")
-filterUstensiles.addEventListener("click", (e) => {
-    if(isOpenUstensils === false){
-        displayFilter('ustensiles')
-    }
-}) 
-*/
 
 function checkInfos(ing, container_ingredients){
 //Si tout OK
@@ -348,3 +328,24 @@ inputSearch.addEventListener("input", e => {
 
 ///////////////////////////////////////
 
+/*
+let filterIngredients = document.getElementById("ingredients")
+filterIngredients.addEventListener("click", (e) => {
+    if(isOpen === false){
+      displayFilter('ingredients')
+    }
+})
+
+let filterAppareils = document.getElementById("appareils")
+filterAppareils.addEventListener("click", (e) => {
+    if(isOpenAppareil === false){
+      displayFilter('appareils')
+    }
+}) 
+let filterUstensiles = document.getElementById("ustensiles")
+filterUstensiles.addEventListener("click", (e) => {
+    if(isOpenUstensils === false){
+        displayFilter('ustensiles')
+    }
+}) 
+*/
