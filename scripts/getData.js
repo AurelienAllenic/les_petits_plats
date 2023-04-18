@@ -75,54 +75,65 @@ function CheckIsOpenFilter(data){
     })
 }
 
-function CheckIsOpen(data){
-  if(data === "ingredients"){
-    if(isOpen === false){ 
-      let ul = document.createElement('ul');
-      ul.setAttribute("class", "container_hidden_filter")
-      sectionIngredients.appendChild(ul)
-      getTabData(ul)
-      sectionAppareil.style.display = "none"
-      sectionUstensils.style.display = "none"
-      isOpen = true;
+function displayFilterTypeIng(){
+  if(isOpen === false){ 
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter")
+    sectionIngredients.appendChild(ul)
+    getTabData(ul)
+    sectionAppareil.style.display = "none"
+    sectionUstensils.style.display = "none"
+    isOpen = true;
+  }
+  else
+  {
+    sectionIngredients.style.display = "none"
+  }
+}
+
+function displayFilterTypeApp(){
+  if(isOpenAppareil === false){
+    sectionAppareil.style.display = "inherit"
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter_appareils")
+    sectionAppareil.appendChild(ul)
+    getTabData(ul)
+    isOpenAppareil = true;
+    sectionIngredients.style.display = "none" 
+    sectionUstensils.style.display = "none"
     }
     else
     {
-      sectionIngredients.style.display = "none"
+      sectionAppareil.style.display = "none"
     }
+}
+function displayFilterTypeUst(){
+  if(isOpenUstensils === false){
+    sectionUstensils.style.display = "inherit"
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter_ustensils")
+    sectionUstensils.appendChild(ul)
+    getTabData(ul)
+    sectionIngredients.style.display = "none"
+    sectionAppareil.style.display = "none"
+    isOpenUstensils = true
+    }
+    else
+    {
+      sectionUstensils.style.display = "none"
+    }
+}
+function CheckIsOpen(data){
+  if(data === "ingredients"){
+    displayFilterTypeIng()
   }
   else if(data ==="appareils"){
-    if(isOpenAppareil === false){
-      sectionAppareil.style.display = "inherit"
-      let ul = document.createElement('ul');
-      ul.setAttribute("class", "container_hidden_filter_appareils")
-      sectionAppareil.appendChild(ul)
-      getTabData(ul)
-      isOpenAppareil = true;
-      sectionIngredients.style.display = "none" 
-      sectionUstensils.style.display = "none"
-      }
-      else
-      {
-        sectionAppareil.style.display = "none"
-      }
-      }else if(data=== "ustensiles"){
-        if(isOpenUstensils === false){
-        sectionUstensils.style.display = "inherit"
-        let ul = document.createElement('ul');
-        ul.setAttribute("class", "container_hidden_filter_ustensils")
-        sectionUstensils.appendChild(ul)
-        getTabData(ul)
-        sectionIngredients.style.display = "none"
-        sectionAppareil.style.display = "none"
-        isOpenUstensils = true
-        }
-        else
-        {
-          sectionUstensils.style.display = "none"
-        }
-      }
-    }
+    displayFilterTypeApp()
+  }
+  else if(data=== "ustensiles"){
+    displayFilterTypeUst()
+  }
+}
 
 
 ////////////////////////////////////////////////
