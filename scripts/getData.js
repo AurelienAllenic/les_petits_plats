@@ -149,6 +149,14 @@ function removeOccurencies(array){
   return chars
 }
 
+function redirectData(data, isInput){
+  if(isInput){
+    changeFilterOnInput(data)
+  }
+  else{
+    displayFilter(data, isInput)
+  }
+}
 ///////////////////////////////////////////////////////
 
 //Main function of the third filters, get data, sort it and display it
@@ -156,9 +164,6 @@ function removeOccurencies(array){
 async function displayFilter(data, isInput){
   let isFilter = false;
   let newArrayData = [];
-  if(isInput){
-    changeFilterOnInput(data)
-  } else {
   for(let i = 0; i < recipes.length; i++){
     if(data === "ingredients"){
       let recipeData = recipes[i].ingredients;
@@ -180,7 +185,7 @@ async function displayFilter(data, isInput){
   }
 CheckIsOpen(data, isFilter)
   } 
-}
+
 
 //////////////////////////////////////////////////////////////////////
 
@@ -188,13 +193,13 @@ CheckIsOpen(data, isFilter)
 
 isInput = false
 let ArrowIngredients = document.getElementById("arrow_ingredients")
-ArrowIngredients.addEventListener('click', ()=>{displayFilter('ingredients', isInput)})
+ArrowIngredients.addEventListener('click', ()=>{redirectData('ingredients', isInput)})
 
 let ArrowAppareils = document.getElementById("arrow_appareils")
-ArrowAppareils.addEventListener('click', ()=>{displayFilter('appareils', isInput)})
+ArrowAppareils.addEventListener('click', ()=>{redirectData('appareils', isInput)})
 
 let ArrowUstensils = document.getElementById("arrow_ustensils")
-ArrowUstensils.addEventListener('click', ()=>{displayFilter('ustensiles', isInput)})
+ArrowUstensils.addEventListener('click', ()=>{redirectData('ustensiles', isInput)})
 
 /*
 let filterIngredients = document.getElementById("ingredients")
@@ -346,7 +351,7 @@ inputSearch.addEventListener("input", e => {
     }
     isInput = true
   displayAllRecipesAfterFilter(recipesFiltered)
-  displayFilter(recipesFiltered, isInput)
+  redirectData(recipesFiltered, isInput)
   }
 })
 
