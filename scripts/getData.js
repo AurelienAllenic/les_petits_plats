@@ -56,9 +56,7 @@ function CheckIsOpen(data, isFilter){
     let li = document.createElement('li');
     li.innerHTML = `${dt}`
     ul.appendChild(li)
-    
     sectionAppareil.style.display = "none"
-    
     sectionUstensils.style.display = "none"
     isOpen = true;
     })
@@ -243,9 +241,6 @@ function checkInfos(ing, container_ingredients){
     <span class="important"> ${ing.ingredient}</span>: ${ing.quantity}`
     container_ingredients.appendChild(li)
   }
-  else{
-    console.log(`${ing.ingredient}: ${ing.quantity}, ${ing.unit}`)
-  } 
 }
 
 function getOurElement(tab, containerDescription){
