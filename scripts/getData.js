@@ -17,14 +17,12 @@ filters.innerHTML = `
     <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_ingredients">
         <input type="text" class="ingredients btn-filter" placeholder="Ingrédients" id="ingredients"></input>
         <span id="container_hidden_options_ingredients">
-
         </span>
     </span>
     <span class="container_button_arrow">
     <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_appareils">
     <input type="text" class="appareils btn-filter" placeholder="Appareils" id="appareils"></input>
         <span id="container_hidden_options_appareils">
-
         </span>
     </span>
     <span class="container_button_arrow">
@@ -32,90 +30,86 @@ filters.innerHTML = `
     <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down"id="arrow_ustensils">
     <input type="text" class="ustensiles btn-filter" placeholder="Ustensiles" id="ustensiles"></input>
     <span id="container_hidden_options_ustensils">
-
     </span>
         </span>
 </article>
 `
+// Redeclaring global variables after their creation //
 
-function changeFilterOnInput(data){
-  let isFilter = true
-  let CorrespondingIngredients = []
-  for(let i = 0; i < data.length; i++){
-    let getIngredients = data[i].ingredients;
-    //console.log(getIngredients, "getIngredients")
-    getIngredients.forEach(ing => {
-      CorrespondingIngredients.push(ing.ingredient)
-      
-      chars = new Set(CorrespondingIngredients)
-      //console.log(chars, CorrespondingIngredients, "chars, corresponding")
-      CheckIsOpen(chars, isFilter)
-      return chars
-      
-    })
+let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
+let sectionAppareil = document.getElementById('container_hidden_options_appareils')
+let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
+
+//////////////////////////////////////////////////////
+
+function openFilter(data){
+  if(data === "ingredients"){
+    sectionIngredients.style.display = "inherit"
+    isOpen = true
+  }else if(data === "appareils"){
+    sectionAppareil.style.display = "inherit";
+    isOpenAppareil = true
+  }else if(data === "ustensiles"){
+    sectionUstensils.style.display = "inherit";
+    isOpenUstensils = true;
   }
-  isInput = false
-  
+}
+
+function closeFilter(data){
+  if(data === "ingredients"){
+    sectionIngredients.style.display = "none";
+    isOpen = false
+  }else if(data === "appareils"){
+    sectionAppareil.style.display = "none";
+    isOpenAppareil = false
+  }else if(data === "ustensiles"){
+    sectionUstensils.style.display = "none";
+    isOpenUstensils = false;
+  }
 }
 
 // Handling the three filters
 // Display textContent of filter or hiding it
 
 function CheckIsOpen(data, isFilter){
-  //If data = array 
-  console.log(isFilter)
+  
+  let ul = document.createElement('ul');
+  ul.setAttribute("class", "container_hidden_filter")
+  sectionIngredients.appendChild(ul)
   if(isFilter === true){
-    console.log("///////////////////////WORKS//////////////////////////")
-    console.log(data)
-      let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
-      sectionIngredients.style.display = "inherit"
-      let ul = document.createElement('ul');
-      ul.setAttribute("class", "container_hidden_filter")
-      sectionIngredients.appendChild(ul)
-      console.log(data, "//////DATA//////")
-      data.forEach(dt => {
-        console.log(dt, "////////////DT///////////////")
-        let li = document.createElement('li');
-        li.innerHTML = `${dt}`
-        ul.appendChild(li)
-        let sectionAppareil = document.getElementById('container_hidden_options_appareils')
-        sectionAppareil.style.display = "none"
-        let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
-        sectionUstensils.style.display = "none"
-        isOpen = true;
-      })
+    openFilter("ingredients")
+    data.forEach(dt => {
+    let li = document.createElement('li');
+    li.innerHTML = `${dt}`
+    ul.appendChild(li)
+    
+    sectionAppareil.style.display = "none"
+    let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
+    sectionUstensils.style.display = "none"
+    isOpen = true;
+    })
   }
   else if(isFilter === false){
   if(data === "ingredients"){
     if(isOpen === false){
-      let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
-      sectionIngredients.style.display = "inherit"
-      let ul = document.createElement('ul');
-      ul.setAttribute("class", "container_hidden_filter")
-      sectionIngredients.appendChild(ul)
-      console.log(chars)
       for(let value of chars){
         let li = document.createElement('li');
         li.innerHTML = `${value}`
         ul.appendChild(li)
-        let sectionAppareil = document.getElementById('container_hidden_options_appareils')
-        sectionAppareil.style.display = "none"
-        let sectionUstensils = document.getElementById("container_hidden_options_ustensils")
-        sectionUstensils.style.display = "none"
+        closeFilter("appareils")
+        closeFilter("ustensiles")
         isOpen = true;
       }  
     }
     else
     {
-      let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
-      sectionIngredients.style.display = "none"
-      isOpen = false
+      closeFilter("ingredients")
+      
     }
   }
   else if(data ==="appareils"){
     if(isOpenAppareil === false){
-      let sectionAppareil = document.getElementById('container_hidden_options_appareils')
-      sectionAppareil.style.display = "inherit"
+      openFilter("appareils")
       let ul = document.createElement('ul');
       ul.setAttribute("class", "container_hidden_filter_appareils")
       sectionAppareil.appendChild(ul)
@@ -132,13 +126,11 @@ function CheckIsOpen(data, isFilter){
       }
       else
       {
-          let sectionAppareils = document.getElementById('container_hidden_options_appareils')
-          sectionAppareils.style.display = "none"
-          isOpenAppareil = false
+        closeFilter("appareils")
       }
       }else if(data=== "ustensiles"){
         if(isOpenUstensils === false){
-        let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
+        
         sectionUstensils.style.display = "inherit"
         let ul = document.createElement('ul');
         ul.setAttribute("class", "container_hidden_filter_ustensils")
@@ -147,36 +139,35 @@ function CheckIsOpen(data, isFilter){
           let li = document.createElement('li');
           li.innerHTML = `${value}`
           ul.appendChild(li)
-          let sectionIngredients = document.getElementById("container_hidden_options_ingredients")
-          sectionIngredients.style.display = "none"
-          let sectionAppareils = document.getElementById("container_hidden_options_appareils")
-          sectionAppareils.style.display = "none"
+          closeFilter("ingredients")
+          closeFilter("appareils")
           isOpenUstensils = true
-          }
-          }
-          else
-          {
-            let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
-            sectionUstensils.style.display = "none"
-            isOpenUstensils = false
-          }
+        }
+        }
+        else
+        {
+          closeFilter("ustensiles")
         }
       }
     }
-  
-      function createElementFilter(){
-        for(let value of chars){
-          let li = document.createElement('li');
-          li.innerHTML = `${value}`
-          ul.appendChild(li)
-          let sectionIngredients = document.getElementById("container_hidden_options_ingredients")
-          sectionIngredients.style.display = "none"
-          let sectionAppareils = document.getElementById("container_hidden_options_appareils")
-          sectionAppareils.style.display = "none"
-          isOpenUstensils = true
-          }
-      }
+  }
+
 ////////////////////////////////////////////////
+
+function changeFilterOnInput(data){
+  let isFilter = true
+  let CorrespondingIngredients = []
+  for(let i = 0; i < data.length; i++){
+    let getIngredients = data[i].ingredients;
+    getIngredients.forEach(ing => {
+      CorrespondingIngredients.push(ing.ingredient)
+      chars = new Set(CorrespondingIngredients)
+      CheckIsOpen(chars, isFilter)
+      return chars
+    })
+  }
+  isInput = false
+}
 
 // Remove occurencies from arrays of the three filters
 
@@ -193,7 +184,6 @@ async function displayFilter(data, isInput){
   let isFilter = false;
   let newArrayData = [];
   if(isInput){
-    console.log(isInput, "-----------")
     changeFilterOnInput(data)
   } else {
   for(let i = 0; i < recipes.length; i++){
@@ -212,7 +202,7 @@ async function displayFilter(data, isInput){
       recipeData.forEach(item => {
         newArrayData.push(item.toLowerCase());        
     }) 
-  removeOccurencies(newArrayData)
+      removeOccurencies(newArrayData)
     } 
   }
 CheckIsOpen(data, isFilter)
@@ -220,8 +210,10 @@ CheckIsOpen(data, isFilter)
 }
 
 //////////////////////////////////////////////////////////////////////
+
+// HANDLING ARROWS FILTERS //
+
 isInput = false
-console.log(isInput)
 let ArrowIngredients = document.getElementById("arrow_ingredients")
 ArrowIngredients.addEventListener('click', ()=>{displayFilter('ingredients', isInput)})
 
@@ -231,6 +223,7 @@ ArrowAppareils.addEventListener('click', ()=>{displayFilter('appareils', isInput
 let ArrowUstensils = document.getElementById("arrow_ustensils")
 ArrowUstensils.addEventListener('click', ()=>{displayFilter('ustensiles', isInput)})
 
+/*
 let filterIngredients = document.getElementById("ingredients")
 filterIngredients.addEventListener("click", (e) => {
     if(isOpen === false){
@@ -250,6 +243,7 @@ filterUstensiles.addEventListener("click", (e) => {
         displayFilter('ustensiles')
     }
 }) 
+*/
 
 function checkInfos(ing, container_ingredients){
 //Si tout OK
@@ -385,18 +379,6 @@ inputSearch.addEventListener("input", e => {
   displayFilter(recipesFiltered, isInput)
   }
 })
-
-///////////////////////////////////////
-
-
-function filterFunctionRecipe(word){
-    console.log(word)
-}
-
-function filterFunctionAllFilters(word){
-
-}
-
 
 ///////////////////////////////////////
 
