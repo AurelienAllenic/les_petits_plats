@@ -44,6 +44,8 @@ let ArrowIngredients = document.getElementById("arrow_ingredients")
 let ArrowAppareils = document.getElementById("arrow_appareils")
 let ArrowUstensils = document.getElementById("arrow_ustensils")
 
+let inputSearch = document.getElementById('input-search')
+
 //////////////////////////////////////////////////////
 
 function redirectData(data, isInput){
@@ -63,10 +65,28 @@ function getTabData(ul){
   }  
 }
 
+function showIng(){
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter")
+    sectionIngredients.appendChild(ul)
+    getTabData(ul)
+    sectionAppareil.style.display = "none"
+    sectionUstensils.style.display = "none"
+    isOpen = true;
+}
+
+function deleteFilterIng(){
+  let ourFilter = document.querySelectorAll('.container_hidden_filter');
+  ourFilter.forEach(filter => {
+    filter.remove()
+  })
+}
+
 // Handling the three filters
 
 // Handling Ingredients filter when something is typed into search bar
 function CheckIsOpenFilter(data){
+  deleteFilterIng();
   let ul = document.createElement('ul');
   ul.setAttribute("class", "container_hidden_filter")
   sectionIngredients.appendChild(ul)
@@ -85,13 +105,8 @@ function CheckIsOpenFilter(data){
 
 function displayFilterTypeIng(){
   if(isOpen === false){ 
-    let ul = document.createElement('ul');
-    ul.setAttribute("class", "container_hidden_filter")
-    sectionIngredients.appendChild(ul)
-    getTabData(ul)
-    sectionAppareil.style.display = "none"
-    sectionUstensils.style.display = "none"
-    isOpen = true;
+
+    ArrowIngredients.addEventListener('click', ()=>{showIng()})
   }
   else
   {
@@ -302,7 +317,7 @@ addEventListener("load", displayAllRecipes(recipes))
 
 
 ///////////////////////////////////////
-let inputSearch = document.getElementById('input-search')
+
 inputSearch.addEventListener("input", e => {
   let value = e.target.value;
   if(value.length < 3 && value.length !== 0){
