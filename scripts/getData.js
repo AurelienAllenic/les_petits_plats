@@ -65,21 +65,15 @@ function getTabData(ul){
   }  
 }
 
-function showIng(){
-    let ul = document.createElement('ul');
-    ul.setAttribute("class", "container_hidden_filter")
-    sectionIngredients.appendChild(ul)
-    getTabData(ul)
-    sectionAppareil.style.display = "none"
-    sectionUstensils.style.display = "none"
-    isOpen = true;
-}
-
 function deleteFilterIng(){
   let ourFilter = document.querySelectorAll('.container_hidden_filter');
   ourFilter.forEach(filter => {
     filter.remove()
   })
+}
+
+function openFilterIng(){
+  
 }
 
 // Handling the three filters
@@ -105,8 +99,13 @@ function CheckIsOpenFilter(data){
 
 function displayFilterTypeIng(){
   if(isOpen === false){ 
-
-    ArrowIngredients.addEventListener('click', ()=>{showIng()})
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter")
+    sectionIngredients.appendChild(ul)
+    getTabData(ul)
+    sectionAppareil.style.display = "none"
+    sectionUstensils.style.display = "none"
+    isOpen = true;
   }
   else
   {
@@ -243,7 +242,7 @@ function checkInfos(ing, container_ingredients){
   }
 }
 
-function getOurElement(tab, containerDescription){
+function ReduceDescription(tab, containerDescription){
   let str = tab;
   let length = null;
   let ending = null
@@ -280,7 +279,7 @@ function displayAllRecipes(elementIterable){
     containerDescription.setAttribute('class', 'description_card')
 
     let recipeDescription = recipe.description;
-    getOurElement(recipeDescription, containerDescription)
+    ReduceDescription(recipeDescription, containerDescription)
     
     containerDescIng.appendChild(containerDescription)
     let recipeIngredients = recipe.ingredients;
