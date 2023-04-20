@@ -79,7 +79,6 @@ function deleteFilterIng(){
 function openFilterIng(){
   console.log(isOpen)
   if(isOpen === false){
-    sectionIngredients.style.display = "inherit"
     checkInput()
   }else{
     deleteFilterIng()
@@ -115,6 +114,7 @@ function openFilterIng(){
 
 function redirectFilter(data){
   if(isInput === false){
+    console.log(isOpen, "ISOPEN")
     CheckIsOpenFilter(data)
   }else{
     CheckIsOpenFilterWhenInput(data)
@@ -135,26 +135,12 @@ function CheckIsOpenFilter(data){
     sectionUstensils.style.display = "none"
     
     })
-    isOpen = true;
-    return isOpen
+    isOpen = true
 }
 
 function CheckIsOpenFilterWhenInput(data){
   deleteFilterIng();
-  let ul = document.createElement('ul');
-  ul.setAttribute("class", "container_hidden_filter")
-  sectionIngredients.appendChild(ul)
-    sectionIngredients.style.display = "none"
-    data.forEach(dt => {
-    let li = document.createElement('li');
-    li.innerHTML = `${dt}`
-    ul.appendChild(li)
-    sectionAppareil.style.display = "none"
-    sectionUstensils.style.display = "none"
-    
-    })
-    isOpen = true;
-    return isOpen
+  isOpen = false
 }
 // Display all infos in our selected filter
 
@@ -190,8 +176,6 @@ function changeFilterOnInput(data){
   }
   console.log(chars)
   isInput = false
-  isOpen = true
-  return isOpen
 }
 
 // Remove occurencies from arrays of the three filters
@@ -344,7 +328,7 @@ function checkInput(){
           recipesFiltered.push(recipes[i]);
       }
     }
-    isOpen = true
+    isOpen = false
 
   changeFilterOnInput(recipesFiltered)
   }else{
@@ -352,7 +336,7 @@ function checkInput(){
     for(let i =0; i < recipes.length; i++){
           recipesFiltered.push(recipes[i]);
     }
-    isOpen = true
+    //isOpen = true
 
   changeFilterOnInput(recipesFiltered)
   }
