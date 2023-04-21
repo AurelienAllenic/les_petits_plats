@@ -54,6 +54,53 @@ let inputUst = document.getElementById('ustensiles')
 addEventListener("load", displayAllRecipes(recipes))
 //addEventListener("load", testInputSearch())
 
+/*
+function changeFilter(){
+  if(inputIng.value.length > 0){
+    console.log(inputIng.value, "en input")
+  }else{
+    console.log("pas de caractères en input")
+  }
+}
+*/
+
+function checkFilterMatchRecipes(){
+  let recipesFiltered = [];
+  let recipesWithoutOccurencies = [];
+  for(let recipe of recipes){
+    let ingredients = recipe.ingredients
+    for(let ing of ingredients){
+      if(ing.ingredient.toLowerCase().includes(inputIng.value)){
+        recipesFiltered.push(ing.ingredient);
+        for(let ourRecipe of recipesFiltered){
+          console.log(ourRecipe)
+          ourRecipe.toLowerCase();
+          recipesWithoutOccurencies.push(ourRecipe)
+        }
+        chars = new Set(recipesWithoutOccurencies)
+        console.log("////////////", chars, "////////////")
+        redirectFilter(chars)
+    }
+    }
+    
+  //redirectFilter(recipesFiltered)
+  }
+}
+
+function checkInputIng(value){
+  console.log(value)
+  checkFilterMatchRecipes()
+}
+
+inputIng.addEventListener("input", e => {
+  let value = e.target.value;
+  if(value.length > 0){
+    console.log(value, "en input ing")
+    checkInputIng(value)
+  }else{
+    console.log("pas de caractères en input ing")
+  }
+})
 //////////////////////////////////////////////////////
 
 function deleteFilterIng(){
@@ -75,7 +122,6 @@ function openFilterIng(){
 
 function redirectFilter(data){
   if(isInput === false){
-    console.log(isOpen, "ISOPEN")
     CheckIsOpenFilter(data)
   }else{
     CheckIsOpenFilterWhenInput(data)
@@ -117,7 +163,6 @@ function changeFilterOnInput(data){
       return chars
     })
   }
-  console.log(chars)
   isInput = false
 }
 
