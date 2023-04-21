@@ -45,6 +45,9 @@ let ArrowAppareils = document.getElementById("arrow_appareils")
 let ArrowUstensils = document.getElementById("arrow_ustensils")
 
 let inputSearch = document.getElementById('input-search')
+let inputIng = document.getElementById('ingredients')
+let inputApp = document.getElementById('appareils')
+let inputUst = document.getElementById('ustensiles')
 
 //////////////////////////////////////////////////////
 
@@ -52,21 +55,6 @@ addEventListener("load", displayAllRecipes(recipes))
 //addEventListener("load", testInputSearch())
 
 //////////////////////////////////////////////////////
-
-/*function redirectData(data, isInput){
-  if(isInput){
-    changeFilterOnInput(data)
-  }
-}*/
-
-function getTabData(ul){
-  console.log(chars)
-  for(let value of chars){
-    let li = document.createElement('li');
-    li.innerHTML = `${value}`
-    ul.appendChild(li)
-  }  
-}
 
 function deleteFilterIng(){
   let ourFilter = document.querySelectorAll('.container_hidden_filter');
@@ -84,33 +72,6 @@ function openFilterIng(){
     deleteFilterIng()
   }
 }
-
-// Handling the three filters
-
-// Handling Ingredients filter when something is typed into search bar
-/*function CheckIsOpenFilterInput(data){
-  if(isOpen === false){
-    deleteFilterIng();
-  let ul = document.createElement('ul');
-  ul.setAttribute("class", "container_hidden_filter")
-  sectionIngredients.appendChild(ul)
-    sectionIngredients.style.display = "inherit"
-    data.forEach(dt => {
-    let li = document.createElement('li');
-    li.innerHTML = `${dt}`
-    ul.appendChild(li)
-    sectionAppareil.style.display = "none"
-    sectionUstensils.style.display = "none"
-    
-    })
-    isOpen = true;
-    return isOpen
-  }else{
-    isOpen = false;
-    return isOpen
-  }
-  
-}*/
 
 function redirectFilter(data){
   if(isInput === false){
@@ -138,28 +99,10 @@ function CheckIsOpenFilter(data){
     isOpen = true
 }
 
-function CheckIsOpenFilterWhenInput(data){
+function CheckIsOpenFilterWhenInput(){
   deleteFilterIng();
   isOpen = false
 }
-// Display all infos in our selected filter
-
-/*function displayFilterTypeIng(){
-  if(isOpen === false){ 
-    let ul = document.createElement('ul');
-    ul.setAttribute("class", "container_hidden_filter")
-    sectionIngredients.appendChild(ul)
-    getTabData(ul)
-    sectionAppareil.style.display = "none"
-    sectionUstensils.style.display = "none"
-    isOpen = true;
-  }
-  else
-  {
-    sectionIngredients.style.display = "none"
-  }
-}*/
-
 
 function changeFilterOnInput(data){
   let CorrespondingIngredients = []
@@ -178,48 +121,10 @@ function changeFilterOnInput(data){
   isInput = false
 }
 
-// Remove occurencies from arrays of the three filters
-/*
-function removeOccurencies(array){
-  chars = new Set(array)
-  return chars
-}
-*/
-///////////////////////////////////////////////////////
-
-//Get data of the filters in global
-
-/*async function displayFilter(data, setFilter){
-  let newArrayData = [];
-  
-  for(let i = 0; i < recipes.length; i++){
-    if(data === "ingredients"){
-      let recipeData = recipes[i].ingredients;
-      recipeData.forEach(item => {
-        newArrayData.push(item.ingredient.toLowerCase());        
-      })
-      removeOccurencies(newArrayData)
-    } else if(data === "appareils"){
-      let recipeData = recipes[i].appliance;
-      newArrayData.push(recipeData.toLowerCase());
-      removeOccurencies(newArrayData)
-    } else {
-      let recipeData = recipes[i].ustensils;
-      recipeData.forEach(item => { newArrayData.push(item.toLowerCase());        
-    }) 
-      removeOccurencies(newArrayData)
-    } 
-  }
-  CheckIsOpen(data)
-  }
-  */
-
-//////////////////////////////////////////////////////////////////////
-
-
 // HANDLING ARROWS FILTERS //
 
 ArrowIngredients.addEventListener('click', ()=>{openFilterIng()})
+inputIng.addEventListener('click', ()=>{openFilterIng()})
 
 //ArrowAppareils.addEventListener('click', ()=>{redirectData('appareils', isInput)})
 
@@ -369,7 +274,98 @@ function checkInput(){
   }
 })
 
+/*function getTabData(ul){
+  console.log(chars)
+  for(let value of chars){
+    let li = document.createElement('li');
+    li.innerHTML = `${value}`
+    ul.appendChild(li)
+  }  
+}*/
 
+// Display all infos in our selected filter
+
+/*function displayFilterTypeIng(){
+  if(isOpen === false){ 
+    let ul = document.createElement('ul');
+    ul.setAttribute("class", "container_hidden_filter")
+    sectionIngredients.appendChild(ul)
+    getTabData(ul)
+    sectionAppareil.style.display = "none"
+    sectionUstensils.style.display = "none"
+    isOpen = true;
+  }
+  else
+  {
+    sectionIngredients.style.display = "none"
+  }
+}*/
+
+// Handling the three filters
+
+// Handling Ingredients filter when something is typed into search bar
+/*function CheckIsOpenFilterInput(data){
+  if(isOpen === false){
+    deleteFilterIng();
+  let ul = document.createElement('ul');
+  ul.setAttribute("class", "container_hidden_filter")
+  sectionIngredients.appendChild(ul)
+    sectionIngredients.style.display = "inherit"
+    data.forEach(dt => {
+    let li = document.createElement('li');
+    li.innerHTML = `${dt}`
+    ul.appendChild(li)
+    sectionAppareil.style.display = "none"
+    sectionUstensils.style.display = "none"
+    
+    })
+    isOpen = true;
+    return isOpen
+  }else{
+    isOpen = false;
+    return isOpen
+  }
+  
+}*/
+
+
+// Remove occurencies from arrays of the three filters
+/*
+function removeOccurencies(array){
+  chars = new Set(array)
+  return chars
+}
+*/
+///////////////////////////////////////////////////////
+
+//Get data of the filters in global
+
+/*async function displayFilter(data, setFilter){
+  let newArrayData = [];
+  
+  for(let i = 0; i < recipes.length; i++){
+    if(data === "ingredients"){
+      let recipeData = recipes[i].ingredients;
+      recipeData.forEach(item => {
+        newArrayData.push(item.ingredient.toLowerCase());        
+      })
+      removeOccurencies(newArrayData)
+    } else if(data === "appareils"){
+      let recipeData = recipes[i].appliance;
+      newArrayData.push(recipeData.toLowerCase());
+      removeOccurencies(newArrayData)
+    } else {
+      let recipeData = recipes[i].ustensils;
+      recipeData.forEach(item => { newArrayData.push(item.toLowerCase());        
+    }) 
+      removeOccurencies(newArrayData)
+    } 
+  }
+  CheckIsOpen(data)
+  }
+  */
+
+//////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////
 
