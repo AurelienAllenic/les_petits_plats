@@ -5,6 +5,14 @@ let isOpenAppareil = false;
 let isOpenUstensils = false;
 let isInput = false
 
+let counterFilters = 0;
+let ancientConditions = []
+
+let isValidatedAncient = false;
+let isValidatedNew = false;
+
+let buttonFilter = document.getElementById('section-filter-ing');
+buttonFilter.style.display = "none"
 let filters = document.getElementById('section-filters')
 let chars = new Set()
 
@@ -35,7 +43,7 @@ filters.innerHTML = `
 </article>
 `
 // Redeclaring global variables after their creation //
-
+let container_hidden_filter = document.querySelectorAll(".container_hidden_filter")
 let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
 let sectionAppareil = document.getElementById('container_hidden_options_appareils')
 let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
@@ -52,17 +60,84 @@ let inputUst = document.getElementById('ustensiles')
 //////////////////////////////////////////////////////
 
 addEventListener("load", displayAllRecipes(recipes))
-//addEventListener("load", testInputSearch())
 
-/*
-function changeFilter(){
-  if(inputIng.value.length > 0){
-    console.log(inputIng.value, "en input")
+function filterByButton(data){
+  let conditionToFilter = [];
+  if(ancientConditions !== []){
+    for(let recipe of recipes){
+      let ingArray = recipe.ingredients;
+      for(let ing of ingArray){
+        let ourIng = ing.ingredient;
+        if(ourIng === data){
+          conditionToFilter.push(recipe)
+          isValidatedNew = true;
+        }else if(ourIng === ancientConditions){
+          isValidatedAncient = true;
+        }
+      }
+    }
   }else{
-    console.log("pas de caractères en input")
+    for(let recipe of recipes){
+      let ingArray = recipe.ingredients;
+      for(let ing of ingArray){
+        let ourIng = ing.ingredient;
+        if(ourIng === data){
+          conditionToFilter.push(recipe)
+        }
+      }
+    }
+  }
+  ancientConditions.push(data)
+  deleteRecipes()
+  displayAllRecipesAfterFilter(conditionToFilter)
+  changeFilterOnInput(conditionToFilter)
+  deleteFilterIng()
+  return ancientConditions
+}
+
+function liPressed(filter){
+  counterFilters++
+  console.log(filter)
+  let span = document.createElement('span')
+  span.setAttribute("class", "container_button_cross")
+  span.setAttribute("data-number", counterFilters)
+  let icon = document.createElement('img')
+  icon.setAttribute("class", "img-button-ing")
+  icon.setAttribute("data-number", counterFilters)
+  icon.setAttribute("src", "/assets/logos/delete.svg")
+  let p = document.createElement('p')
+  p.setAttribute("id", "test")
+  buttonFilter.appendChild(span)
+  span.appendChild(p)
+  span.appendChild(icon)
+  p.innerHTML = filter;
+  buttonFilter.style.display = "inherit";
+  deleteFilterIng()
+  inputIng.value = null
+  filterByButton(filter)
+  
+  //Handling Deletion of button
+
+  let listIcon = document.getElementsByClassName('img-button-ing')
+  let listSpan = document.getElementsByClassName('container_button_cross')
+  for(let icon of listIcon){ 
+    let ourSpan = icon.getAttribute("data-number")
+    icon.onclick = function() {
+      for(let span of listSpan){
+        let ourCross = span.getAttribute("data-number")
+        if(ourCross === ourSpan){
+          span.remove();
+        
+        }
+      
+      }
+      
+      //To Modify, don't fulfill entirely it's mission
+      
+      displayAllRecipes(recipes)
+  }
   }
 }
-*/
 
 function checkFilterMatchRecipes(){
   let recipesFiltered = [];
@@ -73,18 +148,15 @@ function checkFilterMatchRecipes(){
       if(ing.ingredient.toLowerCase().includes(inputIng.value)){
         recipesFiltered.push(ing.ingredient);
         for(let ourRecipe of recipesFiltered){
-          console.log(ourRecipe)
-          ourRecipe.toLowerCase();
-          recipesWithoutOccurencies.push(ourRecipe)
+          recipesWithoutOccurencies.push(ourRecipe.toLowerCase())
         }
-        chars = new Set(recipesWithoutOccurencies)
-        console.log("////////////", chars, "////////////")
-        redirectFilter(chars)
+      chars = new Set(recipesWithoutOccurencies)
     }
     }
     
   //redirectFilter(recipesFiltered)
   }
+  redirectFilter(chars)
 }
 
 function checkInputIng(value){
@@ -111,10 +183,10 @@ function deleteFilterIng(){
   isOpen = false
 }
 
-function openFilterIng(){
+function openFilterIng(data){
   console.log(isOpen)
   if(isOpen === false){
-    checkInput()
+    checkInput(data)
   }else{
     deleteFilterIng()
   }
@@ -134,15 +206,26 @@ function CheckIsOpenFilter(data){
   ul.setAttribute("class", "container_hidden_filter")
   sectionIngredients.appendChild(ul)
     sectionIngredients.style.display = "inherit"
+    let count = 0;
     data.forEach(dt => {
     let li = document.createElement('li');
+    li.setAttribute("id", "ing-filter"+ count)
     li.innerHTML = `${dt}`
     ul.appendChild(li)
     sectionAppareil.style.display = "none"
     sectionUstensils.style.display = "none"
-    
+    count++;
     })
     isOpen = true
+    const elementsLiIng = document.querySelectorAll(`[id^="ing-filter"]`);
+    
+    for(let el of elementsLiIng){
+      el.addEventListener("click", () => liPressed(el.textContent))
+      /*if(el.click()){
+        liPressed(el)
+      }*/
+      
+    }
 }
 
 function CheckIsOpenFilterWhenInput(){
@@ -158,8 +241,6 @@ function changeFilterOnInput(data){
       CorrespondingIngredients.push(ing.ingredient)
       chars = new Set(CorrespondingIngredients)
       redirectFilter(chars)
-      
-      
       return chars
     })
   }
@@ -174,6 +255,8 @@ inputIng.addEventListener('click', ()=>{openFilterIng()})
 //ArrowAppareils.addEventListener('click', ()=>{redirectData('appareils', isInput)})
 
 //ArrowUstensils.addEventListener('click', ()=>{redirectData('ustensiles', isInput)})
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 function checkInfos(ing, container_ingredients){
 //Si tout OK
@@ -269,6 +352,7 @@ function deleteRecipes(){
   recipe.remove()
   })
 }
+
 function checkInput(){
   console.log(inputSearch.value, "INPUTSEARCH")
   if(inputSearch.value.length >= 3){
@@ -293,8 +377,8 @@ function checkInput(){
   
 }
 
-
 ///////////////////////////////////////
+
   inputSearch.addEventListener("input", e => {
   let value = e.target.value;
   if(value.length < 3){
@@ -318,6 +402,9 @@ function checkInput(){
   changeFilterOnInput(recipesFiltered)
   }
 })
+
+//////////////////////////////////////////////////////////
+
 
 /*function getTabData(ul){
   console.log(chars)
