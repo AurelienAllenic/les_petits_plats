@@ -19,6 +19,9 @@ let buttonFilter = document.getElementById('section-filter-ing');
 buttonFilter.style.display = "none";
 let filters = document.getElementById('section-filters');
 let chars = new Set();
+let charsIng = new Set();
+let charsUstensiles = new Set();
+let charsAppareils = new Set();
 
 filters.innerHTML = `
 <span class="hidden_button">
@@ -63,7 +66,6 @@ let inputUst = document.getElementById('ustensiles')
 
 /*--------------------------------------------------------------*/
 
-
 // --ADDEVENTLISTENERS-- //
 
 // ALL RECIPES DISPLAYED AT LOAD //
@@ -101,6 +103,7 @@ function deleteFilterIng(){
 }
 
 /*-----------------------------------*/
+
 // --FUNCTIONS THAT ARE LISTENING FOR INPUT-- //
 
 function listenToInputIngredients(e){
@@ -124,8 +127,18 @@ function listenToMainInput(e){
   else{
     messageError.style.display = "none"
     deleteRecipes();
-    let recipesFiltered = []  
-    filterWithInclude(recipes, value, recipesFiltered)
+    let recipesFiltered = []
+    let allIngredients = [];
+    let allUstensils = [];
+    let allAppareils = [];
+    loopThroughAllInfosOfRecipes(allIngredients, "ingredients") 
+    loopThroughAllInfosOfRecipes(allUstensils, "ustensiles")
+    loopThroughAllInfosOfRecipes(allAppareils, "appareils") 
+    console.log(charsUstensiles, "charsUstensiles")
+    console.log(charsIng, "charsIng")
+    console.log(charsAppareils, "charsAppareils")
+    console.log(recipesFiltered)
+    filterByName(recipes, value, recipesFiltered)
     isInput = true
     sortAllRecipesAfterFilter(recipesFiltered)
     changeFilterOnInput(recipesFiltered)
@@ -164,14 +177,14 @@ function adaptOnInputFilter(){
   if(valueMain.length >= 3){
     console.log("VALUEMAIN", valueMain.length)
     let recipesFiltered = []
-    filterWithInclude(recipes, valueMain, recipesFiltered)
+    filterByName(recipes, valueMain, recipesFiltered)
     isOpen = true
     changeFilterOnInput(recipesFiltered)
   }
 else if(valueIng.length >= 1){
   console.log("VALUEING", valueIng.length)
     let recipesFiltered = []
-    filterWithInclude(recipes, valueIng, recipesFiltered)
+    filterByName(recipes, valueIng, recipesFiltered)
     isOpen = true
     changeFilterOnInput(recipesFiltered)
   }else{
@@ -209,11 +222,61 @@ function changeFilterOnInput(data){
   isInput = false
 }
 
-function filterWithInclude(data, value, array){
+function filterByName(data, value, array){
   for(let i =0; i < data.length; i++){
     if(data[i].name.toLowerCase().includes(value)){
         array.push(data[i]);
     }
+  }
+}
+
+// OTHER LIST OF UTILIATRY FUNCTIONS TO TEST
+
+function loopThroughAllInfosOfRecipes4(array, data){
+  if(data === "ingredients"){
+    charsIng = new Set(array);
+  }
+  if(data === "ustensiles"){
+    charsUstensiles = new Set(array);
+  }
+  if(data === "appareils"){
+    charsAppareils = new Set(array);
+  }
+  
+}
+
+function loopThroughAllInfosOfRecipes3(uniqueFilterLowercase, arrayFilter, recipe, data){
+  let valueMain = inputSearch.value;
+  if(uniqueFilterLowercase.includes(valueMain.toLowerCase())){
+    arrayFilter.push(recipe)
+    loopThroughAllInfosOfRecipes4(arrayFilter, data)
+  }
+}
+
+function loopThroughAllInfosOfRecipes2(recipe, arrayFilter, data){
+  let recipeIngredients = recipe.ingredients;
+  if(data === "ingredients"){
+    for(let recipeIngs of recipeIngredients){
+      let recipeIngUnique = recipeIngs.ingredient;
+      let recipeIngUniqueLowercase = recipeIngUnique.toLowerCase();
+      loopThroughAllInfosOfRecipes3(recipeIngUniqueLowercase, arrayFilter, recipe, data)
+  }
+  } else if(data === "ustensiles"){
+    let ustensils = recipe.ustensils;
+    for(let ust of ustensils){
+      let ustensilsLowercase = ust.toLowerCase();
+      loopThroughAllInfosOfRecipes3(ustensilsLowercase, arrayFilter, recipe, data)
+    }
+  } else if(data === "appareils"){
+    let appareil = recipe.appliance;
+    let appareilLowercase = appareil.toLowerCase();
+    loopThroughAllInfosOfRecipes3(appareilLowercase, arrayFilter, recipe, data)
+  }
+}
+
+function loopThroughAllInfosOfRecipes(arrayFilter, data){
+  for(let recipe of recipes){
+    loopThroughAllInfosOfRecipes2(recipe, arrayFilter, data)
   }
 }
 
@@ -366,43 +429,6 @@ function displayAllRecipes(elementIterable){
 
 // --HANDLING FILTER CHOOSED INTO FILTER INGREDIENTS LIST-- //
 
-
-function filterByButton(data){
-  console.log(data, "ANCIENT")
-  let conditionToFilter = [];
-  if(ancientConditions !== []){
-    console.log(ancientConditions, "CONDITIONS")
-    for(let recipe of recipes){
-      let ingArray = recipe.ingredients;
-      for(let ing of ingArray){
-        let ourIng = ing.ingredient;
-        /*if(ourIng === data){
-          conditionToFilter.push(recipe)
-          isValidatedNew = true;
-        }else if(ourIng === ancientConditions){
-          isValidatedAncient = true;
-        }*/
-      }
-    }
-  }else{
-    for(let recipe of recipes){
-      let ingArray = recipe.ingredients;
-      for(let ing of ingArray){
-        let ourIng = ing.ingredient;
-        if(ourIng === data){
-          conditionToFilter.push(recipe)
-        }
-      }
-    }
-  }
-  ancientConditions.push(data)
-  deleteRecipes()
-  sortAllRecipesAfterFilter(conditionToFilter)
-  changeFilterOnInput(conditionToFilter)
-  deleteFilterIng()
-  return ancientConditions
-}
-
 function liPressed(filter){
   counterFilters++
   console.log(filter)
@@ -445,6 +471,53 @@ function liPressed(filter){
       displayAllRecipes(recipes)
   }
   }
+}
+
+function pushIngredientIntoAncientConditions(conditionToFilter, ourIng, recipe, data){
+  if(ourIng === data){
+    conditionToFilter.push(recipe)
+    isValidatedNew = true;
+  }else if(ourIng === ancientConditions){
+    isValidatedAncient = true;
+  }
+}
+
+function loopThroughIngredients(ingArray, conditionToFilter, recipe, data){
+  for(let ing of ingArray){
+    let ourIng = ing.ingredient;
+    pushIngredientIntoAncientConditions(conditionToFilter, ourIng, recipe, data)
+  }
+}
+
+function conditionningIngredients(conditionToFilter, data){
+  if(ancientConditions !== []){
+    for(let recipe of recipes){
+      let ingArray = recipe.ingredients;
+    loopThroughIngredients(ingArray, conditionToFilter, recipe, data)
+    }
+  }else{
+    for(let recipe of recipes){
+      let ingArray = recipe.ingredients;
+      for(let ing of ingArray){
+        let ourIng = ing.ingredient;
+        if(ourIng === data){
+          conditionToFilter.push(recipe)
+        }
+      }
+    }
+  }
+  console.log(conditionToFilter)
+}
+
+function filterByButton(data){
+  let conditionToFilter = [];
+  conditionningIngredients(conditionToFilter, data)
+  ancientConditions.push(data)
+  deleteRecipes()
+  sortAllRecipesAfterFilter(conditionToFilter)
+  changeFilterOnInput(conditionToFilter)
+  deleteFilterIng()
+  return ancientConditions
 }
 
 /*--------------------------------------------------------*/
