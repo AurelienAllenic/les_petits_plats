@@ -352,8 +352,31 @@ font-size: 25px;
         grid-template-columns: 1fr 1fr;
     }
 }
+@media screen and (max-width: 1414px){
+    .all-filters{
+        width: 50%;
+    }
+}
+@media screen and (max-width: 1144px){
+    .all-filters{
+        width: 60%;
+    }
+}
 @media screen and (max-width: 1000px){
     #section-recipes{
         grid-template-columns: 1fr;
+    }
+}
+@media screen and (max-width: 932px){
+    .all-filters{
+        width: 70%;
+        padding-bottom: 5%;
+    }
+}
+@media screen and (max-width: 770px){
+    .all-filters{
+        font-size: 17px;
+        width: 80%;
+        
     }
 }

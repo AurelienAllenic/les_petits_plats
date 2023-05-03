@@ -22,6 +22,8 @@ let chars = new Set();
 let charsIng = new Set();
 let charsUstensiles = new Set();
 let charsAppareils = new Set();
+let infosFilters = new Set();
+let allInfosCombined = new Set();
 
 filters.innerHTML = `
 <span class="hidden_button">
@@ -137,11 +139,16 @@ function listenToMainInput(e){
     console.log(charsUstensiles, "charsUstensiles")
     console.log(charsIng, "charsIng")
     console.log(charsAppareils, "charsAppareils")
-    console.log(recipesFiltered)
+    console.log(recipesFiltered, "recipesFiltered")
+    mergeArrays(charsUstensiles, charsIng, charsAppareils)
+    
     filterByName(recipes, value, recipesFiltered)
+    allInfosCombined = new Set([...recipesFiltered, ...infosFilters])
+    console.log(allInfosCombined)
+    //New Set infosFilter concat recipesFiltered
     isInput = true
-    sortAllRecipesAfterFilter(recipesFiltered)
-    changeFilterOnInput(recipesFiltered)
+    sortAllRecipesAfterFilter(allInfosCombined)
+    changeFilterOnInput(allInfosCombined)
   }
 }
 
@@ -232,6 +239,18 @@ function filterByName(data, value, array){
 
 // OTHER LIST OF UTILIATRY FUNCTIONS TO TEST
 
+function mergeArrays(arrayUst, arrayIng, arrayApp){
+  if(arrayUst.size === 0 && arrayIng.size === 0 && arrayApp.size === 0){
+    console.log("PAS DE CORRESPONDANCE AVEC UN FILTRE")
+  }
+  else{
+    console.log("rentre")
+  let setUstIng = new Set([...arrayUst, ...arrayIng]);
+  infosFilters = new Set([...setUstIng, ...arrayApp]);
+
+  }
+}
+
 function loopThroughAllInfosOfRecipes4(array, data){
   if(data === "ingredients"){
     charsIng = new Set(array);
@@ -242,7 +261,6 @@ function loopThroughAllInfosOfRecipes4(array, data){
   if(data === "appareils"){
     charsAppareils = new Set(array);
   }
-  
 }
 
 function loopThroughAllInfosOfRecipes3(uniqueFilterLowercase, arrayFilter, recipe, data){
@@ -534,8 +552,7 @@ function getIngredients(data, value, array){
 
 // Function to merge both arrays : recipes selected and filters selected
 
-function mergeArrays(array1, array2){
-}
+
 
 
 /*let logo =document.getElementById('main-logo')
