@@ -317,7 +317,7 @@ font-size: 25px;
 #test{
     color: white;
     font-size: 1.5em;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     padding: 1.1%;
     width: 100%;
 }
