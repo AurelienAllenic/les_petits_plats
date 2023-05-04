@@ -14,6 +14,10 @@ let isValidatedAncient = false;
 let isValidatedNew = false;
 
 let recipesFiltered = [];
+let allIngredientsInInput = [];
+let allIngredientsAtLAst = []
+
+let numberOfIngs = 0;
 
 let buttonFilter = document.getElementById('section-filter-ing');
 buttonFilter.style.display = "none";
@@ -24,6 +28,7 @@ let charsUstensiles = new Set();
 let charsAppareils = new Set();
 let infosFilters = new Set();
 let allInfosCombined = new Set();
+let findFilter = new Set();
 
 filters.innerHTML = `
 <span class="hidden_button">
@@ -109,13 +114,67 @@ function deleteFilterIng(){
 // --FUNCTIONS THAT ARE LISTENING FOR INPUT-- //
 
 function listenToInputIngredients(e){
+  let mainValue = inputSearch.value;
+  console.log(mainValue, "MainValue")
   let value = e.target.value;
-  if(value.length > 0){
-    checkFilterMatchRecipes(value)
+  if(value.length > 0 && mainValue.length === 0){
+    console.log("value !!== 0")
+    checkFilterMatchRecipes()
   }else{
-    console.log("pas de caractères en input ing")
+    console.log("value === 0")
+    findFilter.clear()
+    checkFilterMatchRecipes2()
   }
 }
+
+
+
+// --FUNCTIONS CREATING NEW SET FOR SORT-- //
+
+function checkFilterMatchRecipes2(){
+  console.log("MATCH RECIPES 2")
+  console.log(allInfosCombined)
+  let recipesFilteredInput = [];
+  let recipesWithoutOccurenciesInput = [];
+  //if(allInfosCombined.size === 0){
+    for(let recipe of allInfosCombined){
+        let ingredients = recipe.ingredients
+        for(let ing of ingredients){
+          if(ing.ingredient.toLowerCase().includes(inputIng.value)){
+            recipesFilteredInput.push(ing.ingredient);
+            for(let ourRecipe of recipesFilteredInput){
+              recipesWithoutOccurenciesInput.push(ourRecipe.toLowerCase())
+            }
+          chars = new Set(recipesWithoutOccurenciesInput)
+          
+        }
+        }
+        redirectFilter(chars)
+      }
+    }
+
+function checkFilterMatchRecipes(){
+  console.log(allInfosCombined)
+  let recipesFiltered = [];
+  let recipesWithoutOccurencies = [];
+  //if(allInfosCombined.size === 0){
+    for(let recipe of recipes){
+        let ingredients = recipe.ingredients
+        for(let ing of ingredients){
+          if(ing.ingredient.toLowerCase().includes(inputIng.value)){
+            recipesFiltered.push(ing.ingredient);
+            for(let ourRecipe of recipesFiltered){
+              recipesWithoutOccurencies.push(ourRecipe.toLowerCase())
+            }
+          chars = new Set(recipesWithoutOccurencies)
+          
+        }
+        }
+        redirectFilter(chars)
+  }
+  }
+
+/*-------------------------------------------*/
 
 function listenToMainInput(e){
   let value = e.target.value;
@@ -136,19 +195,15 @@ function listenToMainInput(e){
     loopThroughAllInfosOfRecipes(allIngredients, "ingredients") 
     loopThroughAllInfosOfRecipes(allUstensils, "ustensiles")
     loopThroughAllInfosOfRecipes(allAppareils, "appareils") 
-    console.log(charsUstensiles, "charsUstensiles")
-    console.log(charsIng, "charsIng")
-    console.log(charsAppareils, "charsAppareils")
-    console.log(recipesFiltered, "recipesFiltered")
     mergeArrays(charsUstensiles, charsIng, charsAppareils)
     
     filterByName(recipes, value, recipesFiltered)
     allInfosCombined = new Set([...recipesFiltered, ...infosFilters])
-    console.log(allInfosCombined)
     //New Set infosFilter concat recipesFiltered
     isInput = true
     sortAllRecipesAfterFilter(allInfosCombined)
     changeFilterOnInput(allInfosCombined)
+    return allInfosCombined
   }
 }
 
@@ -177,10 +232,33 @@ function redirectFilter(data){
 
 // ( check for input length and redirect in function ) //
 
+
+/*function adaptOnInputFilter2(){
+  let valueMain = inputSearch.value;
+  let valueIng = inputIng.value;
+  if(valueMain.length >= 3 && valueIng.length >= 1){
+    console.log("VALUEMAIN", valueMain.length)
+    let recipesFiltered = []
+    filterByName(recipes, valueMain, recipesFiltered)
+    isOpen = true
+    changeFilterOnInput(recipesFiltered)
+  }
+else if(valueMain.length >= 3 && valueIng.length === 0){
+  console.log("VALUEING", valueIng.length)
+    let recipesFiltered = []
+    filterByName(recipes, valueIng, recipesFiltered)
+    isOpen = true
+    changeFilterOnInput(recipesFiltered)
+  }
+else{
+    isOpen = true
+    changeFilterOnInput(recipes)
+  }
+}*/
+
 function adaptOnInputFilter(){
   let valueMain = inputSearch.value;
   let valueIng = inputIng.value;
-  console.log(valueMain.length)
   if(valueMain.length >= 3){
     console.log("VALUEMAIN", valueMain.length)
     let recipesFiltered = []
@@ -194,7 +272,8 @@ else if(valueIng.length >= 1){
     filterByName(recipes, valueIng, recipesFiltered)
     isOpen = true
     changeFilterOnInput(recipesFiltered)
-  }else{
+  }
+else{
     isOpen = true
     changeFilterOnInput(recipes)
   }
@@ -238,6 +317,7 @@ function filterByName(data, value, array){
 }
 
 // OTHER LIST OF UTILIATRY FUNCTIONS TO TEST
+
 
 function mergeArrays(arrayUst, arrayIng, arrayApp){
   if(arrayUst.size === 0 && arrayIng.size === 0 && arrayApp.size === 0){
@@ -300,29 +380,7 @@ function loopThroughAllInfosOfRecipes(arrayFilter, data){
 
 /*------------------------------------------*/
 
-// --FUNCTIONS CREATING NEW SET FOR SORT-- //
 
-function checkFilterMatchRecipes(){
-  let recipesFiltered = [];
-  let recipesWithoutOccurencies = [];
-  for(let recipe of recipes){
-    let ingredients = recipe.ingredients
-    for(let ing of ingredients){
-      if(ing.ingredient.toLowerCase().includes(inputIng.value)){
-        recipesFiltered.push(ing.ingredient);
-        for(let ourRecipe of recipesFiltered){
-          recipesWithoutOccurencies.push(ourRecipe.toLowerCase())
-        }
-      chars = new Set(recipesWithoutOccurencies)
-    }
-    }
-    
-  //redirectFilter(recipesFiltered)
-  }
-  redirectFilter(chars)
-}
-
-/*-------------------------------------------*/
 
 // --SORT FUNCTION-- //
 
