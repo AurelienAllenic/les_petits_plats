@@ -16,6 +16,9 @@ let isValidatedNew = false;
 let recipesFiltered = [];
 let allIngredientsInInput = [];
 let allIngredientsAtLAst = []
+let recipeCorrespondingIng = [];
+
+let infosCombinedInIngButton = []
 
 let numberOfIngs = 0;
 
@@ -29,10 +32,11 @@ let charsAppareils = new Set();
 let infosFilters = new Set();
 let allInfosCombined = new Set();
 let findFilter = new Set();
+let buttonFilterIng = new Set();
 
 filters.innerHTML = `
 <span class="hidden_button">
-<button type="button"></button>
+  <button type="button"></button>
 </span>
 <article class="all-filters">
     <span class="container_button_arrow">
@@ -200,9 +204,9 @@ function listenToMainInput(e){
     filterByName(recipes, value, recipesFiltered)
     allInfosCombined = new Set([...recipesFiltered, ...infosFilters])
     //New Set infosFilter concat recipesFiltered
-    isInput = true
+    //isInput = true
     sortAllRecipesAfterFilter(allInfosCombined)
-    changeFilterOnInput(allInfosCombined)
+    //changeFilterOnInput(charsIng)
     return allInfosCombined
   }
 }
@@ -301,6 +305,7 @@ function changeFilterOnInput(data){
     getIngredients.forEach(ing => {
       CorrespondingIngredients.push(ing.ingredient)
       chars = new Set(CorrespondingIngredients)
+      console.log(chars, "CHARS")
       redirectFilter(chars)
       return chars
     })
@@ -586,7 +591,9 @@ function conditionningIngredients(conditionToFilter, data){
 }
 
 function filterByButton(data){
-  let conditionToFilter = [];
+  console.log(allInfosCombined, "ALLLLL")
+  if(allInfosCombined.size === 0){
+    let conditionToFilter = [];
   conditionningIngredients(conditionToFilter, data)
   ancientConditions.push(data)
   deleteRecipes()
@@ -594,8 +601,63 @@ function filterByButton(data){
   changeFilterOnInput(conditionToFilter)
   deleteFilterIng()
   return ancientConditions
+  }else{
+    console.log("des infos à compléter")
+  }
 }
+/*
+function filterByButton(data){
+  console.log(allInfosCombined, "ALLLLL")
+  if(allInfosCombined.size === 0){
+    let conditionToFilter = [];
+  for(let recipe of recipes){
+    let recipeIngredients = recipe.ingredients;
+    recipeIngredients.forEach(rcp => {
+      let recipeIng = rcp.ingredient;
+      if(recipeIng.includes(data)){
+        ancientConditions.push(data);
+        console.log(ancientConditions, "ANCIENTCONDITIONS")
+        recipeCorrespondingIng.push(recipe)
+        
+      }
+    })
+  }
+  console.log(recipeCorrespondingIng, "recipeCorrespondingIng")
+  deleteRecipes()
+  buttonFilterIng = new Set(recipeCorrespondingIng)
+  allInfosCombined = new Set(buttonFilterIng)
+  console.log(buttonFilterIng, "ALLLLL2")
+  changeFilterOnInput(buttonFilterIng)
+  displayAllRecipes(buttonFilterIng)
+  deleteFilterIng()
+  }else{
+    console.log("des infos à compléter")
 
+    for(let infoCombined of allInfosCombined){
+      console.log(infoCombined.ingredients)
+      let infosIngredients = infoCombined.ingredients;
+      for(let info of infosIngredients){
+        console.log(info.ingredient, "INFO")
+        if(info.ingredient.includes(data)){
+          console.log("include", data)
+          infosCombinedInIngButton.push(infoCombined)
+          console.log(infosCombinedInIngButton, "infosCombinedInIngButton")
+        }
+      }
+    }
+    allInfosCombined = new Set(infosCombinedInIngButton);
+    console.log(allInfosCombined, "ALLINFOSCOMBINEDFINAL")
+    while(infosCombinedInIngButton.length > 0){
+      infosCombinedInIngButton.pop()
+    }
+    console.log(infosCombinedInIngButton, "infosCombinedInIngButton2222")
+    deleteRecipes()
+    changeFilterOnInput(allInfosCombined)
+    sortAllRecipesAfterFilter(allInfosCombined)
+    deleteFilterIng()
+  }
+}
+*/
 /*--------------------------------------------------------*/
 
 // --TO CHECK LATER-- //
