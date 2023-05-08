@@ -1,10 +1,12 @@
 "use strict"
 
-import { mergeArrays, filterByName, sortAllRecipesAfterFilter, checkFilterMatchRecipes, checkFilterMatchRecipes2} from "./getData.js"
+import { mergeArrays, sortAllRecipesAfterFilter} from "./handlingArrays.js"
 import { recipes } from "../data/data.js";
 import { displayAllRecipes } from "./displayRecipes.js";
 import { deleteFilterIng, deleteRecipes } from "./deleteElements.js";
 import { loopThroughAllInfosOfRecipes } from "./getInfos.js";
+import { checkFilterMatchRecipes, checkFilterMatchRecipes2 } from "./checkIfMatching.js";
+import { filterByName } from "./loopThroughData.js";
 
 let chars = new Set();
 let charsIng = new Set();

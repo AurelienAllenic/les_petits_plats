@@ -12,5 +12,4 @@ export function deleteFilterIng(){
     ourFilter.forEach(filter => {
         filter.remove()
     })
-    //isOpen = false
-    }
+}

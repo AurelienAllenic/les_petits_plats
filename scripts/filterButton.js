@@ -2,9 +2,14 @@
 
 import { deleteFilterIng, deleteRecipes } from "./deleteElements.js";
 import { recipes } from "../data/data.js";
-import { sortAllRecipesAfterFilter, changeFilterOnInput } from "./getData.js";
+import { sortAllRecipesAfterFilter } from "./handlingArrays.js";
 import { displayAllRecipes } from "./displayRecipes.js";
+import { changeFilterOnInput } from "./loopThroughData.js";
+import { createListFilter } from "./loopThroughData.js";
 
+let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
+let sectionAppareil = document.getElementById('container_hidden_options_appareils')
+let sectionUstensils = document.getElementById('container_hidden_options_ustensils')
 let counterFilters = 0;
 let buttonFilter = document.getElementById('section-filter-ing');
 buttonFilter.style.display = "none";
@@ -13,6 +18,8 @@ let allInfosCombined = new Set();
 let ancientConditions = [];
 let isValidatedAncient = false;
 let isValidatedNew = false;
+let isOpen = false;
+
 // --HANDLING FILTER CHOOSED INTO FILTER INGREDIENTS LIST-- //
 
 export function liPressed(filter){
@@ -109,3 +116,18 @@ export function liPressed(filter){
     }
   }
   
+export function CheckIsOpenFilter(data){
+  deleteFilterIng();
+  let ul = document.createElement('ul');
+  ul.setAttribute("class", "container_hidden_filter")
+  sectionIngredients.appendChild(ul)
+    sectionIngredients.style.display = "inherit"
+    createListFilter(data, ul)
+    sectionAppareil.style.display = "none"
+    sectionUstensils.style.display = "none"
+    isOpen = true
+    const elementsLiIng = document.querySelectorAll(`[id^="ing-filter"]`);
+    for(let el of elementsLiIng){
+      el.addEventListener("click", () => liPressed(el.textContent))
+    }
+}

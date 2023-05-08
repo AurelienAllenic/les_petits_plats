@@ -3,6 +3,8 @@
 import { recipes } from "../data/data.js";
 
 let inputSearch = document.getElementById('input-search')
+let charsIng = new Set();
+let charsUstensiles = new Set();
 
 export function loopThroughAllInfosOfRecipes4(array, data){
     if(data === "ingredients"){
@@ -23,7 +25,7 @@ export function loopThroughAllInfosOfRecipes3(uniqueFilterLowercase, arrayFilter
         loopThroughAllInfosOfRecipes4(arrayFilter, data)
     }
 }
-  
+
 export function loopThroughAllInfosOfRecipes2(recipe, arrayFilter, data){
     let recipeIngredients = recipe.ingredients;
     if(data === "ingredients"){
