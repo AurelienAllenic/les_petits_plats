@@ -56,31 +56,29 @@ export function liPressed(filter){
             span.remove();
           }
         }
-        
         //To Modify, don't fulfill entirely it's mission
-        
         displayAllRecipes(recipes)
     }
     }
-  }
+}
   
-  export function pushIngredientIntoAncientConditions(conditionToFilter, ourIng, recipe, data){
+export function pushIngredientIntoAncientConditions(conditionToFilter, ourIng, recipe, data){
     if(ourIng === data){
       conditionToFilter.push(recipe)
       isValidatedNew = true;
     }else if(ourIng === ancientConditions){
       isValidatedAncient = true;
     }
-  }
+}
   
-  export function loopThroughIngredients(ingArray, conditionToFilter, recipe, data){
+export function loopThroughIngredients(ingArray, conditionToFilter, recipe, data){
     for(let ing of ingArray){
       let ourIng = ing.ingredient;
       pushIngredientIntoAncientConditions(conditionToFilter, ourIng, recipe, data)
     }
-  }
+}
   
-  export function conditionningIngredients(conditionToFilter, data){
+export function conditionningIngredients(conditionToFilter, data){
     if(ancientConditions !== []){
       for(let recipe of recipes){
         let ingArray = recipe.ingredients;
@@ -98,9 +96,9 @@ export function liPressed(filter){
       }
     }
     console.log(conditionToFilter)
-  }
+}
   
-  export function filterByButton(data){
+export function filterByButton(data){
     console.log(allInfosCombined, "ALLLLL")
     if(allInfosCombined.size === 0){
       let conditionToFilter = [];
@@ -114,7 +112,7 @@ export function liPressed(filter){
     }else{
       console.log("des infos à compléter")
     }
-  }
+}
   
 export function CheckIsOpenFilter(data){
   deleteFilterIng();

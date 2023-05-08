@@ -30,7 +30,6 @@ export function ReduceDescription(tab, containerDescription){
     let str = tab;
     let length = null;
     let ending = null
-
     if (length == null) {
         length = 210;
     }

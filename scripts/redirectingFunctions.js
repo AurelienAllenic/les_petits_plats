@@ -1,4 +1,4 @@
-
+"use strict"
 // --FUNCTIONS REDIRECTING WITH CONDITIONNING-- //
 
 import { deleteFilterIng } from "./deleteElements.js";
@@ -14,42 +14,41 @@ let inputIng = document.getElementById('ingredients')
 export function checkIsOpen(data){
     console.log(isOpen)
     if(isOpen === false){
-      adaptOnInputFilter(data)
-      isOpen = true;
+        adaptOnInputFilter(data)
+        isOpen = true;
     }else{
-      deleteFilterIng()
-      isOpen = false;
+        deleteFilterIng()
+        isOpen = false;
     }
-  }
-  
-  export function checkIsInput(data){
+}
+
+export function checkIsInput(data){
     console.log(isInput)
     if(isInput === false){
-      CheckIsOpenFilter(data)
+        CheckIsOpenFilter(data)
     }else{
-      deleteFilterIng();
-      isOpen = false;
+        deleteFilterIng();
+        isOpen = false;
     }
-  }
-  
-  export function adaptOnInputFilter(){
+}
+
+export function adaptOnInputFilter(){
     let valueMain = inputSearch.value;
     let valueIng = inputIng.value;
     if(valueMain.length >= 3){
-      console.log("VALUEMAIN", valueMain.length)
-      let recipesFiltered = []
-      filterByName(recipes, valueMain, recipesFiltered)
-      changeFilterOnInput(recipesFiltered)
+        console.log("VALUEMAIN", valueMain.length)
+        let recipesFiltered = []
+        filterByName(recipes, valueMain, recipesFiltered)
+        changeFilterOnInput(recipesFiltered)
     }
-  else if(valueIng.length >= 1){
-    console.log("VALUEING", valueIng.length)
-      let recipesFiltered = []
-      filterByName(recipes, valueIng, recipesFiltered)
-      changeFilterOnInput(recipesFiltered)
+    else if(valueIng.length >= 1){
+        console.log("VALUEING", valueIng.length)
+        let recipesFiltered = []
+        filterByName(recipes, valueIng, recipesFiltered)
+        changeFilterOnInput(recipesFiltered)
     }
-  else{
-      changeFilterOnInput(recipes)
+    else{
+        changeFilterOnInput(recipes)
     }
-  }
-  
-  /*-----------------------------------------*/
+}
+/*-----------------------------------------*/

@@ -10,41 +10,38 @@ let allInfosCombined = new Set()
 export function checkFilterMatchRecipes2(){
     let recipesFilteredInput = [];
     let recipesWithoutOccurenciesInput = [];
-    //if(allInfosCombined.size === 0){
-      for(let recipe of allInfosCombined){
-          let ingredients = recipe.ingredients
-          for(let ing of ingredients){
+        for(let recipe of allInfosCombined){
+            let ingredients = recipe.ingredients
+            for(let ing of ingredients){
             if(ing.ingredient.toLowerCase().includes(inputIng.value)){
-              recipesFilteredInput.push(ing.ingredient);
-              for(let ourRecipe of recipesFilteredInput){
+                recipesFilteredInput.push(ing.ingredient);
+                for(let ourRecipe of recipesFilteredInput){
                 recipesWithoutOccurenciesInput.push(ourRecipe.toLowerCase())
-              }
+            }
             chars = new Set(recipesWithoutOccurenciesInput)
-            
-          }
-          }
-          checkIsInput(chars)
+            }
         }
+    checkIsInput(chars)
     }
+}
 
 export function checkFilterMatchRecipes(){
     let recipesFiltered = [];
     let recipesWithoutOccurencies = [];
     //if(allInfosCombined.size === 0){
-      for(let recipe of recipes){
-          let ingredients = recipe.ingredients
-          for(let ing of ingredients){
+    for(let recipe of recipes){
+        let ingredients = recipe.ingredients
+        for(let ing of ingredients){
             if(ing.ingredient.toLowerCase().includes(inputIng.value)){
-              recipesFiltered.push(ing.ingredient);
-              for(let ourRecipe of recipesFiltered){
+                recipesFiltered.push(ing.ingredient);
+                for(let ourRecipe of recipesFiltered){
                 recipesWithoutOccurencies.push(ourRecipe.toLowerCase())
-              }
-            chars = new Set(recipesWithoutOccurencies)
-            
-          }
-          }
-          checkIsInput(chars)
+                }
+            chars = new Set(recipesWithoutOccurencies) 
+            }
+        }
+    checkIsInput(chars)
     }
-    }
+}
 
 /*-------------------------------------------*/

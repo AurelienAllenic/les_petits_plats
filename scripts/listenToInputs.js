@@ -16,6 +16,7 @@ let infosFilters = new Set();
 let allInfosCombined = new Set();
 let findFilter = new Set();
 let inputSearch = document.getElementById('input-search')
+let isInput = false;
 
 export function listenToMainInput(e){
     let value = e.target.value;
@@ -37,11 +38,10 @@ export function listenToMainInput(e){
         loopThroughAllInfosOfRecipes(allUstensils, "ustensiles")
         loopThroughAllInfosOfRecipes(allAppareils, "appareils") 
         mergeArrays(charsUstensiles, charsIng, charsAppareils)
-        
         filterByName(recipes, value, recipesFiltered)
         allInfosCombined = new Set([...recipesFiltered, ...infosFilters])
         //New Set infosFilter concat recipesFiltered
-        //isInput = true
+        isInput = true // Peut être à commenter
         sortAllRecipesAfterFilter(allInfosCombined)
         //changeFilterOnInput(charsIng)
         return allInfosCombined
