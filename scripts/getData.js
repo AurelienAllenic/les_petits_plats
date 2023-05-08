@@ -1,6 +1,10 @@
 "use strict";
 
 import { recipes } from "../data/data.js";
+import filters from "./templates.js"
+import { displayAllRecipes } from "./displayRecipes.js";
+import { deleteFilterIng } from "./deleteElements.js";
+import { liPressed } from "./filterButton.js";
 
 let isOpen = false;
 let isOpenAppareil = false;
@@ -24,7 +28,7 @@ let numberOfIngs = 0;
 
 let buttonFilter = document.getElementById('section-filter-ing');
 buttonFilter.style.display = "none";
-let filters = document.getElementById('section-filters');
+//let filters = document.getElementById('section-filters');
 let chars = new Set();
 let charsIng = new Set();
 let charsUstensiles = new Set();
@@ -34,32 +38,6 @@ let allInfosCombined = new Set();
 let findFilter = new Set();
 let buttonFilterIng = new Set();
 
-filters.innerHTML = `
-<span class="hidden_button">
-  <button type="button"></button>
-</span>
-<article class="all-filters">
-    <span class="container_button_arrow">
-    <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_ingredients">
-        <input type="text" class="ingredients btn-filter" placeholder="Ingrédients" id="ingredients"></input>
-        <span id="container_hidden_options_ingredients">
-        </span>
-    </span>
-    <span class="container_button_arrow">
-    <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_appareils">
-    <input type="text" class="appareils btn-filter" placeholder="Appareils" id="appareils"></input>
-        <span id="container_hidden_options_appareils">
-        </span>
-    </span>
-    <span class="container_button_arrow">
-
-    <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down"id="arrow_ustensils">
-    <input type="text" class="ustensiles btn-filter" placeholder="Ustensiles" id="ustensiles"></input>
-    <span id="container_hidden_options_ustensils">
-    </span>
-        </span>
-</article>
-`
 // Redeclaring global variables after creation of others //
 let container_hidden_filter = document.querySelectorAll(".container_hidden_filter")
 let sectionIngredients = document.getElementById('container_hidden_options_ingredients')
@@ -77,65 +55,9 @@ let inputUst = document.getElementById('ustensiles')
 
 /*--------------------------------------------------------------*/
 
-// --ADDEVENTLISTENERS-- //
-
-// ALL RECIPES DISPLAYED AT LOAD //
-addEventListener("load", displayAllRecipes(recipes))
-
-// HANDLING MAIN RESEARCH //
-
-inputSearch.addEventListener("input", listenToMainInput)
-
-/*--------------------------------------------------------------*/
-
-// HANDLING ARROWS FILTERS //
-
-ArrowIngredients.addEventListener('click', checkBeforeopenFilterIng)
-inputIng.addEventListener('click', checkBeforeopenFilterIng)
-inputIng.addEventListener("input", listenToInputIngredients)
-
-/*--------------------------------------------------------------*/
-
-// FUNCTIONS TO DELETE ELEMENTS //
-
-function deleteRecipes(){
-  let allRecipes = document.querySelectorAll('.recipe_card');
-  allRecipes.forEach(recipe => {
-  recipe.remove()
-  })
-}
-
-function deleteFilterIng(){
-  let ourFilter = document.querySelectorAll('.container_hidden_filter');
-  ourFilter.forEach(filter => {
-    filter.remove()
-  })
-  isOpen = false
-}
-
-/*-----------------------------------*/
-
-// --FUNCTIONS THAT ARE LISTENING FOR INPUT-- //
-
-function listenToInputIngredients(e){
-  let mainValue = inputSearch.value;
-  console.log(mainValue, "MainValue")
-  let value = e.target.value;
-  if(value.length > 0 && mainValue.length === 0){
-    console.log("value !!== 0")
-    checkFilterMatchRecipes()
-  }else{
-    console.log("value === 0")
-    findFilter.clear()
-    checkFilterMatchRecipes2()
-  }
-}
-
-
-
 // --FUNCTIONS CREATING NEW SET FOR SORT-- //
 
-function checkFilterMatchRecipes2(){
+export function checkFilterMatchRecipes2(){
   console.log("MATCH RECIPES 2")
   console.log(allInfosCombined)
   let recipesFilteredInput = [];
@@ -157,7 +79,7 @@ function checkFilterMatchRecipes2(){
       }
     }
 
-function checkFilterMatchRecipes(){
+  export function checkFilterMatchRecipes(){
   console.log(allInfosCombined)
   let recipesFiltered = [];
   let recipesWithoutOccurencies = [];
@@ -180,105 +102,45 @@ function checkFilterMatchRecipes(){
 
 /*-------------------------------------------*/
 
-function listenToMainInput(e){
-  let value = e.target.value;
-  if(value.length < 3){
-    deleteRecipes();
-    displayAllRecipes(recipes);
-    deleteFilterIng()
-    let messageError = document.getElementById("messageError")
-    messageError.style.display = "block"
-  }
-  else{
-    messageError.style.display = "none"
-    deleteRecipes();
-    let recipesFiltered = []
-    let allIngredients = [];
-    let allUstensils = [];
-    let allAppareils = [];
-    loopThroughAllInfosOfRecipes(allIngredients, "ingredients") 
-    loopThroughAllInfosOfRecipes(allUstensils, "ustensiles")
-    loopThroughAllInfosOfRecipes(allAppareils, "appareils") 
-    mergeArrays(charsUstensiles, charsIng, charsAppareils)
-    
-    filterByName(recipes, value, recipesFiltered)
-    allInfosCombined = new Set([...recipesFiltered, ...infosFilters])
-    //New Set infosFilter concat recipesFiltered
-    //isInput = true
-    sortAllRecipesAfterFilter(allInfosCombined)
-    //changeFilterOnInput(charsIng)
-    return allInfosCombined
-  }
-}
-
-/*-----------------------------------------*/
-
 // --FUNCTIONS REDIRECTING WITH CONDITIONNING-- //
 
-function checkBeforeopenFilterIng(data){
+export function checkBeforeopenFilterIng(data){
   console.log(isOpen)
   if(isOpen === false){
     adaptOnInputFilter(data)
+    isOpen = true;
   }else{
     deleteFilterIng()
+    isOpen = false;
   }
 }
 
-function redirectFilter(data){
+export function redirectFilter(data){
   console.log(isInput)
   if(isInput === false){
     CheckIsOpenFilter(data)
   }else{
     deleteFilterIng();
-    isOpen = false
+    isOpen = false;
   }
 }
 
-// ( check for input length and redirect in function ) //
-
-
-/*function adaptOnInputFilter2(){
-  let valueMain = inputSearch.value;
-  let valueIng = inputIng.value;
-  if(valueMain.length >= 3 && valueIng.length >= 1){
-    console.log("VALUEMAIN", valueMain.length)
-    let recipesFiltered = []
-    filterByName(recipes, valueMain, recipesFiltered)
-    isOpen = true
-    changeFilterOnInput(recipesFiltered)
-  }
-else if(valueMain.length >= 3 && valueIng.length === 0){
-  console.log("VALUEING", valueIng.length)
-    let recipesFiltered = []
-    filterByName(recipes, valueIng, recipesFiltered)
-    isOpen = true
-    changeFilterOnInput(recipesFiltered)
-  }
-else{
-    isOpen = true
-    changeFilterOnInput(recipes)
-  }
-}*/
-
-function adaptOnInputFilter(){
+export function adaptOnInputFilter(){
   let valueMain = inputSearch.value;
   let valueIng = inputIng.value;
   if(valueMain.length >= 3){
     console.log("VALUEMAIN", valueMain.length)
     let recipesFiltered = []
     filterByName(recipes, valueMain, recipesFiltered)
-    isOpen = true
     changeFilterOnInput(recipesFiltered)
   }
 else if(valueIng.length >= 1){
   console.log("VALUEING", valueIng.length)
     let recipesFiltered = []
     filterByName(recipes, valueIng, recipesFiltered)
-    isOpen = true
     changeFilterOnInput(recipesFiltered)
   }
 else{
-    isOpen = true
     changeFilterOnInput(recipes)
   }
 }
@@ -287,7 +149,7 @@ else{
 
 // --UTILITARY FUNCTIONS TO LOOP THROUGH DATA-- //
 
-function createListFilter(data, ul){
+export function createListFilter(data, ul){
   let count = 0;
   data.forEach(dt => {
   let li = document.createElement('li');
@@ -298,22 +160,21 @@ function createListFilter(data, ul){
   })
 }
 
-function changeFilterOnInput(data){
+export function changeFilterOnInput(data){
   let CorrespondingIngredients = []
   for(let i = 0; i < data.length; i++){
     let getIngredients = data[i].ingredients;
     getIngredients.forEach(ing => {
       CorrespondingIngredients.push(ing.ingredient)
       chars = new Set(CorrespondingIngredients)
-      console.log(chars, "CHARS")
       redirectFilter(chars)
       return chars
     })
   }
-  isInput = false
+  //isInput = false
 }
 
-function filterByName(data, value, array){
+export function filterByName(data, value, array){
   for(let i =0; i < data.length; i++){
     if(data[i].name.toLowerCase().includes(value)){
         array.push(data[i]);
@@ -324,7 +185,7 @@ function filterByName(data, value, array){
 // OTHER LIST OF UTILIATRY FUNCTIONS TO TEST
 
 
-function mergeArrays(arrayUst, arrayIng, arrayApp){
+export function mergeArrays(arrayUst, arrayIng, arrayApp){
   if(arrayUst.size === 0 && arrayIng.size === 0 && arrayApp.size === 0){
     console.log("PAS DE CORRESPONDANCE AVEC UN FILTRE")
   }
@@ -335,61 +196,11 @@ function mergeArrays(arrayUst, arrayIng, arrayApp){
 
   }
 }
-
-function loopThroughAllInfosOfRecipes4(array, data){
-  if(data === "ingredients"){
-    charsIng = new Set(array);
-  }
-  if(data === "ustensiles"){
-    charsUstensiles = new Set(array);
-  }
-  if(data === "appareils"){
-    charsAppareils = new Set(array);
-  }
-}
-
-function loopThroughAllInfosOfRecipes3(uniqueFilterLowercase, arrayFilter, recipe, data){
-  let valueMain = inputSearch.value;
-  if(uniqueFilterLowercase.includes(valueMain.toLowerCase())){
-    arrayFilter.push(recipe)
-    loopThroughAllInfosOfRecipes4(arrayFilter, data)
-  }
-}
-
-function loopThroughAllInfosOfRecipes2(recipe, arrayFilter, data){
-  let recipeIngredients = recipe.ingredients;
-  if(data === "ingredients"){
-    for(let recipeIngs of recipeIngredients){
-      let recipeIngUnique = recipeIngs.ingredient;
-      let recipeIngUniqueLowercase = recipeIngUnique.toLowerCase();
-      loopThroughAllInfosOfRecipes3(recipeIngUniqueLowercase, arrayFilter, recipe, data)
-  }
-  } else if(data === "ustensiles"){
-    let ustensils = recipe.ustensils;
-    for(let ust of ustensils){
-      let ustensilsLowercase = ust.toLowerCase();
-      loopThroughAllInfosOfRecipes3(ustensilsLowercase, arrayFilter, recipe, data)
-    }
-  } else if(data === "appareils"){
-    let appareil = recipe.appliance;
-    let appareilLowercase = appareil.toLowerCase();
-    loopThroughAllInfosOfRecipes3(appareilLowercase, arrayFilter, recipe, data)
-  }
-}
-
-function loopThroughAllInfosOfRecipes(arrayFilter, data){
-  for(let recipe of recipes){
-    loopThroughAllInfosOfRecipes2(recipe, arrayFilter, data)
-  }
-}
-
 /*------------------------------------------*/
-
-
 
 // --SORT FUNCTION-- //
 
-async function sortAllRecipesAfterFilter(tab) {
+export async function sortAllRecipesAfterFilter(tab) {
   var changed;
   do{
     changed = false;
@@ -409,7 +220,7 @@ async function sortAllRecipesAfterFilter(tab) {
 
 // --FUNCTION TO DISPLAY FILTERS ING-- //
 
-function CheckIsOpenFilter(data){
+export function CheckIsOpenFilter(data){
   deleteFilterIng();
   let ul = document.createElement('ul');
   ul.setAttribute("class", "container_hidden_filter")
@@ -433,257 +244,7 @@ function CheckIsOpenFilter(data){
 
 // --STEPS TO DISPLAY RECIPES-- //
 
-function checkInfos(ing, container_ingredients){
-  //Si tout OK
-    if(ing.quantity !== undefined && ing.ingredient !== undefined && ing.unit !== undefined){
-        let li = document.createElement('li');        
-        li.innerHTML = `
-            <span class="important">${ing.ingredient}</span>: ${ing.quantity} ${ing.unit}`
-        container_ingredients.appendChild(li)
-    }
-  // Si pas de quantité et unit
-    else if(ing.quantity == undefined && ing.ingredient !== undefined && ing.unit == undefined){
-      let li = document.createElement('li');        
-      li.innerHTML = `
-      <span class="important">
-        ${ing.ingredient}
-      </span>`
-      container_ingredients.appendChild(li)
-    }
-    // Si unit undefined 
-    else if(ing.quantity !== undefined && ing.ingredient !== undefined && ing.unit == undefined){
-      let li = document.createElement('li');        
-      li.innerHTML = `
-      <span class="important"> ${ing.ingredient}</span>: ${ing.quantity}`
-      container_ingredients.appendChild(li)
-    }
-  }
-  
-function ReduceDescription(tab, containerDescription){
-    let str = tab;
-    let length = null;
-    let ending = null
-  
-    if (length == null) {
-        length = 210;
-    }
-    if (str.length > length){    
-        ending = '...';
-        let newStr = str.substring(0, length - ending.length) + ending;
-        containerDescription.innerHTML = newStr;
-    } else {
-    containerDescription.innerHTML = str;    
-    }
-  }
-  
-function displayAllRecipes(elementIterable){
-    let recipesSection = document.getElementById('section-recipes');
-    elementIterable.forEach(recipe => {
-      let container = document.createElement('article')
-      container.setAttribute("class", "recipe_card")
-      recipesSection.appendChild(container)
-      container.innerHTML = `
-        <span class="container_entire_card"><span class="container_grey_back"></span><span class="container_name_time"><p class="name">${recipe.name}</p><span class="container-time"><svg class="time_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z"/></svg><p class="time">${recipe.time} min</p></span></span></span>`
-      
-      let containerDescIng = document.createElement('span')
-      containerDescIng.setAttribute("class", "container_desc_ing")
-      let container_ingredients = document.createElement('ul')
-      container_ingredients.setAttribute("class", "container_ingredients")
-      container.appendChild(containerDescIng)
-      containerDescIng.appendChild(container_ingredients)
-  
-      let containerDescription = document.createElement('p')
-      containerDescription.setAttribute('class', 'description_card')
-  
-      let recipeDescription = recipe.description;
-      ReduceDescription(recipeDescription, containerDescription)
-      
-      containerDescIng.appendChild(containerDescription)
-      let recipeIngredients = recipe.ingredients;
-      recipeIngredients.forEach(ing => {
-        checkInfos(ing, container_ingredients)
-      })
-    });
-  }
+
 
 /*-------------------------------------------*/
 
-// --HANDLING FILTER CHOOSED INTO FILTER INGREDIENTS LIST-- //
-
-function liPressed(filter){
-  counterFilters++
-  console.log(filter)
-  let span = document.createElement('span')
-  span.setAttribute("class", "container_button_cross")
-  span.setAttribute("data-number", counterFilters)
-  let icon = document.createElement('img')
-  icon.setAttribute("class", "img-button-ing")
-  icon.setAttribute("data-number", counterFilters)
-  icon.setAttribute("src", "/assets/logos/delete.svg")
-  let p = document.createElement('p')
-  p.setAttribute("id", "test")
-  buttonFilter.appendChild(span)
-  span.appendChild(p)
-  span.appendChild(icon)
-  p.innerHTML = filter;
-  buttonFilter.style.display = "inherit";
-  deleteFilterIng()
-  inputIng.value = null
-  filterByButton(filter)
-  
-  //Handling Deletion of button
-
-  let listIcon = document.getElementsByClassName('img-button-ing')
-  let listSpan = document.getElementsByClassName('container_button_cross')
-  for(let icon of listIcon){ 
-    let ourSpan = icon.getAttribute("data-number")
-    icon.onclick = function() {
-      for(let span of listSpan){
-        let ourCross = span.getAttribute("data-number")
-        if(ourCross === ourSpan){
-          span.remove();
-        
-        }
-      
-      }
-      
-      //To Modify, don't fulfill entirely it's mission
-      
-      displayAllRecipes(recipes)
-  }
-  }
-}
-
-function pushIngredientIntoAncientConditions(conditionToFilter, ourIng, recipe, data){
-  if(ourIng === data){
-    conditionToFilter.push(recipe)
-    isValidatedNew = true;
-  }else if(ourIng === ancientConditions){
-    isValidatedAncient = true;
-  }
-}
-
-function loopThroughIngredients(ingArray, conditionToFilter, recipe, data){
-  for(let ing of ingArray){
-    let ourIng = ing.ingredient;
-    pushIngredientIntoAncientConditions(conditionToFilter, ourIng, recipe, data)
-  }
-}
-
-function conditionningIngredients(conditionToFilter, data){
-  if(ancientConditions !== []){
-    for(let recipe of recipes){
-      let ingArray = recipe.ingredients;
-    loopThroughIngredients(ingArray, conditionToFilter, recipe, data)
-    }
-  }else{
-    for(let recipe of recipes){
-      let ingArray = recipe.ingredients;
-      for(let ing of ingArray){
-        let ourIng = ing.ingredient;
-        if(ourIng === data){
-          conditionToFilter.push(recipe)
-        }
-      }
-    }
-  }
-  console.log(conditionToFilter)
-}
-
-function filterByButton(data){
-  console.log(allInfosCombined, "ALLLLL")
-  if(allInfosCombined.size === 0){
-    let conditionToFilter = [];
-  conditionningIngredients(conditionToFilter, data)
-  ancientConditions.push(data)
-  deleteRecipes()
-  sortAllRecipesAfterFilter(conditionToFilter)
-  changeFilterOnInput(conditionToFilter)
-  deleteFilterIng()
-  return ancientConditions
-  }else{
-    console.log("des infos à compléter")
-  }
-}
-/*
-function filterByButton(data){
-  console.log(allInfosCombined, "ALLLLL")
-  if(allInfosCombined.size === 0){
-    let conditionToFilter = [];
-  for(let recipe of recipes){
-    let recipeIngredients = recipe.ingredients;
-    recipeIngredients.forEach(rcp => {
-      let recipeIng = rcp.ingredient;
-      if(recipeIng.includes(data)){
-        ancientConditions.push(data);
-        console.log(ancientConditions, "ANCIENTCONDITIONS")
-        recipeCorrespondingIng.push(recipe)
-        
-      }
-    })
-  }
-  console.log(recipeCorrespondingIng, "recipeCorrespondingIng")
-  deleteRecipes()
-  buttonFilterIng = new Set(recipeCorrespondingIng)
-  allInfosCombined = new Set(buttonFilterIng)
-  console.log(buttonFilterIng, "ALLLLL2")
-  changeFilterOnInput(buttonFilterIng)
-  displayAllRecipes(buttonFilterIng)
-  deleteFilterIng()
-  }else{
-    console.log("des infos à compléter")
-
-    for(let infoCombined of allInfosCombined){
-      console.log(infoCombined.ingredients)
-      let infosIngredients = infoCombined.ingredients;
-      for(let info of infosIngredients){
-        console.log(info.ingredient, "INFO")
-        if(info.ingredient.includes(data)){
-          console.log("include", data)
-          infosCombinedInIngButton.push(infoCombined)
-          console.log(infosCombinedInIngButton, "infosCombinedInIngButton")
-        }
-      }
-    }
-    allInfosCombined = new Set(infosCombinedInIngButton);
-    console.log(allInfosCombined, "ALLINFOSCOMBINEDFINAL")
-    while(infosCombinedInIngButton.length > 0){
-      infosCombinedInIngButton.pop()
-    }
-    console.log(infosCombinedInIngButton, "infosCombinedInIngButton2222")
-    deleteRecipes()
-    changeFilterOnInput(allInfosCombined)
-    sortAllRecipesAfterFilter(allInfosCombined)
-    deleteFilterIng()
-  }
-}
-*/
-/*--------------------------------------------------------*/
-
-// --TO CHECK LATER-- //
-
-function getIngredients(data, value, array){
-  for(let i =0; i < data.length; i++){
-    if(data[i].toLowerCase().includes(value)){
-        array.push(data[i]);
-    }
-  }
-}
-
-// Function to merge both arrays : recipes selected and filters selected
-
-
-
-
-/*let logo =document.getElementById('main-logo')
-logo.addEventListener('click', applyFiltering)
-function applyFiltering(){
-  let mainInput = inputSearch.value
-  let inputIngredients = inputIng.value
-  console.log(mainInput)
-  console.log(inputIngredients)
-  if(mainInput !== "" ){
-    console.log("passe")
-  }
-}*/
-/*--------------------------------------------------------------*/
