@@ -1,6 +1,8 @@
 import { checkIsInput } from "./redirectingFunctions.js";
+import { recipes } from "../data/data.js";
 
 let chars = new Set();
+let allInfosCombined = new Set();
 
 export function createListFilter(data, ul){
     let count = 0;
@@ -33,4 +35,35 @@ export function createListFilter(data, ul){
           array.push(data[i]);
       }
     }
+  }
+
+  export function filterByIngFilter(data){
+    let recipesFiltered2 = [];
+    console.log(data)
+    for(let dat of data){
+      console.log(dat)
+      for(let recipe of recipes){    
+        for(let ingredients of recipe.ingredients){
+            if(ingredients.ingredient.includes(dat)){
+              recipesFiltered2.push(recipe)
+              console.log(recipesFiltered2)
+            }
+          }
+      }
+    }
+    chars = new Set(recipesFiltered2)
+    filterByIngFilter2(chars)
+  }
+
+  export function filterByIngFilter2(data){
+    console.log(data)
+    let CorrespondingIngredients = []
+    for(let dat of data){
+      for(let ingredients of dat.ingredients){
+        CorrespondingIngredients.push(ingredients.ingredient)
+      }
+    }
+    console.log(CorrespondingIngredients)
+    chars = new Set(CorrespondingIngredients)
+    checkIsInput(chars)
   }

@@ -14,11 +14,13 @@ let counterFilters = 0;
 let buttonFilter = document.getElementById('section-filter-ing');
 buttonFilter.style.display = "none";
 let inputIng = document.getElementById('ingredients')
+let inputMain = document.getElementById('input-search')
 let allInfosCombined = new Set();
 let ancientConditions = [];
 let isValidatedAncient = false;
 let isValidatedNew = false;
 let isOpen = false;
+let allIngredients = new Set();
 
 // --HANDLING FILTER CHOOSED INTO FILTER INGREDIENTS LIST-- //
 
@@ -54,10 +56,15 @@ export function liPressed(filter){
           let ourCross = span.getAttribute("data-number")
           if(ourCross === ourSpan){
             span.remove();
+            deleteRecipes()
+            console.log(ourSpan, ourCross)
+            displayAllRecipes(recipes)
+            if(inputMain.value.length === 0){
+            }
           }
         }
         //To Modify, don't fulfill entirely it's mission
-        displayAllRecipes(recipes)
+        
     }
     }
 }
@@ -105,9 +112,12 @@ export function filterByButton(data){
     conditionningIngredients(conditionToFilter, data)
     ancientConditions.push(data)
     deleteRecipes()
+    allIngredients = new Set(ancientConditions)
+    console.log(ancientConditions)
     sortAllRecipesAfterFilter(conditionToFilter)
-    changeFilterOnInput(conditionToFilter)
     deleteFilterIng()
+    changeFilterOnInput(allIngredients)
+    
     return ancientConditions
     }else{
       console.log("des infos à compléter")
