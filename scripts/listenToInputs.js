@@ -52,12 +52,13 @@ export function listenToInputIngredients(e){
     let mainValue = inputSearch.value;
     console.log(mainValue, "MainValue")
     let value = e.target.value;
-    if(value.length > 0 && mainValue.length === 0){
-        console.log("value !!== 0")
+    if(mainValue.length === 0){
+        console.log("value !== 0 et mainValue = 0")
         checkFilterMatchRecipes()
-    }else{
-        console.log("value === 0")
+    }else if(mainValue.length !== 0){
+        console.log("value === 0 et mainValue ")
         findFilter.clear()
-        checkFilterMatchRecipes2()
+        console.log(allInfosCombined)
+        checkFilterMatchRecipes2(allInfosCombined)
     }
 }

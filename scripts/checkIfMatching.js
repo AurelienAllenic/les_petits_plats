@@ -7,10 +7,11 @@ let inputIng = document.getElementById('ingredients')
 let chars = new Set()
 let allInfosCombined = new Set()
 
-export function checkFilterMatchRecipes2(){
+export function checkFilterMatchRecipes2(data){
     let recipesFilteredInput = [];
     let recipesWithoutOccurenciesInput = [];
-        for(let recipe of allInfosCombined){
+    console.log(data)
+        for(let recipe of data){
             let ingredients = recipe.ingredients
             for(let ing of ingredients){
             if(ing.ingredient.toLowerCase().includes(inputIng.value)){
