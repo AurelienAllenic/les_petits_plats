@@ -11,6 +11,7 @@ let isInput = false;
 let inputSearch = document.getElementById('input-search');
 let inputIng = document.getElementById('ingredients')
 let allIngredients = new Set();
+let ancientButtons = new Set();
 let allButtonsIngFilter = []
 
 export function checkIsOpen(data){
@@ -51,6 +52,7 @@ export function adaptOnInputFilter(){
         changeFilterOnInput(recipesFiltered)
     }
     else if(ourSpan.length >= 1 && valueMain.length === 0){
+        let recipesFiltered = []
         //var text = ('p').contents().last()[0].nodeValue;
         console.log(ourSpan, "ourSpan")
         for(let span of ourSpan){
@@ -58,9 +60,11 @@ export function adaptOnInputFilter(){
             console.log(span.firstChild.textContent)
             allButtonsIngFilter.push(span.firstChild.textContent)
         }
-        allIngredients = new Set(allButtonsIngFilter)
-        filterByIngFilter(allIngredients)
-        //changeFilterOnInput(allIngredients)
+        ancientButtons = new Set(allButtonsIngFilter)
+        //filterByIngFilter(allIngredients)
+        console.log(ancientButtons)
+        filterByIngFilter(ancientButtons)
+        changeFilterOnInput(recipesFiltered)
     }
     else{
         changeFilterOnInput(recipes)

@@ -50,11 +50,16 @@ export function listenToMainInput(e){
 
 export function listenToInputIngredients(e){
     let mainValue = inputSearch.value;
+    let listSpan = document.getElementsByClassName('container_button_cross')
     console.log(mainValue, "MainValue")
     let value = e.target.value;
     if(mainValue.length === 0){
         console.log("value !== 0 et mainValue = 0")
-        checkFilterMatchRecipes()
+        if(listSpan.length >= 1){
+            checkFilterMatchRecipes()
+        }else{
+          checkFilterMatchRecipes()  
+        }
     }else if(mainValue.length !== 0){
         console.log("value === 0 et mainValue ")
         findFilter.clear()

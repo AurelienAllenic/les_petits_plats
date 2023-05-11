@@ -16,6 +16,7 @@ export function createListFilter(data, ul){
   }
   
   export function changeFilterOnInput(data){
+    console.log(data, "DATA")
     let CorrespondingIngredients = []
     for(let i = 0; i < data.length; i++){
       let getIngredients = data[i].ingredients;
@@ -37,21 +38,22 @@ export function createListFilter(data, ul){
     }
   }
 
+
   export function filterByIngFilter(data){
-    let recipesFiltered2 = [];
+    let recipesFiltered = [];
     console.log(data)
     for(let dat of data){
       console.log(dat)
       for(let recipe of recipes){    
         for(let ingredients of recipe.ingredients){
             if(ingredients.ingredient.includes(dat)){
-              recipesFiltered2.push(recipe)
-              console.log(recipesFiltered2)
+              recipesFiltered.push(recipe)
+              console.log(recipesFiltered)
             }
           }
       }
     }
-    chars = new Set(recipesFiltered2)
+    chars = new Set(recipesFiltered)
     filterByIngFilter2(chars)
   }
 

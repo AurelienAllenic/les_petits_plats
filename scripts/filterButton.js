@@ -59,8 +59,6 @@ export function liPressed(filter){
             deleteRecipes()
             console.log(ourSpan, ourCross)
             displayAllRecipes(recipes)
-            if(inputMain.value.length === 0){
-            }
           }
         }
         //To Modify, don't fulfill entirely it's mission
@@ -135,7 +133,10 @@ export function CheckIsOpenFilter(data){
     sectionUstensils.style.display = "none"
     isOpen = true
     const elementsLiIng = document.querySelectorAll(`[id^="ing-filter"]`);
+    let count = 0;
     for(let el of elementsLiIng){
+      el.setAttribute('data-number', count)
       el.addEventListener("click", () => liPressed(el.textContent))
+      count++;
     }
 }

@@ -46,7 +46,3 @@ export function checkFilterMatchRecipes(){
 }
 
 /*-------------------------------------------*/
-
-function checkButtonMatchRecipes(data){
-    
-}
