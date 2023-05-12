@@ -143,7 +143,7 @@ background-color: #ed6454;
     height: 50px;
 }
 /*-----------------*/
-#section-recipes{
+#recipes-list{
     margin-top: 5%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -348,7 +348,7 @@ font-size: 25px;
 /*-----------------------------*/
 
 @media screen and (max-width: 1700px){
-    #section-recipes{
+    #recipes-list{
         grid-template-columns: 1fr 1fr;
     }
 }
@@ -363,7 +363,7 @@ font-size: 25px;
     }
 }
 @media screen and (max-width: 1000px){
-    #section-recipes{
+    #recipes-list{
         grid-template-columns: 1fr;
     }
 }

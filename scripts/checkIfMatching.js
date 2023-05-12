@@ -1,6 +1,5 @@
 // --FUNCTIONS CREATING NEW SET FOR SORT-- //
-
-import { checkIsInput } from "./redirectingFunctions.js";
+import { CheckIsOpenFilter} from "./filterButton.js"
 import { recipes } from "../data/data.js";
 
 let inputIng = document.getElementById('ingredients')
@@ -22,7 +21,7 @@ export function checkFilterMatchRecipes2(data){
             chars = new Set(recipesWithoutOccurenciesInput)
             }
         }
-    checkIsInput(chars)
+        CheckIsOpenFilter(chars)
     }
 }
 
@@ -41,7 +40,7 @@ export function checkFilterMatchRecipes(){
             chars = new Set(recipesWithoutOccurencies) 
             }
         }
-    checkIsInput(chars)
+        CheckIsOpenFilter(chars)
     }
 }
 

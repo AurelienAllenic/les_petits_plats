@@ -1,34 +1,66 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Les Petits Plats</title>
-    <link href="./style.css" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <img src="./assets/logos/logo.png" class="logo" alt="logo des petits plats" id="main-logo">
-    </header>
-    <section class="searching" id="section-search">
-            <input type="search" placeholder="Rechercher une recette..." class="input-search" id="input-search">
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Site de recettes</title>
+        <style>
+            .ingredient-filter, .appliance-filter, .ustensil-filter {
+                margin: 2px;
+                color: darkgreen;
+                border: dashed 1px red;
+            }
+            .ingredient-list-item, .ingredient-filter,
+            .appliance-list-item, .appliance-filter,
+            .ustensil-list-item, .ustensil-filter {
+                cursor: pointer;
+            }
+            .ingredient-list-item:hover:hover, .ingredient-filter:hover,
+            .appliance-list-item:hover, .appliance-filter:hover,
+            .ustensil-list-item:hover, .ustensil-filter:hover {
+                border: solid 1px red;
+            }
+        </style>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Les Petits Plats</title>
+        <link href="./style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <header>
+            <img src="./assets/logos/logo.png" class="logo" alt="logo des petits plats" id="main-logo">
+        </header>
+        <section class="searching" id="section-search">
+            <input type="search" placeholder="Rechercher une recette..." class="input-search" id="search-bar">
             <img src="./assets/logos/search.svg" class="icon-search" alt="search" id="search-icon">
             <p id="messageError">La recherche se lance au bout de trois caractères...</p>
     </section>
-    <section id="section-filter-ing"></section>
-    <section id="section-filters">
 
-    </section>
-    <section id="section-recipes">
+        <div style="border: thick ridge slateblue; margin: 3px;">
+            <strong>Ingrédients</strong>
+            <div class="ingredient-filter-list"></div>
+            <div id="ingredients-list-container"></div>
+        </div>
 
-    </section>
-</body>
-<script src="./data/data.js" type="module"></script>
-<script src="./scripts/templateFilters.js" type="module"></script>
-<script src="./scripts/listeners.js" type="module"></script>
-<script src="./scripts/listenToInputs.js" type="module"></script>
-<script src="./scripts/checkIfMatching.js" type="module"></script>
-<script src="./scripts/redirectingFunctions.js" type="module"></script>
-<script src="./scripts/handlingArrays.js" type="module"></script>
+        <div style="border: thick ridge fuchsia; margin: 3px;">
+            <strong>Appareils</strong>
+            <div class="appliance-filter-list"></div>
+            <div id="appliances-list-container"></div>
+        </div>
+
+        <div style="border: thick ridge gold; margin: 3px;">
+            <strong>Ustensiles</strong>
+            <div class="ustensil-filter-list"></div>
+            <div id="ustensils-list-container"></div>
+        </div>
+
+        <hr>
+<section id="recipes-list"></section>
+            
+
+            
+        <script src="./data/data.js"></script>
+        <script src="./scripts/script.js"></script>
+    </body>
 </html>

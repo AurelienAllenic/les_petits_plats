@@ -9,6 +9,7 @@ let charsUstensiles = new Set();
 export function loopThroughAllInfosOfRecipes4(array, data){
     if(data === "ingredients"){
         charsIng = new Set(array);
+        console.log(charsIng) 
     }
     if(data === "ustensiles"){
         charsUstensiles = new Set(array);

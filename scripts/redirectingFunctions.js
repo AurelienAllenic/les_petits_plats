@@ -4,7 +4,6 @@
 import { deleteFilterIng } from "./deleteElements.js";
 import { changeFilterOnInput, filterByName, filterByIngFilter } from "./loopThroughData.js";
 import { recipes } from "../data/data.js";
-import { CheckIsOpenFilter} from "./filterButton.js"
 
 let isOpen = false;
 let isInput = false;
@@ -21,16 +20,6 @@ export function checkIsOpen(data){
         isOpen = true;
     }else{
         deleteFilterIng()
-        isOpen = false;
-    }
-}
-
-export function checkIsInput(data){
-    console.log(isInput)
-    if(isInput === false){
-        CheckIsOpenFilter(data)
-    }else{
-        deleteFilterIng();
         isOpen = false;
     }
 }

@@ -36,12 +36,15 @@ export function listenToMainInput(e){
         let allAppareils = [];
         loopThroughAllInfosOfRecipes(allIngredients, "ingredients") 
         loopThroughAllInfosOfRecipes(allUstensils, "ustensiles")
-        loopThroughAllInfosOfRecipes(allAppareils, "appareils") 
+        loopThroughAllInfosOfRecipes(allAppareils, "appareils")
+        console.log(charsIng) 
         mergeArrays(charsUstensiles, charsIng, charsAppareils)
-        filterByName(recipes, value, recipesFiltered)
+        //filterByName(recipes, value, recipesFiltered)
+        console.log(charsIng)
         allInfosCombined = new Set([...recipesFiltered, ...infosFilters])
         //New Set infosFilter concat recipesFiltered
         isInput = true // Peut être à commenter
+        console.log(allInfosCombined, "INFOSCOMBINED")
         sortAllRecipesAfterFilter(allInfosCombined)
         //changeFilterOnInput(charsIng)
         return allInfosCombined

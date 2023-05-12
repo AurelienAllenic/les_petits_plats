@@ -1,4 +1,4 @@
-import { checkIsInput } from "./redirectingFunctions.js";
+import { CheckIsOpenFilter} from "./filterButton.js"
 import { recipes } from "../data/data.js";
 
 let chars = new Set();
@@ -23,7 +23,7 @@ export function createListFilter(data, ul){
       getIngredients.forEach(ing => {
         CorrespondingIngredients.push(ing.ingredient)
         chars = new Set(CorrespondingIngredients)
-        checkIsInput(chars)
+        CheckIsOpenFilter(chars)
         return chars
       })
     }
@@ -67,5 +67,5 @@ export function createListFilter(data, ul){
     }
     console.log(CorrespondingIngredients)
     chars = new Set(CorrespondingIngredients)
-    checkIsInput(chars)
+    CheckIsOpenFilter(chars)
   }
