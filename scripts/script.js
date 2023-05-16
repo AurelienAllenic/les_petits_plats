@@ -50,12 +50,15 @@ searchBar.addEventListener("input", listenToMainInput);
 
 arrowIngredients.addEventListener('click', checkIsOpenIngredients)
 inputIngredients.addEventListener('input', listenToInputIngredients)
+inputIngredients.addEventListener('click', checkIsOpenIngredients)
 
 arrowAppliances.addEventListener('click', checkIsOpenAppliances)
 inputAppliances.addEventListener('input', listenToInputAppliances)
+inputAppliances.addEventListener('click', checkIsOpenAppliances)
 
 arrowUstensils.addEventListener('click', checkIsOpenUstensils)
 inputUstensils.addEventListener('input', listenToInputUstensils)
+arrowUstensils.addEventListener('click', checkIsOpenUstensils)
 
 // ################################################################
 // handling filter ingredients functions ##############################################
