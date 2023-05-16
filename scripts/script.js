@@ -162,7 +162,7 @@ function checkIsOpenUstensils(){
 
 function listenToInputIngredients(){
     let allIngredients = [];
-    let valueInputIng = inputIngredients.value;
+    let valueInputIng = inputIngredients.value.toLowerCase();
         if(valueInputIng.length >= 1){
         for(let ing of uniqueIngredients){
           if(ing.includes(valueInputIng)){
@@ -184,7 +184,7 @@ function listenToInputIngredients(){
 
 function listenToInputAppliances(){
     let allAppliances = [];
-    let valueInputApp= inputAppliances.value;
+    let valueInputApp= inputAppliances.value.toLowerCase();
         if(valueInputApp.length >= 1){
         for(let app of uniqueAppliances){
           if(app.includes(valueInputApp)){
@@ -206,7 +206,7 @@ function listenToInputAppliances(){
 
 function listenToInputUstensils(){
     let allUstensils = [];
-    let valueInputUst = inputUstensils.value;
+    let valueInputUst = inputUstensils.value.toLowerCase();
         if(valueInputUst.length >= 1){
         for(let ust of uniqueUstensils){
           if(ust.includes(valueInputUst)){
