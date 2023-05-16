@@ -58,7 +58,7 @@ inputAppliances.addEventListener('click', checkIsOpenAppliances)
 
 arrowUstensils.addEventListener('click', checkIsOpenUstensils)
 inputUstensils.addEventListener('input', listenToInputUstensils)
-arrowUstensils.addEventListener('click', checkIsOpenUstensils)
+inputUstensils.addEventListener('click', checkIsOpenUstensils)
 
 // ################################################################
 // handling filter ingredients functions ##############################################
