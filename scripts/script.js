@@ -33,8 +33,16 @@ buttonsAppliances.style.display ="none";
 
 // Variables globales du filtre Ustensiles
 
+let arrowUstensils     = document.getElementById('arrow_ustensils')
+let buttonsUstensils    = document.getElementById('container_buttons_ustensils')
+let inputUstensils       = document.getElementById('ustensils')
+let uniqueUstensils       = new Set();
+let listUpdatedUstensils = new Set();
+const filtreUstensil     = document.querySelector("#filtre-ustensils");
 const ustensilsList         = document.getElementById("container_hidden_options_ustensils");
-
+const UstensilsFilterInput = document.getElementById('ustensils-filter');
+let IsOpenUstensils      = false;
+buttonsUstensils.style.display ="none";
 
 // Affichage de toutes les recettes au chargement
 displayRecipes(recipes);
@@ -47,6 +55,9 @@ inputIngredients.addEventListener('input', listenToInputIngredients)
 
 arrowAppliances.addEventListener('click', checkIsOpenAppliances)
 inputAppliances.addEventListener('input', listenToInputAppliances)
+
+arrowUstensils.addEventListener('click', checkIsOpenUstensils)
+inputUstensils.addEventListener('input', listenToInputUstensils)
 
 // ################################################################
 // handling filter ingredients functions ##############################################
@@ -110,7 +121,6 @@ function checkIsOpenAppliances(){
     if(IsOpenAppliances === false){
         appliancesList.style.display = "inherit"
         console.log(IsOpenAppliances)
-        //displayIngredientsList(recipes);
         IsOpenAppliances = true;
         updateRecipeList()
     }else{
@@ -119,6 +129,41 @@ function checkIsOpenAppliances(){
         appliancesList.style.display = "none"
     }
 }
+
+// ################################################################
+// handling filter ustensils functions ##############################################
+// ################################################################
+
+function changeFilterUstensilsOnInput(data){
+    console.log(data, "DATA")
+    deleteFilterUst()
+    let ul = document.createElement('ul')
+    ul.setAttribute('class', "container_hidden_filter_ustensils")
+    data.forEach(ust => {
+        const liUstensil= document.createElement('li');
+        liUstensil.textContent = ust;
+        liUstensil.addEventListener('click', () => {
+            addUstensilsFilter(ust);
+            updateRecipeList();
+        });
+        ul.appendChild(liUstensil);
+})
+ustensilsList.appendChild(ul);
+}
+
+function checkIsOpenUstensils(){
+    if(IsOpenUstensils === false){
+        ustensilsList.style.display = "inherit"
+        console.log(IsOpenUstensils)
+        IsOpenUstensils = true;
+        updateRecipeList()
+    }else{
+        IsOpenUstensils = false;
+        deleteFilterUst()
+        ustensilsList.style.display = "none"
+    }
+}
+
 // ################################################################
 // Listening functions ##############################################
 // ################################################################
@@ -146,7 +191,7 @@ function listenToInputIngredients(){
         changeFilterIngredientsOnInput(uniqueIngredients);
         }
 }
-/* à reprendre */
+
 function listenToInputAppliances(){
     let allAppliances = [];
     let valueInputApp= inputAppliances.value;
@@ -162,7 +207,7 @@ function listenToInputAppliances(){
             changeFilterAppliancesOnInput(listUpdatedAppliances);
         }else{
             let arrayNoAppFind = []
-            arrayNoAppFind.push("aucun ingrédient ne correspond à votre recherche")
+            arrayNoAppFind.push("aucun appareil ne correspond à votre recherche")
             changeFilterAppliancesOnInput(arrayNoAppFind);
         }
         }else{
@@ -170,6 +215,34 @@ function listenToInputAppliances(){
             changeFilterAppliancesOnInput(uniqueAppliances);
         }
 }
+
+function listenToInputUstensils(){
+    let allUstensils = [];
+    let valueInputUst = inputUstensils.value;
+    console.log(valueInputUst)
+        if(valueInputUst.length >= 1){
+            console.log(uniqueUstensils)
+        for(let ust of uniqueUstensils){
+          if(ust.includes(valueInputUst)){
+            allUstensils.push(ust)
+          }  
+        }
+        console.log(allUstensils)
+        listUpdatedUstensils = new Set(allUstensils)
+        console.log(listUpdatedUstensils.size)
+        if(listUpdatedUstensils.size > 0){
+            changeFilterUstensilsOnInput(listUpdatedUstensils);
+        }else{
+            let arrayNoUstFind = []
+            arrayNoUstFind.push("aucun ustensile ne correspond à votre recherche")
+            changeFilterUstensilsOnInput(arrayNoUstFind);
+        }
+        }else{
+            console.log(uniqueUstensils)
+            changeFilterUstensilsOnInput(uniqueUstensils);
+        }
+}
+
 
 function listenToMainInput(){
     let mainInput = searchBar.value
@@ -207,8 +280,12 @@ function deleteFilterApp(){
         filter.remove()
     })
 }
-
-
+function deleteFilterUst(){
+    let ourFilter = document.querySelectorAll('.container_hidden_filter_ustensils');
+    ourFilter.forEach(filter => {
+        filter.remove()
+    })
+}
 
 
 
@@ -274,6 +351,7 @@ function displayRecipe(recipe) {
 function displayRecipes(recipes) {
     let valueInputIng = inputIngredients.value;
     let valueInputApp = inputAppliances.value;
+    let valueInputUst = inputUstensils.value;
     recipeListElement.innerHTML = "";
     if (recipes.length === 0) {
         recipeListElement.innerHTML = "<p>Aucune recette ne correspond à votre recherche.</p>";
@@ -298,6 +376,13 @@ function displayRecipes(recipes) {
         }else if(IsOpenAppliances === true && valueInputApp.length >= 1){
             console.log("ça rentre 4")
             appliancesList.style.display = "inherit"
+        }else if(IsOpenUstensils === true && valueInputUst.length === 0){
+            console.log("ça rentre 4")
+            ustensilsList.style.display = "inherit"
+            displayUstensilsList(recipes);
+        }else if(IsOpenUstensils === true && valueInputUst.length >= 1){
+            console.log("ça rentre 5")
+            ustensilsList.style.display = "inherit"
         }
         // Affichage de la liste des ingrédients
         
@@ -368,23 +453,28 @@ function displayAppliancesList(recipes) {
  * Met à jour la liste des ustensiles affichés
  */
 function displayUstensilsList(recipes) {
+    let ourUl = document.querySelector(".container_hidden_filter_ustensils")
+    if(ourUl !== null){
+        ourUl.remove();
+    }
     const ustensils = recipes
         .flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase()));
 
-    const uniqueUstensils = [...new Set(ustensils)];
+     uniqueUstensils = [...new Set(ustensils)];
     const sortedUstensils = sortAlphabetically(uniqueUstensils);
-
-    ustensilsList.innerHTML = "";
+    let ul = document.createElement('ul')
+    ul.setAttribute('id', "container_hidden_filter_ustensils")
+    ul.setAttribute('class', "container_hidden_filter_ustensils")
     sortedUstensils.forEach(ustensil => {
         const liUstensil = document.createElement('li');
-        liUstensil.classList.add('ustensil-list-item');
-        liUstensil.style = "display:inline;margin-left: 3px;";
+        
         liUstensil.textContent = ustensil;
         liUstensil.addEventListener('click', () => {
-            addUstensilFilter(ustensil);
+            addUstensilsFilter(ustensil);
             updateRecipeList();
         });
-        ustensilsList.appendChild(liUstensil);
+        ustensilsList.appendChild(ul);
+        ul.appendChild(liUstensil)
     });
 }
 
@@ -499,7 +589,7 @@ function addApplianceFilter(applianceName) {
 /*
  * Ajoute un filtre ustensile
  */
-function addUstensilFilter(ustensilName) {
+function addUstensilsFilter(ustensilName) {
     // Vérifier si le filtre existe déjà
     const existingFilter = document.querySelector(`.ustensil-filter[data-ustensil="${ustensilName}"]`);
     if (existingFilter) {
@@ -507,6 +597,10 @@ function addUstensilFilter(ustensilName) {
         existingFilter.remove();
         updateRecipeList();
     } else {
+        let icon = document.createElement('img')
+        icon.setAttribute("class", "button-ust")
+        icon.setAttribute("src", "/assets/logos/delete.svg")
+
         // Ajouter un nouveau filtre si on clique sur un ustensile pour la première fois
         const filter = document.createElement('span');
         filter.classList.add('ustensil-filter');
@@ -516,8 +610,11 @@ function addUstensilFilter(ustensilName) {
             filter.remove();
             updateRecipeList();
         });
-        const filterList = document.querySelector('.ustensil-filter-list');
+        const filterList = document.getElementById('container_buttons_ustensils');
+        buttonsUstensils.style.display ="flex";
+        IsOpenUstensils= false
         filterList.appendChild(filter);
+        filter.appendChild(icon);
         sortAlphabeticallyHtml(filterList);
     }
 }
