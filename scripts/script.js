@@ -45,7 +45,7 @@ let IsOpenUstensils      = false;
 buttonsUstensils.style.display ="none";
 
 // Affichage de toutes les recettes au chargement
-displayRecipes(recipes);
+sortAllRecipesAfterFilter(recipes);
 
 // EventListeners
 searchBar.addEventListener("input", listenToMainInput);
@@ -85,7 +85,6 @@ function checkIsOpenIngredients(){
     if(IsOpenIngredients === false){
         ingredientsList.style.display = "inherit"
         console.log(IsOpenIngredients)
-        //displayIngredientsList(recipes);
         IsOpenIngredients = true;
         updateRecipeList()
     }else{
@@ -254,7 +253,7 @@ function listenToMainInput(){
         messageError.style.display = "block"
         deleteRecipes();
         deleteFilterIng()
-        displayRecipes(recipes)
+        sortAllRecipesAfterFilter(recipes)
     }
 }
 
@@ -508,7 +507,7 @@ function updateRecipeList() {
             return searchInFields.toLowerCase().includes(searchTerm) && hasAllIngredients && hasAllAppliances && hasAllUstensils;
         });
         console.log(filteredRecipes)
-        displayRecipes(filteredRecipes);
+        sortAllRecipesAfterFilter(filteredRecipes);
     
 }
 
@@ -634,4 +633,22 @@ function sortAlphabeticallyHtml(htmlElements) {
     const elements = Array.from(htmlElements.children);
     elements.sort((a, b) => a.textContent.localeCompare(b.textContent));
     elements.forEach(elem => htmlElements.appendChild(elem));
+}
+
+async function sortAllRecipesAfterFilter(tab) {
+    console.log("sort")
+    var changed;
+    do{
+        changed = false;
+        for(var i=0; i < tab.length-1; i++) {
+        if(tab[i] > tab[i+1]) {
+            var current = tab[i];
+            tab[i] = tab[i+1];
+            tab[i+1] = current;
+            changed = true;
+            }
+        }
+    }  
+    while(changed);
+    displayRecipes(tab)
 }
