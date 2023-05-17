@@ -9,6 +9,7 @@ let arrowIngredients        = document.getElementById('arrow_ingredients')
 let buttonsIngredient       = document.getElementById('container_buttons_ingredients')
 let inputIngredients        = document.getElementById('ingredients')
 let uniqueIngredients       = new Set();
+let uniqueIngredients2       = new Set();
 let listUpdatedIngredients  = new Set();
 const filtreIngredient      = document.querySelector("#filtre-ingredient");
 const ingredientsList       = document.getElementById("container_hidden_options_ingredients");
@@ -82,6 +83,7 @@ ingredientsList.appendChild(ul);
 }
 
 function checkIsOpenIngredients(){
+    console.log(IsOpenIngredients, "checkIs")
     if(IsOpenIngredients === false){
         ingredientsList.style.display = "inherit"
         IsOpenIngredients = true;
@@ -334,7 +336,8 @@ function displayRecipes(recipes) {
     let valueInputIng = inputIngredients.value;
     let valueInputApp = inputAppliances.value;
     let valueInputUst = inputUstensils.value;
-    recipeListElement.innerHTML = "";
+    //let test = document.getElementById('container_hidden_filter_ingredients')
+    //recipeListElement.innerHTML = "";
     if (recipes.length === 0) {
         recipeListElement.innerHTML = "<p>Aucune recette ne correspond à votre recherche.</p>";
     } else {
@@ -351,8 +354,10 @@ function displayRecipes(recipes) {
             
             console.log("1")
         }else if(IsOpenIngredients === true && valueInputIng.length >= 1){
-            ingredientsList.style.display = "inherit"
-            //displayIngredientsList(recipes);
+            //ingredientsList.style.display = "none"
+            console.log(listUpdatedIngredients)
+            let test = Array.from(listUpdatedIngredients)
+            displayIngredientsList2(test);
             console.log("2")
         }else if(IsOpenAppliances === true && valueInputApp.length === 0){
             appliancesList.style.display = "inherit"
@@ -376,7 +381,39 @@ function displayRecipes(recipes) {
 /*
  * Met à jour la liste des ingrédients affichés
  */
+
+// Si on a un filtre et que la liste doit s'adapter
+function displayIngredientsList2(recipes) {
+    console.log(recipes)
+    let ourUl = document.querySelector(".container_hidden_filter_ingredients")
+    if(ourUl !== null){
+        ourUl.remove();
+    }
+    const ingredients = recipes
+        .flatMap(recipe => recipe.toLowerCase());
+        // deuxième Set qui nous permet d'avoir accès à de nouvelles infos sans écraser les précédentes dans le premier Set
+    uniqueIngredients2 = [...new Set(ingredients)];
+    const sortedIngredients = sortAlphabetically(uniqueIngredients2);
+    let ul = document.createElement('ul')
+    ul.setAttribute('id', "container_hidden_filter_ingredients")
+    ul.setAttribute('class', "container_hidden_filter_ingredients")
+    sortedIngredients.forEach(ingredient => {
+        const liIngredient = document.createElement('li');
+        liIngredient.textContent = ingredient;
+        liIngredient.addEventListener('click', () => {
+            addIngredientFilter(ingredient);
+            //IsOpenIngredients = false
+            ul.remove()
+            updateRecipeList();
+        });
+        ingredientsList.appendChild(ul);
+        ul.appendChild(liIngredient);
+    });
+}
+
+// Fonction de base pour afficher la liste des ingrédients
 function displayIngredientsList(recipes) {
+    console.log(recipes)
     let ourUl = document.querySelector(".container_hidden_filter_ingredients")
     if(ourUl !== null){
         ourUl.remove();
@@ -393,6 +430,7 @@ function displayIngredientsList(recipes) {
         liIngredient.textContent = ingredient;
         liIngredient.addEventListener('click', () => {
             addIngredientFilter(ingredient);
+            //IsOpenIngredients = false
             ul.remove()
             updateRecipeList();
         });
