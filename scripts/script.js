@@ -72,6 +72,7 @@ function changeFilterIngredientsOnInput(data){
         const liIngredient = document.createElement('li');
         liIngredient.textContent = ingredient;
         liIngredient.addEventListener('click', () => {
+            ul.style.display = "none"
             addIngredientFilter(ingredient);
             updateRecipeList();
         });
@@ -87,7 +88,6 @@ function checkIsOpenIngredients(){
         updateRecipeList()
     }else{
         IsOpenIngredients = false;
-        deleteFilterIng()
         ingredientsList.style.display = "none"
     }
 }
@@ -104,6 +104,7 @@ function changeFilterAppliancesOnInput(data){
         const liAppliance = document.createElement('li');
         liAppliance.textContent = appareil;
         liAppliance.addEventListener('click', () => {
+            ul.style.display = "none"
             addApplianceFilter(appareil);
             updateRecipeList();
         });
@@ -119,7 +120,6 @@ function checkIsOpenAppliances(){
         updateRecipeList()
     }else{
         IsOpenAppliances = false;
-        deleteFilterIng()
         appliancesList.style.display = "none"
     }
 }
@@ -136,6 +136,7 @@ function changeFilterUstensilsOnInput(data){
         const liUstensil= document.createElement('li');
         liUstensil.textContent = ust;
         liUstensil.addEventListener('click', () => {
+            ul.style.display = "none"
             addUstensilsFilter(ust);
             updateRecipeList();
         });
@@ -151,7 +152,6 @@ function checkIsOpenUstensils(){
         updateRecipeList()
     }else{
         IsOpenUstensils = false;
-        deleteFilterUst()
         ustensilsList.style.display = "none"
     }
 }
@@ -178,6 +178,7 @@ function listenToInputIngredients(){
             changeFilterIngredientsOnInput(arrayNoIngFind);
         }
         }else{
+            console.log(uniqueIngredients)
         changeFilterIngredientsOnInput(uniqueIngredients);
         }
 }
@@ -337,26 +338,37 @@ function displayRecipes(recipes) {
     if (recipes.length === 0) {
         recipeListElement.innerHTML = "<p>Aucune recette ne correspond à votre recherche.</p>";
     } else {
+        console.log("displayRecipes")
         // Affichage de toutes les recettes sur la page
         recipes.forEach((recipe) => {
             displayRecipe(recipe);
         });
+        console.log(IsOpenIngredients)
         // Affichage des listes de filtres si flèche cliquée
         if(IsOpenIngredients === true && valueInputIng.length === 0){
             ingredientsList.style.display = "inherit"
             displayIngredientsList(recipes);
+            
+            console.log("1")
         }else if(IsOpenIngredients === true && valueInputIng.length >= 1){
             ingredientsList.style.display = "inherit"
+            //displayIngredientsList(recipes);
+            console.log("2")
         }else if(IsOpenAppliances === true && valueInputApp.length === 0){
             appliancesList.style.display = "inherit"
             displayAppliancesList(recipes);
+            console.log("3")
         }else if(IsOpenAppliances === true && valueInputApp.length >= 1){
             appliancesList.style.display = "inherit"
+            displayAppliancesList(recipes);
+            console.log("4")
         }else if(IsOpenUstensils === true && valueInputUst.length === 0){
             ustensilsList.style.display = "inherit"
             displayUstensilsList(recipes);
+            console.log("5")
         }else if(IsOpenUstensils === true && valueInputUst.length >= 1){
             ustensilsList.style.display = "inherit"
+            console.log("6")
         }
     }
 }
@@ -381,9 +393,9 @@ function displayIngredientsList(recipes) {
         liIngredient.textContent = ingredient;
         liIngredient.addEventListener('click', () => {
             addIngredientFilter(ingredient);
+            ul.remove()
             updateRecipeList();
         });
-        deleteFilterIng()
         ingredientsList.appendChild(ul);
         ul.appendChild(liIngredient);
     });
@@ -409,6 +421,7 @@ function displayAppliancesList(recipes) {
         liAppliance.textContent = appliance;
         liAppliance.addEventListener('click', () => {
             addApplianceFilter(appliance);
+            ul.remove()
             updateRecipeList();
         });
         appliancesList.appendChild(ul);
@@ -438,6 +451,7 @@ function displayUstensilsList(recipes) {
         liUstensil.textContent = ustensil;
         liUstensil.addEventListener('click', () => {
             addUstensilsFilter(ustensil);
+            ul.remove()
             updateRecipeList();
         });
         ustensilsList.appendChild(ul);
@@ -453,9 +467,15 @@ function displayUstensilsList(recipes) {
  * Met à jour la liste des recettes et l'affiche avec 'displayRecipes()'
  */
 function updateRecipeList() {
-        deleteFilterIng()
+        /*deleteFilterIng()
+        deleteFilterApp()
+        */
         const searchTerm = document.getElementById("search-bar").value.toLowerCase().trim();
+        const searchTermIng = document.getElementById("ingredients").value.toLowerCase().trim();
+        const searchTermApp = document.getElementById("appareils").value.toLowerCase().trim();
+        const searchTermUst = document.getElementById("ustensils").value.toLowerCase().trim();
         const selectedIngredients = Array.from(document.getElementsByClassName("ingredient-filter")).map(span => span.innerText.toLowerCase());
+  
         const selectedAppliances = Array.from(document.getElementsByClassName("appliance-filter")).map(span => span.innerText.toLowerCase());
         const selectedUstensils = Array.from(document.getElementsByClassName("ustensil-filter")).map(span => span.innerText.toLowerCase());
     
@@ -473,6 +493,7 @@ function updateRecipeList() {
     
             return searchInFields.toLowerCase().includes(searchTerm) && hasAllIngredients && hasAllAppliances && hasAllUstensils;
         });
+        console.log(filteredRecipes)
         sortAllRecipesAfterFilter(filteredRecipes);
 }
 
@@ -504,6 +525,8 @@ function addIngredientFilter(ingredientName) {
         filter.textContent = ingredientName;
         filter.addEventListener('click', () => {
             filter.remove();
+            ingredientsList.style.display = "none"
+            IsOpenIngredients = false;
             deleteFilterIng()
             updateRecipeList();
         });
