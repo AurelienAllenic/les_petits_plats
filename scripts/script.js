@@ -81,14 +81,16 @@ ingredientsList.appendChild(ul);
 }
 
 function checkIsOpenIngredients(){
+    console.log(IsOpenIngredients, "IsOPenIng")
+    let containerIngredients = document.getElementById('container_hidden_options_ingredients')
     if(IsOpenIngredients === false){
-        ingredientsList.style.display = "inherit"
+        containerIngredients.style.display = "inherit"
         IsOpenIngredients = true;
         updateRecipeList()
     }else{
         IsOpenIngredients = false;
         deleteFilterIng()
-        ingredientsList.style.display = "none"
+        containerIngredients.style.display = "none"
     }
 }
 
@@ -161,7 +163,9 @@ function checkIsOpenUstensils(){
 // ################################################################
 
 function listenToInputIngredients(){
+    console.log(IsOpenIngredients)
     let allIngredients = [];
+    
     let valueInputIng = inputIngredients.value.toLowerCase();
         if(valueInputIng.length >= 1){
         for(let ing of uniqueIngredients){
@@ -171,13 +175,18 @@ function listenToInputIngredients(){
         }
         listUpdatedIngredients = new Set(allIngredients)
         if(listUpdatedIngredients.size > 0){
+            
+            console.log("listUpdatedIngredients")
             changeFilterIngredientsOnInput(listUpdatedIngredients);
+
         }else{
+            console.log("nothing")
             let arrayNoIngFind = []
             arrayNoIngFind.push("aucun ingrédient ne correspond à votre recherche")
             changeFilterIngredientsOnInput(arrayNoIngFind);
         }
         }else{
+            console.log("else")
         changeFilterIngredientsOnInput(uniqueIngredients);
         }
 }
@@ -333,6 +342,8 @@ function displayRecipes(recipes) {
     let valueInputIng = inputIngredients.value;
     let valueInputApp = inputAppliances.value;
     let valueInputUst = inputUstensils.value;
+    let containerIngredients = document.getElementById('container_hidden_options_ingredients')
+    
     recipeListElement.innerHTML = "";
     if (recipes.length === 0) {
         recipeListElement.innerHTML = "<p>Aucune recette ne correspond à votre recherche.</p>";
@@ -343,20 +354,24 @@ function displayRecipes(recipes) {
         });
         // Affichage des listes de filtres si flèche cliquée
         if(IsOpenIngredients === true && valueInputIng.length === 0){
-            ingredientsList.style.display = "inherit"
+            containerIngredients.style.display = "inherit"
             displayIngredientsList(recipes);
         }else if(IsOpenIngredients === true && valueInputIng.length >= 1){
-            ingredientsList.style.display = "inherit"
+            //Créer un tableau avec lequel je filtre les recettes en fonction deinput Ing
+            containerIngredients.style.display = "inherit"
+            listenToInputIngredients()
         }else if(IsOpenAppliances === true && valueInputApp.length === 0){
             appliancesList.style.display = "inherit"
             displayAppliancesList(recipes);
         }else if(IsOpenAppliances === true && valueInputApp.length >= 1){
             appliancesList.style.display = "inherit"
+            listenToInputAppliances()
         }else if(IsOpenUstensils === true && valueInputUst.length === 0){
             ustensilsList.style.display = "inherit"
             displayUstensilsList(recipes);
         }else if(IsOpenUstensils === true && valueInputUst.length >= 1){
             ustensilsList.style.display = "inherit"
+            listenToInputUstensils()
         }
     }
 }
@@ -365,6 +380,7 @@ function displayRecipes(recipes) {
  * Met à jour la liste des ingrédients affichés
  */
 function displayIngredientsList(recipes) {
+    let inputIngredients = document.getElementById('ingredients')
     let ourUl = document.querySelector(".container_hidden_filter_ingredients")
     if(ourUl !== null){
         ourUl.remove();
@@ -380,6 +396,8 @@ function displayIngredientsList(recipes) {
         const liIngredient = document.createElement('li');
         liIngredient.textContent = ingredient;
         liIngredient.addEventListener('click', () => {
+            inputIngredients.innerHTML = "";
+            console.log(inputIngredients.value)
             addIngredientFilter(ingredient);
             updateRecipeList();
         });
@@ -421,6 +439,7 @@ function displayAppliancesList(recipes) {
  */
 function displayUstensilsList(recipes) {
     let ourUl = document.querySelector(".container_hidden_filter_ustensils")
+
     if(ourUl !== null){
         ourUl.remove();
     }
@@ -493,6 +512,7 @@ function addIngredientFilter(ingredientName) {
         deleteFilterIng()
         updateRecipeList();
     } else {
+        let inputIngredients =document.getElementById('ingredients')
         // Ajouter un nouveau filtre si on clique sur un ingrédient pour la première fois
         let icon = document.createElement('img')
         icon.setAttribute("class", "button-ing")
@@ -506,6 +526,7 @@ function addIngredientFilter(ingredientName) {
             filter.remove();
             deleteFilterIng()
             updateRecipeList();
+            inputIngredients.value = "";
         });
         const filterList = document.getElementById('container_buttons_ingredients');
         buttonsIngredient.style.display ="flex";
