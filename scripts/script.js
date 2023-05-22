@@ -295,8 +295,8 @@ function listenToMainInput(){
     else{
         messageError.style.display = "block"
         deleteRecipes();
-        deleteFilterIng()
-        sortAllRecipesAfterFilter(recipes)
+        //deleteFilterApp()
+        updateRecipeListIfNotingInMainInput()
     }
 }
 
@@ -548,6 +548,30 @@ function updateRecipeList() {
         sortAllRecipesAfterFilter(filteredRecipes);
 }
 
+function updateRecipeListIfNotingInMainInput() {
+    deleteFilterIng()
+    deleteFilterApp()
+    deleteFilterUst();
+    const selectedIngredients = Array.from(document.getElementsByClassName("ingredient-filter")).map(span => span.innerText.toLowerCase());
+    const selectedAppliances = Array.from(document.getElementsByClassName("appliance-filter")).map(span => span.innerText.toLowerCase());
+    const selectedUstensils = Array.from(document.getElementsByClassName("ustensil-filter")).map(span => span.innerText.toLowerCase());
+
+    const filteredRecipes = recipes.filter(recipe => {
+        const recipeIngredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase());
+        const hasAllIngredients = selectedIngredients.every(ingredient => recipeIngredients.includes(ingredient));
+
+        const recipeAppliance = recipe.appliance.toLowerCase();
+        const hasAllAppliances = selectedAppliances.every(appliance => recipeAppliance.includes(appliance));
+
+        const recipeUstensils = recipe.ustensils.map(ustensil => ustensil.toLowerCase());
+        const hasAllUstensils = selectedUstensils.every(ustensil => recipeUstensils.includes(ustensil));
+
+        const searchInFields = recipe.name + " " + recipe.description + " " + recipe.ingredients.map((i) => i.ingredient).join(" ") + recipe.ustensils.map((u) => u).join(" ") + " " + recipe.appliance;
+
+        return searchInFields.toLowerCase() && hasAllIngredients && hasAllAppliances && hasAllUstensils;
+    });
+    sortAllRecipesAfterFilter(filteredRecipes);
+}
 
 // ################################################################
 // Filters functions ##############################################
@@ -575,14 +599,13 @@ function addIngredientFilter(ingredientName) {
         filter.classList.add('ingredient-filter');
         filter.dataset.ingredient = ingredientName;
         filter.textContent = ingredientName;
-        filter.addEventListener('click', () => {
+        icon.addEventListener('click', () => {
             filter.remove();
             deleteFilterIng()
             updateRecipeList();
             inputIngredients.value = "";
         });
         const filterList = document.getElementById('container_buttons_ingredients');
-
         buttonsIngredient.style.display ="flex";
         IsOpenIngredients = false
         filterList.appendChild(filter);
@@ -598,6 +621,9 @@ function addIngredientFilter(ingredientName) {
 function addApplianceFilter(applianceName) {
     // Vérifier si le filtre existe déjà
     const existingFilter = document.querySelector(`.appliance-filter[data-appliance="${applianceName}"]`);
+    const filterList = document.getElementById('container_buttons_appareils');
+    console.log(applianceName)
+    console.log(filterList)
     if (existingFilter) {
         // Supprimer le filtre si on clique à nouveau sur l'appareil
         existingFilter.remove();
