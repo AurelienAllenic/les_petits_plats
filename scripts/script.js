@@ -446,7 +446,7 @@ function displayUstensilsList(recipes) {
     const ustensils = recipes
         .flatMap(recipe => recipe.ustensils.map(ustensil => ustensil.toLowerCase()));
 
-     uniqueUstensils = [...new Set(ustensils)];
+    uniqueUstensils = [...new Set(ustensils)];
     const sortedUstensils = sortAlphabetically(uniqueUstensils);
     let ul = document.createElement('ul')
     ul.setAttribute('id', "container_hidden_filter_ustensils")
@@ -473,6 +473,8 @@ function displayUstensilsList(recipes) {
  */
 function updateRecipeList() {
         deleteFilterIng()
+        deleteFilterApp()
+        deleteFilterUst()
         const searchTerm = document.getElementById("search-bar").value.toLowerCase().trim();
         const selectedIngredients = Array.from(document.getElementsByClassName("ingredient-filter")).map(span => span.innerText.toLowerCase());
         const selectedAppliances = Array.from(document.getElementsByClassName("appliance-filter")).map(span => span.innerText.toLowerCase());
@@ -629,12 +631,12 @@ function sortAlphabeticallyHtml(htmlElements) {
 // ################################################################
 
 async function sortAllRecipesAfterFilter(tab) {
-    var changed;
+    let changed;
     do{
         changed = false;
-        for(var i=0; i < tab.length-1; i++) {
+        for(let i=0; i < tab.length-1; i++) {
         if(tab[i] > tab[i+1]) {
-            var current = tab[i];
+            let current = tab[i];
             tab[i] = tab[i+1];
             tab[i+1] = current;
             changed = true;
