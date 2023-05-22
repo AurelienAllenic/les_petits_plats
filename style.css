@@ -245,6 +245,15 @@ font-size: 25px;
     background-color: #5695f3;
     cursor: pointer;
 }
+.container_hidden_filter_ingredients_no_display{
+    display: flex;
+    background-color: #5695f3;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    padding: 1.5%;
+    color: white;
+}
 .container_no_options_ingredients{
     display: flex;
     background-color: #3282f7;
@@ -274,6 +283,15 @@ font-size: 25px;
     background-color: #b2e2cb;
     cursor: pointer;
 }
+.container_hidden_filter_appareils_no_display{
+    display: flex;
+    background-color: #b2e2cb;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    padding: 1.5%;
+    color: white;
+}
 .container_hidden_filter_ustensils{
     background-color: #ed6454;
     position: absolute;
@@ -292,6 +310,15 @@ font-size: 25px;
 .container_hidden_filter_ustensils li:hover{
     background-color: #edb2ac;
     cursor: pointer;
+}
+.container_hidden_filter_ustensils_no_display{
+    display: flex;
+    background-color: #edb2ac;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    padding: 1.5%;
+    color: white;
 }
 #container_buttons_ingredients{
     width: 10%;

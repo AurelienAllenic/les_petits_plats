@@ -65,7 +65,23 @@ inputUstensils.addEventListener('click', checkIsOpenUstensils)
 // ################################################################
 
 function changeFilterIngredientsOnInput(data){
-    deleteFilterIng()
+    console.log(data)
+    if(data === "aucun ingrédient ne correspond à votre recherche"){
+        console.log(data)
+        deleteFilterIng()
+        let ul = document.createElement('ul')
+        ul.setAttribute('class', "container_hidden_filter_ingredients_no_display")
+        let li = document.createElement('li')
+        li.textContent = data
+        li.setAttribute('id', 'noIng')
+        ul.appendChild(li);
+        ingredientsList.appendChild(ul);
+
+    }else{
+        if(document.getElementById('noIng')){
+            document.getElementById('noIng').remove()
+        }
+         deleteFilterIng()
     let ul = document.createElement('ul')
     ul.setAttribute('class', "container_hidden_filter_ingredients")
     data.forEach(ingredient => {
@@ -73,11 +89,14 @@ function changeFilterIngredientsOnInput(data){
         liIngredient.textContent = ingredient;
         liIngredient.addEventListener('click', () => {
             addIngredientFilter(ingredient);
+            
             updateRecipeList();
         });
         ul.appendChild(liIngredient);
 })
 ingredientsList.appendChild(ul);
+    }
+   
 }
 
 function checkIsOpenIngredients(){
@@ -99,7 +118,23 @@ function checkIsOpenIngredients(){
 // ################################################################
 
 function changeFilterAppliancesOnInput(data){
-    deleteFilterApp()
+    if(data === "aucun appareil ne correspond à votre recherche"){
+        console.log(data)
+        deleteFilterApp()
+        let ul = document.createElement('ul')
+        ul.setAttribute('class', "container_hidden_filter_appareils_no_display")
+        let li = document.createElement('li')
+        li.setAttribute('id', 'noApp')
+        li.textContent = data
+        console.log(li)
+        ul.appendChild(li);
+        appliancesList.appendChild(ul);
+
+    }else{
+            if(document.getElementById('noApp')){
+                document.getElementById('noApp').remove()
+            }
+            deleteFilterApp()
     let ul = document.createElement('ul')
     ul.setAttribute('class', "container_hidden_filter_appareils")
     data.forEach(appareil => {
@@ -112,6 +147,8 @@ function changeFilterAppliancesOnInput(data){
         ul.appendChild(liAppliance);
 })
 appliancesList.appendChild(ul);
+    }
+
 }
 
 function checkIsOpenAppliances(){
@@ -131,6 +168,21 @@ function checkIsOpenAppliances(){
 // ################################################################
 
 function changeFilterUstensilsOnInput(data){
+    if(data === "aucun ustensile ne correspond à votre recherche"){
+        console.log(data)
+        deleteFilterUst()
+        let ul = document.createElement('ul')
+        ul.setAttribute('class', "container_hidden_filter_ustensils_no_display")
+        let li = document.createElement('li')
+        li.setAttribute('id', 'noUst')
+        li.textContent = data
+        ul.appendChild(li);
+        ustensilsList.appendChild(ul);
+
+    }else{
+        if(document.getElementById('noUst')){
+            document.getElementById('noUst').remove()
+        }
     deleteFilterUst()
     let ul = document.createElement('ul')
     ul.setAttribute('class', "container_hidden_filter_ustensils")
@@ -144,6 +196,8 @@ function changeFilterUstensilsOnInput(data){
         ul.appendChild(liUstensil);
 })
 ustensilsList.appendChild(ul);
+    }
+
 }
 
 function checkIsOpenUstensils(){
@@ -180,9 +234,7 @@ function listenToInputIngredients(){
             changeFilterIngredientsOnInput(listUpdatedIngredients);
 
         }else{
-            console.log("nothing")
-            let arrayNoIngFind = []
-            arrayNoIngFind.push("aucun ingrédient ne correspond à votre recherche")
+            let arrayNoIngFind = ("aucun ingrédient ne correspond à votre recherche")
             changeFilterIngredientsOnInput(arrayNoIngFind);
         }
         }else{
@@ -204,8 +256,7 @@ function listenToInputAppliances(){
         if(listUpdatedAppliances.size > 0){
             changeFilterAppliancesOnInput(listUpdatedAppliances);
         }else{
-            let arrayNoAppFind = []
-            arrayNoAppFind.push("aucun appareil ne correspond à votre recherche")
+            let arrayNoAppFind = ("aucun appareil ne correspond à votre recherche")
             changeFilterAppliancesOnInput(arrayNoAppFind);
         }
         }else{
@@ -226,8 +277,7 @@ function listenToInputUstensils(){
         if(listUpdatedUstensils.size > 0){
             changeFilterUstensilsOnInput(listUpdatedUstensils);
         }else{
-            let arrayNoUstFind = []
-            arrayNoUstFind.push("aucun ustensile ne correspond à votre recherche")
+            let arrayNoUstFind = ("aucun ustensile ne correspond à votre recherche")
             changeFilterUstensilsOnInput(arrayNoUstFind);
         }
         }else{
@@ -380,6 +430,7 @@ function displayRecipes(recipes) {
  * Met à jour la liste des ingrédients affichés
  */
 function displayIngredientsList(recipes) {
+   // const existingFilter = document.querySelector(`.ingredient-filter[data-ingredient="${ingredientName}"]`);
     let inputIngredients = document.getElementById('ingredients')
     let ourUl = document.querySelector(".container_hidden_filter_ingredients")
     if(ourUl !== null){
@@ -531,6 +582,7 @@ function addIngredientFilter(ingredientName) {
             inputIngredients.value = "";
         });
         const filterList = document.getElementById('container_buttons_ingredients');
+
         buttonsIngredient.style.display ="flex";
         IsOpenIngredients = false
         filterList.appendChild(filter);
