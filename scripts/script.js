@@ -65,6 +65,7 @@ inputUstensils.addEventListener('click', checkIsOpenUstensils)
 // ################################################################
 
 function changeFilterIngredientsOnInput(data){
+    console.log(data)
     if(data === "aucun ingrédient ne correspond à votre recherche"){
         console.log(data)
         deleteFilterIng()
@@ -75,18 +76,6 @@ function changeFilterIngredientsOnInput(data){
         li.setAttribute('id', 'noIng')
         ul.appendChild(li);
         ingredientsList.appendChild(ul);
-    }
-    else if(document.getElementsByClassName('ingredient-filter').length !== 0){
-        let arrayFilterIng = []
-        const ingredients = recipes
-        .flatMap(recipe => recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()));
-        for(let elem of document.getElementsByClassName('ingredient-filter')){
-            console.log(elem.textContent)
-            arrayFilterIng.push(elem.textContent)  
-        }
-        console.log(arrayFilterIng)
-        let data = ""
-        removeElementsFromArray(ingredients, arrayFilterIng, data)
     }
     else{
         if(document.getElementById('noIng')){
@@ -99,6 +88,7 @@ function changeFilterIngredientsOnInput(data){
         const liIngredient = document.createElement('li');
         liIngredient.textContent = ingredient;
         liIngredient.addEventListener('click', () => {
+            
             addIngredientFilter(ingredient);
             
             updateRecipeList();
@@ -114,6 +104,7 @@ function checkIsOpenIngredients(){
     console.log(IsOpenIngredients, "IsOPenIng")
     let containerIngredients = document.getElementById('container_hidden_options_ingredients')
     if(IsOpenIngredients === false){
+        inputIngredients.value = ""
         containerIngredients.style.display = "inherit"
         IsOpenIngredients = true;
         updateRecipeList()
@@ -231,7 +222,7 @@ function listenToInputIngredients(){
     let allIngredients = [];
     
     let valueInputIng = inputIngredients.value.toLowerCase();
-        if(valueInputIng.length >= 1){
+        if(valueInputIng.length >= 0 || document.getElementsByClassName('ingredient-filter').length !== 0){
             for(let ing of uniqueIngredients){
             if(ing.includes(valueInputIng)){
                 allIngredients.push(ing)
@@ -239,10 +230,27 @@ function listenToInputIngredients(){
         }
                 listUpdatedIngredients = new Set(allIngredients)
                 console.log(listUpdatedIngredients)
-                if(listUpdatedIngredients.size > 0){
+                if(listUpdatedIngredients.size > 0 && document.getElementsByClassName('ingredient-filter').length === 0){
                     console.log("listUpdatedIngredients")
                     changeFilterIngredientsOnInput(listUpdatedIngredients);
-                }else{
+                }
+                
+                else if(document.getElementsByClassName('ingredient-filter').length !== 0){
+                    console.log(uniqueIngredients)
+                    let arrayFilterIng = []
+                    for(let ing of document.getElementsByClassName('ingredient-filter')){
+                        console.log(ing)
+                        arrayFilterIng.push(ing.textContent)
+                    }
+                    console.log(listUpdatedIngredients)
+                    let ingredientsFiltered = [...listUpdatedIngredients]
+                    const resultArray = ingredientsFiltered.filter(element => !arrayFilterIng.includes(element));
+                    console.log(resultArray)
+                    changeFilterIngredientsOnInput(resultArray);
+                }
+
+
+                else{
                     let arrayNoIngFind = ("aucun ingrédient ne correspond à votre recherche")
                     changeFilterIngredientsOnInput(arrayNoIngFind);
                 }
@@ -435,13 +443,14 @@ function displayRecipes(recipes) {
 }
 
 function removeElementsFromArray(array1, array2) {
-    console.log(uniqueIngredients)
+    console.log(array1, "=====", array2)
 
            const resultArray = array1.filter(element => !array2.includes(element));
     uniqueIngredients = [...new Set(resultArray)];
+    console.log(uniqueIngredients)
+ 
      createListFilterIngredients(uniqueIngredients)   
     
- 
   }
 
   function createListFilterIngredients(uniqueIngredients){
@@ -453,6 +462,7 @@ function removeElementsFromArray(array1, array2) {
         const liIngredient = document.createElement('li');
         liIngredient.textContent = ingredient;
         liIngredient.addEventListener('click', () => {
+            //inputIngredients.value.remove()
             inputIngredients.innerHTML = "";
             console.log(inputIngredients.value)
             addIngredientFilter(ingredient);
@@ -609,7 +619,8 @@ function updateRecipeListIfNotingInMainInput() {
         return searchInFields.toLowerCase() && hasAllIngredients && hasAllAppliances && hasAllUstensils;
     });
     sortAllRecipesAfterFilter(filteredRecipes);
-}
+    }
+        
 
 // ################################################################
 // Filters functions ##############################################
@@ -619,6 +630,7 @@ function updateRecipeListIfNotingInMainInput() {
  * Ajoute un filtre ingrédient
  */
 function addIngredientFilter(ingredientName) {
+    
     // Vérifier si le filtre existe déjà
     const existingFilter = document.querySelector(`.ingredient-filter[data-ingredient="${ingredientName}"]`);
     if (existingFilter) {
