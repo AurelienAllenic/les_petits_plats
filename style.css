@@ -509,6 +509,11 @@ font-size: 25px;
 @media screen and (max-width: 1000px){
     #recipes-list{
         grid-template-columns: 1fr;
+        margin-left: 9%;
+        margin-right: 9%;
+    }
+    .all-filters{
+        margin-left: 9%;
     }
 }
 @media screen and (max-width: 932px){
