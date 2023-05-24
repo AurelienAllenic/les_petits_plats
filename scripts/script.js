@@ -275,41 +275,6 @@ function listenToInputAppliances(){
             changeFilterAppliancesOnInput(uniqueAppliances);
         }
 }
-
-/*
-function listenToInputUstensils(){
-    let allUstensils = [];
-    let valueInputUst = inputUstensils.value.toLowerCase();
-        if(valueInputUst.length >= 0 || document.getElementsByClassName('ustensil-filter').length !== 0){
-            for(let ust of uniqueUstensils){
-                if(ust.includes(valueInputUst)){
-                    allUstensils.push(ust)
-                }  
-            }
-        listUpdatedUstensils = new Set(allUstensils)
-        if(listUpdatedUstensils.size > 0 && document.getElementsByClassName('ustensil-filter').length === 0){
-            changeFilterUstensilsOnInput(listUpdatedUstensils);
-        }
-        else if(document.getElementsByClassName('ustensil-filter').length !== 0){
-            let arrayFilterUst = []
-            for(let ust of document.getElementsByClassName('ustensil-filter')){
-                arrayFilterUst.push(ust.textContent)
-            }
-            let ustensilsFiltered = [...listUpdatedUstensils]
-            const resultArray = ustensilsFiltered.filter(element => !arrayFilterUst.includes(element));
-            changeFilterUstensilsOnInput(resultArray);
-        }
-        else{
-        let arrayNoUstFind = ("aucun ustensile ne correspond à votre recherche")
-        changeFilterUstensilsOnInput(arrayNoUstFind);
-        }
-        }
-        else
-        {
-            changeFilterUstensilsOnInput(uniqueIngredients);
-    }           
-}
-*/
 function listenToInputUstensils(){
     let allUstensils = [];
     let valueInputUst = inputUstensils.value.toLowerCase();
@@ -372,8 +337,6 @@ function deleteFilterUst(){
         filter.remove()
     })
 }
-
-
 
 // ################################################################
 // Display functions ##############################################
@@ -469,6 +432,9 @@ function displayRecipes(recipes) {
     }
 }
 
+// ################################################################
+// Remove Occurencies from the displayed list filters ##############################################
+// ################################################################
 
 function removeElementsFromArray(array1, array2) {
     const resultArray = array1.filter(element => !array2.includes(element));
@@ -480,6 +446,11 @@ function removeElementsFromArrayUst(array1, array2) {
     uniqueUstensils = [...new Set(resultArray)];
     createListFilterUstensils(uniqueUstensils)   
 }
+
+// ################################################################
+// Create List of filters from arrays ##############################################
+// ################################################################
+
 
 function createListFilterIngredients(uniqueIngredients){
     let ul = document.createElement('ul')
@@ -679,7 +650,7 @@ function updateRecipeListIfNotingInMainInput() {
         
 
 // ################################################################
-// Filters functions ##############################################
+// Adding button : filters functions ##############################################
 // ################################################################
 
 /*
@@ -817,22 +788,21 @@ function sortAlphabeticallyHtml(htmlElements) {
 
 
 // ################################################################
-// Tri à Bulles ###############################################
+// Tri par insertion ###############################################
 // ################################################################
 
-async function sortAllRecipesAfterFilter(tab) {
-    let changed;
-    do{
-        changed = false;
-        for(let i=0; i < tab.length-1; i++) {
-        if(tab[i] > tab[i+1]) {
-            let current = tab[i];
-            tab[i] = tab[i+1];
-            tab[i+1] = current;
-            changed = true;
+
+function sortAllRecipesAfterFilter(array) {
+    // Creating a copy of the ancient tab to avoid altering it
+    const filteredArray = [...array];
+        for (let i = 1; i < filteredArray.length; i++) {
+            let currentValue = filteredArray[i];
+            let j = i - 1;
+            while (j >= 0 && filteredArray[j] > currentValue) {
+                filteredArray[j + 1] = filteredArray[j];
+                j--;
             }
+            filteredArray[j + 1] = currentValue;
         }
-    }  
-    while(changed);
-    displayRecipes(tab)
+    displayRecipes(filteredArray)
 }
