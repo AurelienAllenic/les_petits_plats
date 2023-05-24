@@ -512,8 +512,16 @@ font-size: 25px;
         margin-left: 9%;
         margin-right: 9%;
     }
+
+}
+@media screen and (max-width: 1000px) and (min-width: 932px){
     .all-filters{
         margin-left: 9%;
+    }
+    .recipe_card:hover{
+        transform: scale(1.015);
+        transition: all 0.1s ease;
+        cursor: pointer;
     }
 }
 @media screen and (max-width: 932px){
