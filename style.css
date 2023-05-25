@@ -141,9 +141,10 @@ background-color: #ed6454;
 .container_button_arrow{
     gap: 5%;
     height: 50px;
+    width: 100%;
 }
 /*-----------------*/
-#section-recipes{
+#recipes-list{
     margin-top: 5%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -213,13 +214,9 @@ font-size: 25px;
     font-weight: 600;
 }
 .description_card{
-    font-size: 17px;
+    font-size: 20px;
     width: 80%;
-    margin: 5%;
-    inline-size: 170px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    
+    margin: 5%; 
 }
 .container_desc_ing{
     display: grid;
@@ -227,7 +224,10 @@ font-size: 25px;
     width: 100%;
     padding: 5%;
 }
-.container_hidden_filter{
+.container_hidden_options_ingredients{
+    margin-bottom: 5%;
+}
+.container_hidden_filter_ingredients{
     background-color: #3282f7;
     position: absolute;
     z-index: 400000;
@@ -235,18 +235,35 @@ font-size: 25px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     padding: 1%;
+    gap: 1em;
 }
-.container_hidden_filter li{
+.container_hidden_filter_ingredients li{
     color: white;
-    display: flex;
-    align-items: center;
-    margin: 2%;
     padding: 1%;
 }
-.container_hidden_filter li:hover{
+.container_hidden_filter_ingredients li:hover{
     background-color: #5695f3;
     cursor: pointer;
 }
+.container_hidden_filter_ingredients_no_display{
+    display: flex;
+    background-color: #5695f3;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    padding: 1.5%;
+    color: white;
+}
+.container_no_options_ingredients{
+    display: flex;
+    background-color: #3282f7;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    padding: 1%;
+    gap: 1em;
+}
+
 .container_hidden_filter_appareils{
     background-color: #68d9a4;
     position: absolute;
@@ -266,6 +283,15 @@ font-size: 25px;
     background-color: #b2e2cb;
     cursor: pointer;
 }
+.container_hidden_filter_appareils_no_display{
+    display: flex;
+    background-color: #b2e2cb;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    padding: 1.5%;
+    color: white;
+}
 .container_hidden_filter_ustensils{
     background-color: #ed6454;
     position: absolute;
@@ -284,4 +310,230 @@ font-size: 25px;
 .container_hidden_filter_ustensils li:hover{
     background-color: #edb2ac;
     cursor: pointer;
+}
+.container_hidden_filter_ustensils_no_display{
+    display: flex;
+    background-color: #edb2ac;
+    position: absolute;
+    z-index: 400000;
+    font-size: 22px;
+    padding: 1.5%;
+    color: white;
+}
+#container_buttons_ingredients{
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    margin-left: 6%;
+    margin-top: 2%;
+    margin-right: 2.5%;
+
+}
+#container_buttons_appareils{
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 2%;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+#container_buttons_ustensils{
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    margin-top: 2%;
+    margin-left: 3%;
+    margin-right: 3%;
+}
+#all_filters_buttons{
+    display: flex;
+}
+.ingredient-filter{
+    background-color: #3282f7;
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    padding: 10%;
+    border-radius: 10px 10px 10px 10px;
+    letter-spacing: 0.09em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+.appliance-filter{
+    background-color: #68d9a4;
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    padding: 10%;
+    border-radius: 10px 10px 10px 10px;
+    letter-spacing: 0.09em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+.ustensil-filter{
+    background-color: #ed6454;
+    color: white;
+    width: 100%;
+    text-align: center;
+    font-size: 25px;
+    padding: 10%;
+    border-radius: 10px 10px 10px 10px;
+    letter-spacing: 0.09em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+.button-appliance{
+    width: 15%;
+}
+.button-ing{
+    width: 15%;
+}
+.button-ust{
+    width: 15%;
+}
+.button-ing:hover{
+    transform: scale(1.08);
+    cursor: pointer;
+    transition: all 1s forwards;
+}
+.button-appliance:hover{
+    transform: scale(1.08);
+    cursor: pointer;
+    transition: all 1s forwards;
+}
+.button-ust:hover{
+    transform: scale(1.08);
+    cursor: pointer;
+    transition: all 1s forwards;
+}
+@keyframes changeSize{
+    from{
+        transform: scale(0.5);
+    }to{
+        transform: scale(1);
+    }
+}
+#messageError{
+    font-size: 24px;
+    position: absolute;
+    bottom: 59.5%;
+    display: none;
+    animation: changeSize 0.5s forwards;  
+    color: #ed6454;
+    font-weight: 600;
+    padding: 0.5%;
+    border: 1px solid #ed6454;
+}
+[type="search"]::-webkit-search-cancel-button,
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+/* Filter Button when clicked*/
+
+#section-filter{
+    width: 100%;
+}
+#section-filter-ing{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: 3%;
+    margin-left: 5%;
+}
+#test{
+    color: white;
+    font-size: 1.5em;
+    grid-template-columns: 1fr 1fr;
+    padding: 1.1%;
+    width: 100%;
+}
+
+.container_button_cross{
+    width: fit-content;
+    display: flex;
+    gap: 0.5em;
+    width: 11em;
+    padding: 1.5em;
+    background-color: #3282f7;
+    border-radius: 10px 10px 10px 10px;
+    opacity: 1;
+    margin: 1%;
+}
+.container_button_cross img{
+    width: 15%;
+    position: relative;
+    left: 5%;
+}
+.container_button_cross img:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+}
+.container_button_cross:hover{
+    background-color: #5d98f1;
+}
+/*-----------------------------*/
+
+@media screen and (max-width: 1700px){
+    #recipes-list{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (max-width: 1414px){
+    .all-filters{
+        width: 50%;
+    }
+}
+@media screen and (max-width: 1144px){
+    .all-filters{
+        width: 60%;
+    }
+}
+@media screen and (max-width: 1000px){
+    #recipes-list{
+        grid-template-columns: 1fr;
+        margin-left: 9%;
+        margin-right: 9%;
+    }
+
+}
+@media screen and (max-width: 1000px) and (min-width: 932px){
+    .all-filters{
+        margin-left: 9%;
+    }
+    .recipe_card:hover{
+        transform: scale(1.015);
+        transition: all 0.1s ease;
+        cursor: pointer;
+    }
+}
+@media screen and (max-width: 932px){
+    .all-filters{
+        width: 70%;
+        padding-bottom: 5%;
+    }
+}
+@media screen and (max-width: 770px){
+    .all-filters{
+        font-size: 17px;
+        width: 80%;
+        
+    }
 }

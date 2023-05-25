@@ -1,28 +1,60 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Les Petits Plats</title>
-    <link href="./style.css" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <img src="./assets/logos/logo.png" class="logo" alt="logo des petits plats" id="main-logo">
-    </header>
-    <section class="searching" id="section-search">
-            <input type="text" placeholder="Rechercher une recette..." class="input-search" id="input-search">
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Les Petits Plats</title>
+        <link href="./style.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <header>
+            <img src="./assets/logos/logo.png" class="logo" alt="logo des petits plats" id="main-logo">
+        </header>
+        <section class="searching" id="section-search">
+            <input type="search" placeholder="Rechercher une recette..." class="input-search" id="search-bar">
             <img src="./assets/logos/search.svg" class="icon-search" alt="search" id="search-icon">
+            <p id="messageError">La recherche se lance au bout de trois caractères...</p>
     </section>
-    <section id="section-filters">
-
+ 
+      <section id="section-filters">   
+        <article id="all_filters_buttons">
+            <span id="container_buttons_ingredients">
+      </span>
+      <span id="container_buttons_appareils">
+    </span>
+    <span id="container_buttons_ustensils">
+    </span>
+        </article>
+        
+      <article class="all-filters">
+          <span class="container_button_arrow">
+          
+          <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_ingredients">
+              <input type="text" class="ingredients btn-filter" placeholder="Ingrédients" id="ingredients"></input>
+              <span id="container_hidden_options_ingredients">
+              </span>
+              
+          </span>
+          <span class="container_button_arrow">
+          <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down" id="arrow_appareils">
+          <input type="text" class="appareils btn-filter" placeholder="Appareils" id="appareils"></input>
+              <span id="container_hidden_options_appareils">
+              </span>
+          </span>
+          <span class="container_button_arrow">
+      
+          <img src="./assets/logos/arrow-down.svg" alt="extend" class="arrow-down"id="arrow_ustensils">
+          <input type="text" class="ustensiles btn-filter" placeholder="Ustensiles" id="ustensils"></input>
+          <span id="container_hidden_options_ustensils">
+          </span>
+              </span>
+      </article>
     </section>
-    <section id="section-recipes">
-
-    </section>
-</body>
-<script src="./scripts/filters.js" type="module"></script>
-<script src="./data/data.js" type="module"></script>
-<script src="./scripts/getData.js" type="module"></script>
+    <section id="recipes-list"></section>
+        <script src="./data/data.js" type="text/javascript"></script>
+        <script src="./scripts/script.js" type="text/javascript"></script>
+    </body>
 </html>
